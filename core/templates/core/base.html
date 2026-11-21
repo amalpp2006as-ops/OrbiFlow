@@ -1,0 +1,182 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}OrbiFlow | Digital Transformation{% endblock %}</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+<header class="main-header">
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+
+            <a class="navbar-brand brand-logo" href="{% url 'home' %}">
+                Orbi<span>Flow</span><small>.</small>
+            </a>
+
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#mainNavigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavigation">
+
+                <ul class="navbar-nav mx-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About Us</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Services</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#industries">Industries</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#portfolio">Portfolio</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+
+                </ul>
+
+                <div class="nav-actions">
+
+                    <a href="#" class="login-btn">Login</a>
+
+                    <a href="#" class="register-btn">
+                        Register <span>↗</span>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+    </nav>
+
+</header>
+
+
+    <!-- PAGE CONTENT -->
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer class="main-footer">
+
+        <div class="container">
+
+            <div class="row gy-4">
+
+                <div class="col-lg-4">
+
+                    <a href="{% url 'home' %}" class="footer-logo">
+                        Orbi<span>Flow</span>.
+                    </a>
+
+                    <p class="footer-description">
+                        Engineering digital possibilities through
+                        innovation, technology and intelligent solutions.
+                    </p>
+
+                </div>
+
+                <div class="col-lg-2 col-6">
+
+                    <h6>Company</h6>
+
+                    <a href="{% url 'home' %}#about">About Us</a>
+                    <a href="{% url 'home' %}#careers">Careers</a>
+                    <a href="{% url 'home' %}#contact">Contact</a>
+
+                </div>
+
+                <div class="col-lg-3 col-6">
+
+                    <h6>Our Services</h6>
+
+                    <a href="{% url 'home' %}#services">Web Development</a>
+                    <a href="{% url 'home' %}#services">AI Solutions</a>
+                    <a href="{% url 'home' %}#services">Digital Solutions</a>
+
+                </div>
+
+                <div class="col-lg-3">
+
+                    <h6>Explore</h6>
+
+                    <a href="{% url 'home' %}#industries">Industries</a>
+                    <a href="{% url 'home' %}#insights">Insights</a>
+                    <a href="{% url 'home' %}#portfolio">Our Work</a>
+
+                </div>
+
+            </div>
+
+            <hr>
+
+            <div class="footer-bottom">
+                <p>© 2026 OrbiFlow. All Rights Reserved.</p>
+                <p>Building a smarter digital future.</p>
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- BOOTSTRAP JS -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+    <!-- CUSTOM JS -->
+
+    <script src="{% static 'core/js/script.js' %}"></script>
+
+    {% block extra_js %}{% endblock %}
+
+</body>
+</html> 
+
