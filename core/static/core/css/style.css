@@ -3250,8 +3250,7 @@ ol {
 }
 
 .orbiflow-nav ul li a span {
-	font-size: 13px;
-	margin-left: 3px;
+    display: none;
 }
 
 /* DROPDOWN */
@@ -3320,7 +3319,7 @@ ol {
 }
 
 .orbiflow-nav .register-btn:hover {
-	background: #1769ff;
+	background: #717475;
 	color: #ffffff;
 }
 
@@ -3465,4 +3464,23 @@ ol {
 
 .hero__text {
     padding-top: 100px;
+}
+
+.services__item img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+/* NAVBAR POP-UP HOVER ANIMATION */
+
+.orbiflow-nav ul li a {
+    display: inline-block;
+    transition: all 0.25s ease;
+}
+
+.orbiflow-nav ul li a:hover {
+    color: #000000 !important;
+    font-weight: 700;
+    transform: translateY(-4px) scale(1.08);
 }

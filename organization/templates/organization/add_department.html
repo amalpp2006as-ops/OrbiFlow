@@ -1,0 +1,167 @@
+{% extends "core/dashboard_base.html" %}
+
+{% block title %}Add Department | OrbiFlow{% endblock %}
+
+{% block dashboard_heading %}Add Department{% endblock %}
+
+{% block dashboard_nav %}
+
+<a href="{% url 'owner-dashboard' %}">Dashboard</a>
+<a href="{% url 'managers-list' %}">Managers</a>
+<a href="{% url 'departments-list' %}" class="active">Departments</a>
+<a href="#">Employees</a>
+<a href="#">Projects</a>
+<a href="#">Tasks</a>
+
+<hr>
+
+<a href="{% url 'profile-page' %}">My Profile</a>
+<a href="{% url 'home' %}">Visit Website</a>
+
+<form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit" class="add-logout">Logout</button>
+</form>
+
+{% endblock %}
+
+{% block dashboard_content %}
+
+<style>
+.add-manager-container {
+    max-width: 750px;
+}
+
+.add-manager-card {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 30px;
+}
+
+.add-manager-card label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.add-manager-card input,
+.add-manager-card textarea {
+    padding: 12px;
+    border-radius: 6px;
+}
+
+.add-manager-submit {
+    background: #dfa667;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.add-manager-submit:hover {
+    background: #c88d4f;
+}
+
+.add-logout {
+    display: block;
+    width: 100%;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: #a94442;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.add-logout:hover {
+    background: #fff1f0;
+}
+</style>
+
+<div class="add-manager-container">
+
+    <div class="mb-4">
+        <h3>Add New Department</h3>
+        <p class="text-muted">
+            Create a new department for your company on OrbiFlow.
+        </p>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="add-manager-card">
+
+        <h5 class="mb-4">Department Information</h5>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="mb-4">
+                <label for="name">Department Name</label>
+
+                <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    class="form-control"
+                    placeholder="Example: Software Development"
+                    maxlength="100"
+                    required
+                >
+            </div>
+
+            <div class="mb-4">
+                <label for="description">Department Description</label>
+
+                <textarea
+                    name="description"
+                    id="description"
+                    class="form-control"
+                    rows="4"
+                    placeholder="Describe the responsibilities of this department..."
+                ></textarea>
+            </div>
+
+            <div class="mb-4">
+                <label>Company</label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    value="{{ request.user.company.name }}"
+                    readonly
+                >
+            </div>
+
+            <div class="d-flex gap-3 flex-wrap">
+
+                <button type="submit" class="add-manager-submit">
+                    Create Department
+                </button>
+
+                <a href="{% url 'departments-list' %}"
+                   class="btn btn-light px-4 py-2">
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

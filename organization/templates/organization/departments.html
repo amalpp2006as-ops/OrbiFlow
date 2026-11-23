@@ -1,0 +1,332 @@
+{% extends "core/dashboard_base.html" %}
+
+{% block title %}Departments | OrbiFlow{% endblock %}
+
+{% block dashboard_heading %}
+Department Management
+{% endblock %}
+
+{% block dashboard_nav %}
+
+<a href="{% url 'owner-dashboard' %}">Dashboard</a>
+<a href="{% url 'managers-list' %}">Managers</a>
+<a href="{% url 'departments-list' %}" class="active">Departments</a>
+<a href="#">Employees</a>
+<a href="#">Projects</a>
+<a href="#">Tasks</a>
+<a href="#">Customers</a>
+<a href="#">Reports</a>
+<a href="#">AI Assistant</a>
+<a href="#">Settings</a>
+
+<hr>
+
+<a href="{% url 'profile-page' %}">My Profile</a>
+<a href="{% url 'home' %}">Visit Website</a>
+
+<form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit" class="manager-logout">Logout</button>
+</form>
+
+{% endblock %}
+
+
+{% block dashboard_content %}
+
+<style>
+.department-page {
+    width: 100%;
+}
+
+.department-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.department-header h3 {
+    margin-bottom: 7px;
+}
+
+.department-add-btn {
+    background: #dfa667;
+    color: white;
+    padding: 11px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.department-add-btn:hover {
+    background: #c88d4f;
+    color: white;
+}
+
+.department-card {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 25px;
+    margin-bottom: 25px;
+}
+
+.department-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.department-table th,
+.department-table td {
+    padding: 15px 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.department-table th {
+    color: #888;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.department-table td {
+    font-size: 14px;
+}
+
+.department-status {
+    background: #e7f7ed;
+    color: #23844b;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.department-inactive {
+    background: #fff1f0;
+    color: #a94442;
+}
+
+.department-edit-btn {
+    background: #dfa667;
+    color: white;
+    padding: 7px 13px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.department-edit-btn:hover {
+    background: #c88d4f;
+    color: white;
+}
+
+.department-toggle-btn {
+    background: transparent;
+    border: 1px solid #ddd;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.department-empty {
+    text-align: center;
+    padding: 35px 15px;
+    color: #888;
+}
+
+.manager-logout {
+    display: block;
+    width: 100%;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: #a94442;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.manager-logout:hover {
+    background: #fff1f0;
+}
+
+@media(max-width: 768px) {
+    .department-table {
+        min-width: 750px;
+    }
+
+    .department-table-container {
+        overflow-x: auto;
+    }
+}
+</style>
+
+
+<div class="department-page">
+
+    <div class="department-header">
+
+        <div>
+            <h3>Departments</h3>
+            <p class="text-muted mb-0">
+                Manage your company's departments and their managers.
+            </p>
+        </div>
+
+        <a href="{% url 'add-department' %}" class="department-add-btn">
+            + Add Department
+        </a>
+
+    </div>
+
+
+    <!-- STATISTICS -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-6 col-xl-4">
+            <div class="card border-0 shadow-sm p-4">
+                <p class="text-muted mb-2">Total Departments</p>
+                <h2>{{ departments|length }}</h2>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <div class="card border-0 shadow-sm p-4">
+                <p class="text-muted mb-2">Active Departments</p>
+                <h2>{{ active_count }}</h2>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <div class="card border-0 shadow-sm p-4">
+                <p class="text-muted mb-2">Company</p>
+                <h5 class="mt-2">
+                    {{ request.user.company.name|default:"Not available" }}
+                </h5>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- MESSAGES -->
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+
+    <!-- DEPARTMENTS TABLE -->
+
+    <div class="department-card">
+
+        <h5 class="mb-4">All Departments</h5>
+
+        <div class="department-table-container">
+
+            <table class="department-table">
+
+                <thead>
+                    <tr>
+                        <th>Department</th>
+                        <th>Description</th>
+                        <th>Manager</th>
+                        <th>Employees</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for department in departments %}
+
+                        <tr>
+
+                            <td>
+                                <strong>{{ department.name }}</strong>
+                            </td>
+
+                            <td>
+                                {{ department.description|default:"Not provided"|truncatechars:50 }}
+                            </td>
+
+                            <td>
+                                {% if department.manager %}
+                                    {{ department.manager.get_full_name|default:department.manager.username }}
+                                {% else %}
+                                    Not assigned
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {{ department.members.count }}
+                            </td>
+
+                            <td>
+                                {% if department.is_active %}
+                                    <span class="department-status">Active</span>
+                                {% else %}
+                                    <span class="department-status department-inactive">Inactive</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+
+                                <a href="{% url 'edit-department' department.id %}"
+                                   class="department-edit-btn">
+                                    Edit
+                                </a>
+
+                                <form method="POST"
+                                      action="{% url 'toggle-department' department.id %}"
+                                      style="display:inline;">
+                                    {% csrf_token %}
+
+                                    <button type="submit" class="department-toggle-btn">
+                                        {% if department.is_active %}
+                                            Deactivate
+                                        {% else %}
+                                            Activate
+                                        {% endif %}
+                                    </button>
+
+                                </form>
+
+                            </td>
+
+                        </tr>
+
+                    {% empty %}
+
+                        <tr>
+                            <td colspan="6" class="department-empty">
+                                <h6>No departments created yet.</h6>
+                                <p>Click Add Department to create your first department.</p>
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

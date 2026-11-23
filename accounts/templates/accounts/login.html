@@ -1,0 +1,546 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | OrbiFlow</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Aldrich&display=swap" rel="stylesheet">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f5f2ed;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            color: #111111;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 1150px;
+            min-height: 650px;
+            background: #ffffff;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.07);
+        }
+
+        /* LEFT SECTION */
+
+        .login-left {
+            background: #22201d;
+            padding: 65px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brand {
+            font-family: 'Aldrich', sans-serif;
+            font-size: 29px;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .brand span {
+            color: #dfa667;
+        }
+
+        .left-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .small-title {
+            color: #dfa667;
+            font-size: 12px;
+            letter-spacing: 3px;
+            font-weight: 600;
+            margin-bottom: 22px;
+        }
+
+        .left-content h1 {
+            font-family: 'Aldrich', sans-serif;
+            font-size: 38px;
+            line-height: 1.5;
+            font-weight: 400;
+            margin-bottom: 22px;
+        }
+
+        .left-content p {
+            color: #bdb8b1;
+            font-size: 14px;
+            line-height: 2;
+            max-width: 390px;
+        }
+
+        .left-footer {
+            color: #99938c;
+            font-size: 12px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .decoration {
+            position: absolute;
+            width: 330px;
+            height: 330px;
+            border: 1px solid rgba(223, 166, 103, 0.18);
+            border-radius: 50%;
+            right: -110px;
+            bottom: -100px;
+        }
+
+        .decoration::after {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border: 1px solid rgba(223, 166, 103, 0.15);
+            border-radius: 50%;
+            top: 45px;
+            left: 45px;
+        }
+
+        /* RIGHT SECTION */
+
+        .login-right {
+            padding: 65px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .login-heading {
+            margin-bottom: 38px;
+        }
+
+        .login-heading span {
+            color: #b58b63;
+            font-size: 12px;
+            letter-spacing: 2px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .login-heading h2 {
+            font-family: 'Aldrich', sans-serif;
+            font-size: 32px;
+            margin: 12px 0;
+            color: #171614;
+        }
+
+        .login-heading p {
+            color: #85817b;
+            font-size: 13px;
+        }
+
+        .form-group {
+            margin-bottom: 23px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #35312c;
+        }
+
+        .input-box {
+            position: relative;
+        }
+
+        .input-box input {
+            width: 100%;
+            height: 52px;
+            border: 1px solid #e7e2da;
+            border-radius: 5px;
+            padding: 0 15px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            background: #faf9f7;
+            color: #222;
+            transition: 0.3s;
+        }
+
+        .input-box input:focus {
+            outline: none;
+            border-color: #b58b63;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(181, 139, 99, 0.08);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: none;
+            color: #8b8175;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .forgot {
+            text-align: right;
+            margin-top: -10px;
+            margin-bottom: 27px;
+        }
+
+        .forgot a,
+        .register a {
+            color: #a47c55;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .forgot a:hover,
+        .register a:hover {
+            color: #111111;
+        }
+
+        .login-btn {
+            width: 100%;
+            height: 52px;
+            background: #22201d;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .login-btn:hover {
+            background: #b58b63;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 18px rgba(181, 139, 99, 0.18);
+        }
+
+        .error-message {
+            color: #a94442;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+
+        .register {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 12px;
+            color: #85817b;
+        }
+
+        .back-home {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #77716a;
+            font-size: 12px;
+            text-decoration: none;
+        }
+
+        .back-home:hover {
+            color: #111111;
+        }
+
+        /* MOBILE RESPONSIVE */
+
+        @media (max-width: 850px) {
+
+            .login-container {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+            }
+
+            .login-left {
+                min-height: 300px;
+                padding: 35px;
+            }
+
+            .left-content h1 {
+                font-size: 27px;
+            }
+
+            .left-footer {
+                margin-top: 30px;
+            }
+
+            .login-right {
+                padding: 40px 30px;
+            }
+
+        }
+
+        @media (max-width: 480px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .login-left {
+                min-height: 270px;
+            }
+
+            .login-heading h2 {
+                font-size: 27px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <!-- LEFT SIDE -->
+
+    <div class="login-left">
+
+        <a href="{% url 'home' %}" class="brand">
+            Orbi<span>Flow</span>.
+        </a>
+
+        <div class="left-content">
+
+            <div class="small-title">
+                YOUR DIGITAL WORKSPACE
+            </div>
+
+            <h1>
+                Everything You Need.<br>
+                One Connected Space.
+            </h1>
+
+            <p>
+                Welcome to OrbiFlow. Sign in to access your workspace,
+                manage your projects and stay connected with Us.
+            </p>
+
+        </div>
+
+        <div class="left-footer">
+            © 2026 OrbiFlow. All Rights Reserved.
+        </div>
+
+        <div class="decoration"></div>
+
+    </div>
+
+
+    <!-- RIGHT SIDE -->
+
+    <div class="login-right">
+
+        <div class="login-heading">
+
+            <span>Welcome Back</span>
+
+            <h2>Sign In</h2>
+
+            <p>Enter your account details to continue.</p>
+
+        </div>
+
+        <div id="error-message" class="error-message"></div>
+
+        <form id="login-form">
+
+            {% csrf_token %}
+
+            <div class="form-group">
+
+                <label for="username">Username</label>
+
+                <div class="input-box">
+
+                    <input
+                        type="text"
+                        id="username"
+                        placeholder="Enter your username"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="password">Password</label>
+
+                <div class="input-box">
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        required
+                    >
+
+                    <button type="button"
+                            class="password-toggle"
+                            onclick="togglePassword()">
+                        Show
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="forgot">
+
+                <a href="{% url 'forgot-password-page' %}">
+                    Forgot Password?
+                </a>
+
+            </div>
+
+
+            <button type="submit" class="login-btn">
+                SIGN IN
+            </button>
+
+        </form>
+
+
+        <div class="register">
+
+            Don't have an account?
+
+            <a href="{% url 'register-page' %}">
+                Create Account
+            </a>
+
+        </div>
+
+
+        <a href="{% url 'home' %}" class="back-home">
+            ← Back to Homepage
+        </a>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    function togglePassword() {
+
+        const password = document.getElementById("password");
+        const button = document.querySelector(".password-toggle");
+
+        if (password.type === "password") {
+            password.type = "text";
+            button.textContent = "Hide";
+        } else {
+            password.type = "password";
+            button.textContent = "Show";
+        }
+
+    }
+
+    document.getElementById("login-form").addEventListener("submit", async function(event) {
+
+        event.preventDefault();
+
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        const errorMessage = document.getElementById("error-message");
+
+        errorMessage.textContent = "";
+
+        try {
+
+            const response = await fetch("{% url 'login' %}", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                credentials: "same-origin",
+
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
+
+            });
+
+            const responseText = await response.text();
+
+            let data;
+
+            try {
+                data = JSON.parse(responseText);
+            } catch {
+                console.error("Server response:", responseText);
+                errorMessage.textContent = "Server returned an unexpected response. Check the Django terminal.";
+                return;
+            }
+
+            if (!response.ok) {
+
+                errorMessage.textContent =
+                    data.detail || "Login failed. Please check your credentials.";
+
+                return;
+
+            }
+
+            localStorage.setItem("access_token", data.access);
+            localStorage.setItem("refresh_token", data.refresh);
+            localStorage.setItem("user_role", data.role);
+
+            window.location.href = "{% url 'dashboard-redirect' %}";
+
+        }
+
+        catch (error) {
+
+            console.error("Login error:", error);
+
+            errorMessage.textContent =
+                "Unable to connect to the server. Check whether Django is running.";
+
+        }
+
+    });
+
+</script>
+
+</body>
+</html>

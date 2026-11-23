@@ -10,8 +10,10 @@ from django.db import transaction
 from django.urls import reverse
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
-
 from organization.models import Company
+from django.contrib.auth import authenticate
+from django.db.models import Q
+from rest_framework.exceptions import AuthenticationFailed
 
 
 User = get_user_model()
@@ -141,6 +143,9 @@ class CustomerRegisterSerializer(serializers.ModelSerializer):
 # ==========================================
 # JWT LOGIN
 # ==========================================
+# ==========================================
+# JWT LOGIN
+# ==========================================
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
@@ -156,16 +161,57 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
     def validate(self, attrs):
 
-        data = super().validate(attrs)
+        identifier = attrs.get('username')
+        password = attrs.get('password')
 
-        data['username'] = self.user.username
-        data['email'] = self.user.email
-        data['role'] = self.user.role
+        # Find account using username OR email
+        users = User.objects.filter(
+            Q(username__iexact=identifier) |
+            Q(email__iexact=identifier)
+        ).distinct()
 
-        data['company'] = (
-            self.user.company.name
-            if self.user.company else None
+        matching_users = list(users[:2])
+
+        # Reject if no account or multiple accounts match
+        if len(matching_users) != 1:
+            raise AuthenticationFailed(
+                'Invalid username/email or password.'
+            )
+
+        account = matching_users[0]
+
+        # Authenticate using the actual username
+        user = authenticate(
+            request=self.context.get('request'),
+            username=account.username,
+            password=password
         )
+
+        if user is None:
+            raise AuthenticationFailed(
+                'Invalid username/email or password.'
+            )
+
+        if not user.is_active:
+            raise AuthenticationFailed(
+                'This account is inactive.'
+            )
+
+        self.user = user
+
+        # Generate JWT tokens
+        refresh = self.get_token(user)
+
+        data = {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+            'username': user.username,
+            'email': user.email,
+            'role': user.role,
+            'company': (
+                user.company.name if user.company else None
+            )
+        }
 
         return data
 

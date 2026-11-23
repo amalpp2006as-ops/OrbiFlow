@@ -1,0 +1,75 @@
+{% extends "core/dashboard_base.html" %}
+
+{% block title %}Employee Dashboard | OrbiFlow{% endblock %}
+
+{% block dashboard_heading %}
+Employee Dashboard
+{% endblock %}
+
+{% block dashboard_nav %}
+
+<a href="{% url 'employee-dashboard' %}">Dashboard</a>
+<a href="#">My Projects</a>
+<a href="#">My Tasks</a>
+<a href="#">Deadlines</a>
+<a href="#">Notifications</a>
+<a href="#">My Profile</a>
+
+<hr>
+
+<a href="{% url 'home' %}">Visit Website</a>
+<a href="#">Logout</a>
+
+{% endblock %}
+
+{% block dashboard_content %}
+
+<h3>Welcome, {{ request.user.first_name|default:request.user.username }}!</h3>
+
+<p class="text-muted">
+    View your assigned projects, manage your tasks and track your work progress.
+</p>
+
+<div class="row g-4 mt-3">
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card p-4">
+            <h6>Assigned Tasks</h6>
+            <h2>0</h2>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card p-4">
+            <h6>Completed Tasks</h6>
+            <h2>0</h2>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card p-4">
+            <h6>Pending Tasks</h6>
+            <h2>0</h2>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card p-4">
+            <h6>Upcoming Deadlines</h6>
+            <h2>0</h2>
+        </div>
+    </div>
+
+</div>
+
+<div class="card p-4 mt-4">
+
+    <h5>My Recent Tasks</h5>
+
+    <p class="text-muted mb-0">
+        Your assigned tasks and work updates will appear here.
+    </p>
+
+</div>
+
+{% endblock %}

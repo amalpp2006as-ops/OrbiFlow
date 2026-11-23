@@ -26,10 +26,45 @@ class User(AbstractUser):
         related_name='users'
     )
 
+    # Department and Job Designation
+    department = models.ForeignKey(
+    'organization.Department',
+    on_delete=models.SET_NULL,
+    null=True,
+    blank=True,
+    related_name='members'
+    )
+
+    designation = models.CharField(
+    max_length=100,
+    blank=True
+)
+
+    department = models.ForeignKey(
+    'organization.Department',
+    on_delete=models.SET_NULL,
+    null=True,
+    blank=True,
+    related_name='members'
+    )
+
+    position = models.CharField(
+    max_length=100,
+    blank=True
+    )
+
     phone = models.CharField(
         max_length=15,
         blank=True
     )
+
+    address = models.TextField(blank=True)
+
+    city = models.CharField(max_length=100, blank=True)
+
+    state = models.CharField(max_length=100, blank=True)
+
+    postal_code = models.CharField(max_length=10, blank=True)
 
     profile_picture = models.ImageField(
         upload_to='profiles/',

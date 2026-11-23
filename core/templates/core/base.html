@@ -29,7 +29,7 @@
 <body>
 
     <!-- HEADER -->
-
+{% block header %}
 <header class="main-header">
 
     <nav class="navbar navbar-expand-lg">
@@ -91,6 +91,7 @@
     </nav>
 
 </header>
+{% endblock %}
 
 
     <!-- PAGE CONTENT -->
@@ -102,7 +103,7 @@
 
 
     <!-- FOOTER -->
-
+{% block footer %}
     <footer class="main-footer">
 
         <div class="container">
@@ -164,6 +165,7 @@
         </div>
 
     </footer>
+{% endblock %}
 
 
     <!-- BOOTSTRAP JS -->

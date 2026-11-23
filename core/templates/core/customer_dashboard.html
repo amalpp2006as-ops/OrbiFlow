@@ -1,0 +1,75 @@
+{% extends "core/dashboard_base.html" %}
+
+{% block title %}Customer Dashboard | OrbiFlow{% endblock %}
+
+{% block dashboard_heading %}
+Customer Dashboard
+{% endblock %}
+
+{% block dashboard_nav %}
+
+<a href="{% url 'customer-dashboard' %}">Dashboard</a>
+<a href="#">My Projects</a>
+<a href="#">Project Progress</a>
+<a href="#">Updates</a>
+<a href="#">Messages</a>
+<a href="#">My Profile</a>
+
+<hr>
+
+<a href="{% url 'home' %}">Visit Website</a>
+<a href="#">Logout</a>
+
+{% endblock %}
+
+{% block dashboard_content %}
+
+<h3>Welcome, {{ request.user.first_name|default:request.user.username }}!</h3>
+
+<p class="text-muted">
+    Track your projects, view progress and stay updated with our team.
+</p>
+
+<div class="row g-4 mt-3">
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card p-4">
+            <h6>Total Projects</h6>
+            <h2>0</h2>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card p-4">
+            <h6>Ongoing Projects</h6>
+            <h2>0</h2>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card p-4">
+            <h6>Completed Projects</h6>
+            <h2>0</h2>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card p-4">
+            <h6>New Updates</h6>
+            <h2>0</h2>
+        </div>
+    </div>
+
+</div>
+
+<div class="card p-4 mt-4">
+
+    <h5>My Project Overview</h5>
+
+    <p class="text-muted mb-0">
+        Your project details, progress and recent updates will appear here.
+    </p>
+
+</div>
+
+{% endblock %}

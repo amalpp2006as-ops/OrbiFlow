@@ -1,14 +1,8 @@
 from django.urls import path, reverse_lazy
 from django.contrib.auth import views as auth_views
-
+from . import views
 from rest_framework_simplejwt.views import TokenRefreshView
 
-from .views import (
-    OwnerRegisterView,
-    CustomerRegisterView,
-    CustomLoginView,
-    ForgotPasswordView
-)
 from .views import (
     OwnerRegisterView,
     CustomerRegisterView,
@@ -16,10 +10,17 @@ from .views import (
     ForgotPasswordView,
     ChangePasswordView
 )
-
-
 urlpatterns = [
 
+path('dashboard-redirect/', views.dashboard_redirect, name='dashboard-redirect'),
+
+    # FRONTEND AUTHENTICATION PAGES
+
+path('login-page/', views.login_page, name='login-page'),
+
+path('register-page/', views.register_page, name='register-page'),
+
+path('forgot-password-page/', views.forgot_password_page, name='forgot-password-page'),
     # ==================================
     # REGISTRATION
     # ==================================

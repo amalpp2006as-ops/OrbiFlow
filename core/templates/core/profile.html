@@ -1,0 +1,268 @@
+{% extends "core/dashboard_base.html" %}
+
+{% block title %}My Profile | OrbiFlow{% endblock %}
+
+{% block dashboard_heading %}
+My Profile
+{% endblock %}
+
+{% block dashboard_nav %}
+
+{% if request.user.role == 'BUSINESS_OWNER' %}
+<a href="{% url 'owner-dashboard' %}">Dashboard</a>
+{% elif request.user.role == 'MANAGER' %}
+<a href="{% url 'manager-dashboard' %}">Dashboard</a>
+{% elif request.user.role == 'EMPLOYEE' %}
+<a href="{% url 'employee-dashboard' %}">Dashboard</a>
+{% elif request.user.role == 'CUSTOMER' %}
+<a href="{% url 'customer-dashboard' %}">Dashboard</a>
+{% endif %}
+
+<a href="{% url 'profile-page' %}">My Profile</a>
+
+<hr>
+
+<a href="{% url 'home' %}">Visit Website</a>
+
+<form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit" class="profile-logout">
+        Logout
+    </button>
+</form>
+
+{% endblock %}
+
+{% block dashboard_content %}
+
+<style>
+    .profile-container {
+        max-width: 950px;
+    }
+
+    .profile-header {
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        border: 1px solid #eeeeee;
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+        gap: 25px;
+    }
+
+    .profile-avatar {
+        width: 95px;
+        height: 95px;
+        border-radius: 50%;
+        background: #22201d;
+        color: #dfa667;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 35px;
+        font-weight: 600;
+        flex-shrink: 0;
+        overflow: hidden;
+    }
+
+    .profile-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .profile-header h3 {
+        margin-bottom: 8px;
+    }
+
+    .profile-role {
+        display: inline-block;
+        background: #fdf3e9;
+        color: #a47c55;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .profile-card {
+        background: #ffffff;
+        border: 1px solid #eeeeee;
+        border-radius: 10px;
+        padding: 30px;
+        margin-bottom: 25px;
+    }
+
+    .profile-card h5 {
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eeeeee;
+    }
+
+    .profile-detail {
+        margin-bottom: 22px;
+    }
+
+    .profile-detail label {
+        display: block;
+        color: #999999;
+        font-size: 12px;
+        margin-bottom: 6px;
+    }
+
+    .profile-detail p {
+        color: #222222;
+        font-size: 14px;
+        font-weight: 500;
+        margin: 0;
+        overflow-wrap: anywhere;
+    }
+
+    .profile-logout {
+        display: block;
+        width: 100%;
+        padding: 12px 15px;
+        border: none;
+        border-radius: 6px;
+        background: transparent;
+        color: #a94442;
+        text-align: left;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: inherit;
+    }
+
+    .profile-logout:hover {
+        background: #fff1f0;
+    }
+
+    @media (max-width: 576px) {
+        .profile-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .profile-card {
+            padding: 20px;
+        }
+    }
+</style>
+
+<div class="profile-container">
+
+    <div class="profile-header">
+
+        <div class="profile-avatar">
+
+            {% if request.user.profile_picture %}
+                <img src="{{ request.user.profile_picture.url }}" alt="Profile Picture">
+            {% else %}
+                {{ request.user.first_name|default:request.user.username|first|upper }}
+            {% endif %}
+
+        </div>
+
+        <div>
+            <h3>
+                {{ request.user.get_full_name|default:request.user.username }}
+            </h3>
+
+            <span class="profile-role">
+                {{ request.user.get_role_display }}
+            </span>
+        </div>
+
+    </div>
+
+
+    <!-- PERSONAL INFORMATION -->
+
+    <div class="profile-card">
+
+        <h5>Personal Information</h5>
+
+        <div class="row">
+
+            <div class="col-md-6 profile-detail">
+                <label>Full Name</label>
+                <p>{{ request.user.get_full_name|default:"Not provided" }}</p>
+            </div>
+
+            <div class="col-md-6 profile-detail">
+                <label>Username</label>
+                <p>{{ request.user.username }}</p>
+            </div>
+
+            <div class="col-md-6 profile-detail">
+                <label>Email Address</label>
+                <p>{{ request.user.email }}</p>
+            </div>
+
+            <div class="col-md-6 profile-detail">
+                <label>Phone Number</label>
+                <p>{{ request.user.phone|default:"Not provided" }}</p>
+            </div>
+
+            <div class="col-md-6 profile-detail">
+                <label>Account Role</label>
+                <p>{{ request.user.get_role_display }}</p>
+            </div>
+
+            <div class="col-md-6 profile-detail">
+                <label>Account Created</label>
+                <p>{{ request.user.created_at|date:"d M Y" }}</p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- COMPANY INFORMATION -->
+
+    <div class="profile-card">
+
+        <h5>Company Information</h5>
+
+        {% if request.user.company %}
+
+            <div class="profile-detail">
+                <label>Company Name</label>
+                <p>{{ request.user.company.name }}</p>
+            </div>
+
+            <div class="profile-detail">
+                <label>Company Email</label>
+                <p>{{ request.user.company.email }}</p>
+            </div>
+
+            <div class="profile-detail">
+                <label>Company Phone</label>
+                <p>{{ request.user.company.phone }}</p>
+            </div>
+
+        {% elif customer_companies %}
+
+            {% for relationship in customer_companies %}
+
+                <div class="profile-detail">
+                    <label>Associated Company</label>
+                    <p>{{ relationship.company.name }}</p>
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p class="text-muted">
+                No company information available.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

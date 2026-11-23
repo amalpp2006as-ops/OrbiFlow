@@ -1,0 +1,411 @@
+{% extends "core/base.html" %}
+
+{% block title %}OrbiFlow | Dashboard{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block extra_css %}
+<style>
+    body {
+        background: #f8f8f8;
+        overflow-x: hidden;
+    }
+
+    .dashboard-layout {
+        display: flex;
+        min-height: 100vh;
+    }
+
+    /* SIDEBAR */
+    .dashboard-sidebar {
+        width: 250px;
+        background: #ffffff;
+        border-right: 1px solid #eeeeee;
+        padding: 30px 20px;
+        flex-shrink: 0;
+    }
+
+    .dashboard-logo {
+        display: inline-block;
+        background: #111111;
+        color: #ffffff;
+        font-size: 24px;
+        font-weight: 700;
+        padding: 10px 18px;
+        border-radius: 8px;
+        margin-bottom: 40px;
+    }
+
+    .dashboard-logo span {
+        color: #dfa667;
+    }
+
+    .dashboard-sidebar a {
+        display: block;
+        color: #555555;
+        text-decoration: none;
+        padding: 12px 15px;
+        margin-bottom: 8px;
+        border-radius: 6px;
+        transition: 0.3s;
+    }
+
+    .dashboard-sidebar a:hover,
+    .dashboard-sidebar a.active {
+        background: #fdf3e9;
+        color: #111111;
+    }
+
+    .dashboard-sidebar hr {
+        border-color: #eeeeee;
+        margin: 25px 0;
+    }
+
+    .sidebar-close {
+        display: none;
+    }
+
+    .sidebar-overlay {
+        display: none;
+    }
+
+    /* MAIN AREA */
+    .dashboard-main {
+        flex: 1;
+        min-width: 0;
+    }
+
+    /* TOPBAR */
+    .dashboard-topbar {
+        background: #ffffff;
+        padding: 22px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #eeeeee;
+    }
+
+    .dashboard-topbar h5 {
+        color: #111111;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .dashboard-topbar span {
+        color: #707070;
+        font-size: 14px;
+    }
+
+    .mobile-menu-btn {
+        display: none;
+        border: 1px solid #eeeeee;
+        background: #ffffff;
+        width: 42px;
+        height: 42px;
+        border-radius: 8px;
+        font-size: 23px;
+        color: #111111;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mobile-brand {
+        display: none;
+        background: #111111;
+        color: #ffffff;
+        padding: 7px 12px;
+        border-radius: 7px;
+        font-size: 19px;
+        font-weight: 700;
+    }
+
+    .mobile-brand span {
+        color: #dfa667;
+    }
+
+    /* CONTENT */
+    .dashboard-content {
+        padding: 30px;
+        min-width: 0;
+    }
+
+    .dashboard-content h3,
+    .dashboard-content h5 {
+        color: #111111;
+    }
+
+    .dashboard-content .card {
+        background: #ffffff;
+        border: 1px solid #eeeeee !important;
+        border-radius: 10px;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.03) !important;
+    }
+
+    .dashboard-content .card h6 {
+        color: #707070;
+    }
+
+    .dashboard-content .card h2 {
+        color: #dfa667;
+        font-weight: 700;
+    }
+
+    /* TABLE RESPONSIVENESS */
+    .dashboard-content .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+
+        .dashboard-layout {
+            display: block;
+            min-height: 100vh;
+        }
+
+        /* MOBILE SIDEBAR */
+        .dashboard-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 280px;
+            max-width: 85%;
+            height: 100vh;
+            height: 100dvh;
+            padding: 25px 20px;
+            overflow-y: auto;
+            z-index: 1051;
+            border-right: none;
+            box-shadow: 5px 0 25px rgba(0, 0, 0, 0.12);
+            transform: translateX(-110%);
+            transition: transform 0.3s ease;
+        }
+
+        .dashboard-sidebar.is-open {
+            transform: translateX(0);
+        }
+
+        .dashboard-logo {
+            margin-bottom: 30px;
+        }
+
+        .sidebar-close {
+            display: flex;
+            position: absolute;
+            top: 20px;
+            right: 18px;
+            width: 35px;
+            height: 35px;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background: #f5f5f5;
+            border-radius: 50%;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .sidebar-overlay {
+            display: block;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 1050;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+        }
+
+        .sidebar-overlay.is-visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* MOBILE TOPBAR */
+        .dashboard-topbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 12px 15px;
+            min-height: 65px;
+            gap: 12px;
+        }
+
+        .mobile-menu-btn {
+            display: flex;
+            flex-shrink: 0;
+        }
+
+        .mobile-brand {
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .dashboard-topbar h5 {
+            font-size: 16px;
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .dashboard-topbar > span {
+            display: none;
+        }
+
+        /* MOBILE CONTENT */
+        .dashboard-content {
+            padding: 20px 15px;
+            width: 100%;
+        }
+
+        .dashboard-content h3 {
+            font-size: 22px;
+        }
+
+        .dashboard-content .card {
+            margin-bottom: 15px;
+        }
+
+        .dashboard-content .btn {
+            max-width: 100%;
+            white-space: normal;
+        }
+
+        .dashboard-content .table {
+            min-width: 600px;
+        }
+    }
+
+    @media (max-width: 380px) {
+        .mobile-brand {
+            font-size: 16px;
+            padding: 7px 9px;
+        }
+
+        .dashboard-topbar {
+            gap: 8px;
+            padding: 12px 10px;
+        }
+
+        .dashboard-topbar h5 {
+            font-size: 14px;
+        }
+
+        .dashboard-content {
+            padding: 15px 10px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="dashboard-sidebar" id="dashboardSidebar">
+
+        <button type="button" class="sidebar-close" id="sidebarClose"
+                aria-label="Close navigation">
+            &times;
+        </button>
+
+        <div class="dashboard-logo">
+            Orbi<span>Flow</span>.
+        </div>
+
+        {% block dashboard_nav %}
+        {% endblock %}
+
+    </aside>
+
+    <!-- SIDEBAR OVERLAY -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- MAIN CONTENT -->
+    <div class="dashboard-main">
+
+        <!-- TOPBAR -->
+        <div class="dashboard-topbar">
+
+            <button type="button" class="mobile-menu-btn"
+                    id="sidebarToggle"
+                    aria-label="Open navigation"
+                    aria-expanded="false">
+                &#9776;
+            </button>
+
+            <div class="mobile-brand">
+                Orbi<span>Flow</span>.
+            </div>
+
+            <h5>
+                {% block dashboard_heading %}Dashboard{% endblock %}
+            </h5>
+
+            <span>
+                Welcome, {{ request.user.first_name|default:request.user.username }}
+            </span>
+
+        </div>
+
+        <!-- DASHBOARD CONTENT -->
+        <div class="dashboard-content">
+
+            {% block dashboard_content %}
+            {% endblock %}
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const sidebar = document.getElementById('dashboardSidebar');
+        const toggle = document.getElementById('sidebarToggle');
+        const close = document.getElementById('sidebarClose');
+        const overlay = document.getElementById('sidebarOverlay');
+
+        function openSidebar() {
+            sidebar.classList.add('is-open');
+            overlay.classList.add('is-visible');
+            toggle.setAttribute('aria-expanded', 'true');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSidebar() {
+            sidebar.classList.remove('is-open');
+            overlay.classList.remove('is-visible');
+            toggle.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
+
+        toggle.addEventListener('click', openSidebar);
+        close.addEventListener('click', closeSidebar);
+        overlay.addEventListener('click', closeSidebar);
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                closeSidebar();
+            }
+        });
+
+        sidebar.querySelectorAll('a').forEach(function (link) {
+            link.addEventListener('click', function () {
+                if (window.innerWidth <= 768) {
+                    closeSidebar();
+                }
+            });
+        });
+
+    });
+</script>
+
+{% endblock %}

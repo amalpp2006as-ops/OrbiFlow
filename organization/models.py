@@ -32,6 +32,7 @@ class Company(models.Model):
 
 class Department(models.Model):
 
+
     company = models.ForeignKey(
         Company,
         on_delete=models.CASCADE,
@@ -50,6 +51,8 @@ class Department(models.Model):
         related_name='managed_departments'
     )
 
+    is_active = models.BooleanField(default=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -63,49 +66,6 @@ class Department(models.Model):
     def __str__(self):
         return f"{self.company.name} - {self.name}"
 
-
-class Subscription(models.Model):
-
-    PLAN_CHOICES = [
-        ('BASIC', 'Basic'),
-        ('PRO', 'Professional'),
-        ('ENTERPRISE', 'Enterprise'),
-    ]
-
-    STATUS_CHOICES = [
-        ('ACTIVE', 'Active'),
-        ('PENDING', 'Pending'),
-        ('EXPIRED', 'Expired'),
-        ('CANCELLED', 'Cancelled'),
-    ]
-
-    company = models.ForeignKey(
-        Company,
-        on_delete=models.CASCADE,
-        related_name='subscriptions'
-    )
-
-    plan = models.CharField(
-        max_length=20,
-        choices=PLAN_CHOICES
-    )
-
-    status = models.CharField(
-        max_length=20,
-        choices=STATUS_CHOICES,
-        default='PENDING'
-    )
-
-    max_users = models.PositiveIntegerField(default=5)
-
-    start_date = models.DateField()
-
-    end_date = models.DateField()
-
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.company.name} - {self.plan}"
 
 
 class Invitation(models.Model):
@@ -122,11 +82,21 @@ class Invitation(models.Model):
     )
 
     email = models.EmailField()
+    
 
     role = models.CharField(
         max_length=20,
         choices=ROLE_CHOICES
     )
+    department = models.ForeignKey(
+    Department,
+    on_delete=models.SET_NULL,
+    null=True,
+    blank=True,
+    related_name='invitations'
+    )
+
+    designation = models.CharField(max_length=100, blank=True)
 
     invitation_code = models.UUIDField(
         default=uuid.uuid4,
@@ -136,13 +106,22 @@ class Invitation(models.Model):
 
     invited_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
         related_name='sent_invitations'
     )
+
+
 
     is_used = models.BooleanField(default=False)
 
     expires_at = models.DateTimeField()
+
+    used_at = models.DateTimeField(
+        null=True,
+        blank=True
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
 
