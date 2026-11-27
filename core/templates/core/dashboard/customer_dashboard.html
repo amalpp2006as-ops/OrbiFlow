@@ -1,18 +1,18 @@
-{% extends "core/dashboard_base.html" %}
+{% extends "core/dashboard/dashboard_base.html" %}
 
-{% block title %}Employee Dashboard | OrbiFlow{% endblock %}
+{% block title %}Customer Dashboard | OrbiFlow{% endblock %}
 
 {% block dashboard_heading %}
-Employee Dashboard
+Customer Dashboard
 {% endblock %}
 
 {% block dashboard_nav %}
 
-<a href="{% url 'employee-dashboard' %}">Dashboard</a>
+<a href="{% url 'customer-dashboard' %}">Dashboard</a>
 <a href="#">My Projects</a>
-<a href="#">My Tasks</a>
-<a href="#">Deadlines</a>
-<a href="#">Notifications</a>
+<a href="#">Project Progress</a>
+<a href="#">Updates</a>
+<a href="#">Messages</a>
 <a href="#">My Profile</a>
 
 <hr>
@@ -27,35 +27,35 @@ Employee Dashboard
 <h3>Welcome, {{ request.user.first_name|default:request.user.username }}!</h3>
 
 <p class="text-muted">
-    View your assigned projects, manage your tasks and track your work progress.
+    Track your projects, view progress and stay updated with our team.
 </p>
 
 <div class="row g-4 mt-3">
 
     <div class="col-md-6 col-xl-3">
         <div class="card p-4">
-            <h6>Assigned Tasks</h6>
+            <h6>Total Projects</h6>
             <h2>0</h2>
         </div>
     </div>
 
     <div class="col-md-6 col-xl-3">
         <div class="card p-4">
-            <h6>Completed Tasks</h6>
+            <h6>Ongoing Projects</h6>
             <h2>0</h2>
         </div>
     </div>
 
     <div class="col-md-6 col-xl-3">
         <div class="card p-4">
-            <h6>Pending Tasks</h6>
+            <h6>Completed Projects</h6>
             <h2>0</h2>
         </div>
     </div>
 
     <div class="col-md-6 col-xl-3">
         <div class="card p-4">
-            <h6>Upcoming Deadlines</h6>
+            <h6>New Updates</h6>
             <h2>0</h2>
         </div>
     </div>
@@ -64,10 +64,10 @@ Employee Dashboard
 
 <div class="card p-4 mt-4">
 
-    <h5>My Recent Tasks</h5>
+    <h5>My Project Overview</h5>
 
     <p class="text-muted mb-0">
-        Your assigned tasks and work updates will appear here.
+        Your project details, progress and recent updates will appear here.
     </p>
 
 </div>

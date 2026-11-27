@@ -1,0 +1,61 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="breadcrumb-option spad set-bg" data-setbg="{% static 'core/images/breadcrumb-bg.jpg' %}">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>{{ vacancy.title }}</h2>
+                    <div class="breadcrumb__links">
+                        <a href="{% url 'home' %}">Home</a>
+                        <a href="{% url 'careers' %}">Careers</a>
+                        <span>Job Details</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm p-4 mb-4">
+                    <h4 class="mb-3">Job Description</h4>
+                    <p>{{ vacancy.description|linebreaks }}</p>
+
+                    <h5 class="mt-4 mb-2">Key Responsibilities</h5>
+                    <p>{{ vacancy.responsibilities|linebreaks }}</p>
+
+                    <h5 class="mt-4 mb-2">Required Qualifications</h5>
+                    <p>{{ vacancy.qualifications|linebreaks }}</p>
+
+                    <h5 class="mt-4 mb-2">Skills</h5>
+                    <p>{{ vacancy.skills }}</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm p-4">
+                    <h5 class="mb-3">Job Overview</h5>
+                    <ul class="list-unstyled mb-4">
+                        <li class="mb-2"><strong>Department:</strong> {{ vacancy.department }}</li>
+                        <li class="mb-2"><strong>Type:</strong> {{ vacancy.get_employment_type_display }}</li>
+                        <li class="mb-2"><strong>Experience:</strong> {{ vacancy.experience }}</li>
+                        <li class="mb-2"><strong>Location:</strong> {{ vacancy.location }}</li>
+                        {% if vacancy.salary_range %}
+                        <li class="mb-2"><strong>Salary:</strong> {{ vacancy.salary_range }}</li>
+                        {% endif %}
+                        <li class="mb-2"><strong>Openings:</strong> {{ vacancy.openings }}</li>
+                        <li class="mb-2"><strong>Deadline:</strong> {{ vacancy.deadline }}</li>
+                    </ul>
+                    <a href="{% url 'apply_job' vacancy.pk %}" class="btn btn-warning w-100 fw-bold">Apply for This Position</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

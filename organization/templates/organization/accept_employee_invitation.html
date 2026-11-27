@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join OrbiFlow</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+
+        .register-box {
+            max-width: 550px;
+            margin: 50px auto;
+            padding: 35px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            color: #c49a3a;
+            font-size: 28px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        .form-control {
+            padding: 11px;
+            margin-bottom: 5px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 22px 0 15px;
+            color: #333;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 13px;
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        .is-invalid {
+            border-color: #dc3545 !important;
+        }
+
+        .btn-gold {
+            background: #c49a3a;
+            color: white;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .btn-gold:hover {
+            background: #a77e25;
+            color: white;
+        }
+
+        .btn-gold:disabled {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+        .btn-otp {
+            background: #c49a3a;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 15px;
+            white-space: nowrap;
+        }
+
+        .btn-otp:hover {
+            background: #a77e25;
+            color: white;
+        }
+
+        .btn-otp:disabled {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+        .verified-text {
+            color: #198754;
+            font-size: 14px;
+            font-weight: bold;
+            display: none;
+            margin-top: 5px;
+        }
+
+        .otp-section {
+            display: none;
+            margin-top: 12px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper .form-control {
+            padding-right: 75px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 11px;
+            border: none;
+            background: none;
+            color: #c49a3a;
+            cursor: pointer;
+        }
+
+        @media (max-width: 576px) {
+            .register-box {
+                margin: 15px 10px;
+                padding: 22px 18px;
+            }
+
+            .email-row {
+                flex-direction: column;
+            }
+
+            .btn-otp {
+                width: 100%;
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="register-box">
+
+        <div class="logo">OrbiFlow.</div>
+
+        <h4 class="text-center">Join Your Team</h4>
+
+        <p class="subtitle">
+            Create your manager account to get started.
+        </p>
+
+        <div id="form-message"></div>
+
+        <form id="manager-register-form" method="POST" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <!-- PERSONAL INFORMATION -->
+
+            <div class="section-title">Personal Information</div>
+
+            <!-- COMPANY INFORMATION -->
+
+            <div class="mb-3 p-3 rounded" style="background: #f8f9fa;">
+
+                <label class="form-label">Company</label>
+                <input type="text" class="form-control" value="{{ invitation.company.name }}" readonly>
+
+                <label class="form-label mt-2">Department</label>
+                <input type="text" class="form-control" value="{{ invitation.department.name }}" readonly>
+
+                <label class="form-label mt-2">Designation</label>
+                <input type="text" class="form-control" value="{{ invitation.designation }}" readonly>
+
+            </div>
+
+            <label class="form-label">First Name *</label>
+            <input type="text" name="first_name" id="first_name" class="form-control" autocomplete="given-name"
+                required>
+            <small class="error-message" id="first_name_error"></small>
+
+            <label class="form-label">Last Name *</label>
+            <input type="text" name="last_name" id="last_name" class="form-control" autocomplete="family-name" required>
+            <small class="error-message" id="last_name_error"></small>
+
+            <label class="form-label">Username *</label>
+            <input type="text" name="username" id="username" class="form-control" autocomplete="username" required>
+            <small class="error-message" id="username_error"></small>
+
+            <!-- EMAIL VERIFICATION -->
+
+            <div class="section-title">Email Verification</div>
+
+            <label class="form-label">Invited Email Address *</label>
+
+            <div class="d-flex gap-2 align-items-start email-row">
+
+                <input type="email" id="email" class="form-control" value="{{ invitation.email }}" readonly>
+
+                <button type="button" class="btn-otp" id="send-otp-button">
+                    Send OTP
+                </button>
+
+            </div>
+
+            <div class="verified-text" id="verified-message">
+                ✓ Email Verified
+            </div>
+
+            <div class="otp-section" id="otp-section">
+
+                <label class="form-label">Enter 6-Digit OTP</label>
+
+                <input type="text" id="otp" class="form-control" maxlength="6" inputmode="numeric"
+                    placeholder="Enter verification code">
+
+                <small class="error-message" id="otp_error"></small>
+
+                <button type="button" class="btn-otp w-100 mt-2" id="verify-otp-button">
+                    Verify OTP
+                </button>
+
+                <button type="button" class="btn btn-link btn-sm mt-2" id="resend-otp-button">
+                    Resend OTP
+                </button>
+
+            </div>
+
+            <!-- PHONE -->
+
+            <div class="section-title">Contact Information</div>
+
+            <label class="form-label">Phone Number *</label>
+            <input type="tel" name="phone" id="phone" class="form-control" autocomplete="tel" required>
+            <small class="error-message" id="phone_error"></small>
+
+            <label class="form-label">Profile Picture</label>
+            <input type="file" name="profile_picture" id="profile_picture" class="form-control" accept="image/*">
+            <small class="error-message" id="profile_picture_error"></small>
+
+            <!-- ADDRESS INFORMATION -->
+
+            <div class="section-title">Address Information</div>
+
+            <label class="form-label">Full Address *</label>
+            <textarea name="address" id="address" class="form-control" rows="3" autocomplete="street-address"
+                required></textarea>
+            <small class="error-message" id="address_error"></small>
+
+            <label class="form-label">City *</label>
+            <input type="text" name="city" id="city" class="form-control" autocomplete="address-level2" required>
+            <small class="error-message" id="city_error"></small>
+
+            <label class="form-label">State *</label>
+            <input type="text" name="state" id="state" class="form-control" autocomplete="address-level1" required>
+            <small class="error-message" id="state_error"></small>
+
+            <label class="form-label">PIN Code *</label>
+            <input type="text" name="postal_code" id="postal_code" class="form-control" maxlength="6"
+                inputmode="numeric" autocomplete="postal-code" required>
+            <small class="error-message" id="postal_code_error"></small>
+
+            <!-- ACCOUNT SECURITY -->
+
+            <div class="section-title">Account Security</div>
+
+            <label class="form-label">Password *</label>
+
+            <div class="password-wrapper">
+
+                <input type="password" name="password" id="password" class="form-control" autocomplete="new-password"
+                    required>
+
+                <button type="button" class="toggle-password" onclick="togglePassword('password', this)">
+                    Show
+                </button>
+
+            </div>
+
+            <small class="error-message" id="password_error"></small>
+
+            <label class="form-label">Confirm Password *</label>
+
+            <div class="password-wrapper">
+
+                <input type="password" name="confirm_password" id="confirm_password" class="form-control"
+                    autocomplete="new-password" required>
+
+                <button type="button" class="toggle-password" onclick="togglePassword('confirm_password', this)">
+                    Show
+                </button>
+
+            </div>
+
+            <small class="error-message" id="confirm_password_error"></small>
+
+            <button type="submit" class="btn-gold" id="submit-button">
+                Create Employee Account
+            </button>
+
+        </form>
+
+    </div>
+
+    <script>
+
+        const form = document.getElementById('manager-register-form');
+
+        let emailVerified = false;
+
+        const fields = [
+            'first_name',
+            'last_name',
+            'username',
+            'phone',
+            'address',
+            'city',
+            'state',
+            'postal_code',
+            'password',
+            'confirm_password'
+        ];
+
+        function showError(field, message) {
+
+            const input = document.getElementById(field);
+            const error = document.getElementById(field + '_error');
+
+            if (input) {
+                input.classList.add('is-invalid');
+            }
+
+            if (error) {
+                error.textContent = message;
+            }
+        }
+
+        function clearError(field) {
+
+            const input = document.getElementById(field);
+            const error = document.getElementById(field + '_error');
+
+            if (input) {
+                input.classList.remove('is-invalid');
+            }
+
+            if (error) {
+                error.textContent = '';
+            }
+        }
+
+        function showMessage(message, type) {
+
+            document.getElementById('form-message').innerHTML =
+                `<div class="alert alert-${type}">${message}</div>`;
+        }
+
+        function togglePassword(field, button) {
+
+            const input = document.getElementById(field);
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                button.textContent = 'Hide';
+            } else {
+                input.type = 'password';
+                button.textContent = 'Show';
+            }
+        }
+
+        async function sendOTP() {
+
+            const button = document.getElementById('send-otp-button');
+
+            button.disabled = true;
+            button.textContent = 'Sending...';
+
+            const formData = new FormData();
+
+            formData.append('csrfmiddlewaretoken',
+                document.querySelector('[name=csrfmiddlewaretoken]').value
+            );
+
+            formData.append('action', 'send_otp');
+
+            try {
+
+                const response = await fetch(window.location.href, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+
+                    document.getElementById('otp-section').style.display = 'block';
+
+                    document.getElementById('otp').value = '';
+
+                    document.getElementById('otp').focus();
+
+                    showMessage(data.message, 'success');
+
+                    button.textContent = 'Resend OTP';
+
+                } else {
+
+                    showMessage(data.message, 'danger');
+
+                    button.textContent = 'Send OTP';
+                }
+
+            } catch (error) {
+
+                showMessage('Unable to send OTP. Please try again.', 'danger');
+
+                button.textContent = 'Send OTP';
+
+            }
+
+            button.disabled = false;
+        }
+
+        async function verifyOTP() {
+
+            const otp = document.getElementById('otp').value.trim();
+
+            clearError('otp');
+
+            if (!/^[0-9]{6}$/.test(otp)) {
+                showError('otp', 'Please enter a valid 6-digit OTP.');
+                return;
+            }
+
+            const button = document.getElementById('verify-otp-button');
+
+            button.disabled = true;
+            button.textContent = 'Verifying...';
+
+            const formData = new FormData();
+
+            formData.append('csrfmiddlewaretoken',
+                document.querySelector('[name=csrfmiddlewaretoken]').value
+            );
+
+            formData.append('action', 'verify_otp');
+            formData.append('otp', otp);
+
+            try {
+
+                const response = await fetch(window.location.href, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+
+                    emailVerified = true;
+
+                    document.getElementById('verified-message').style.display = 'block';
+
+                    document.getElementById('otp-section').style.display = 'none';
+
+                    document.getElementById('email').classList.add('is-valid');
+
+                    document.getElementById('send-otp-button').style.display = 'none';
+
+                    showMessage(data.message, 'success');
+
+                } else {
+
+                    showError('otp', data.message);
+                }
+
+            } catch (error) {
+
+                showError('otp', 'Verification failed. Please try again.');
+
+            }
+
+            button.disabled = false;
+            button.textContent = 'Verify OTP';
+        }
+
+        function validateForm() {
+
+            let valid = true;
+
+            fields.forEach(function (field) {
+
+                const input = document.getElementById(field);
+
+                clearError(field);
+
+                if (!input.value.trim()) {
+                    showError(field, 'This field is required.');
+                    valid = false;
+                }
+
+            });
+
+            const username = document.getElementById('username').value.trim();
+
+            if (username && !/^[a-zA-Z0-9_]{3,30}$/.test(username)) {
+                showError('username', 'Username must be 3–30 characters and contain only letters, numbers or underscores.');
+                valid = false;
+            }
+
+            const phone = document.getElementById('phone').value.trim();
+
+            if (phone && !/^[0-9+\-\s]{7,15}$/.test(phone)) {
+                showError('phone', 'Please enter a valid phone number.');
+                valid = false;
+            }
+
+            const postalCode = document.getElementById('postal_code').value.trim();
+
+            if (postalCode && !/^[0-9]{6}$/.test(postalCode)) {
+                showError('postal_code', 'Please enter a valid 6-digit PIN code.');
+                valid = false;
+            }
+
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm_password').value;
+
+            if (password && password.length < 8) {
+                showError('password', 'Password must contain at least 8 characters.');
+                valid = false;
+            }
+
+            if (password && confirmPassword && password !== confirmPassword) {
+                showError('confirm_password', 'Passwords do not match.');
+                valid = false;
+            }
+
+            return valid;
+        }
+
+        fields.forEach(function (field) {
+
+            document.getElementById(field).addEventListener('input', function () {
+                clearError(field);
+            });
+
+        });
+
+        document.getElementById('profile_picture').addEventListener('change', function () {
+            clearError('profile_picture');
+        });
+
+        document.getElementById('send-otp-button').addEventListener('click', sendOTP);
+
+        document.getElementById('resend-otp-button').addEventListener('click', sendOTP);
+
+        document.getElementById('verify-otp-button').addEventListener('click', verifyOTP);
+
+        form.addEventListener('submit', async function (event) {
+
+            event.preventDefault();
+
+            document.getElementById('form-message').innerHTML = '';
+
+            if (!emailVerified) {
+                showMessage('Please verify your email address before creating your account.', 'danger');
+                return;
+            }
+
+            if (!validateForm()) {
+                return;
+            }
+
+            const button = document.getElementById('submit-button');
+
+            button.disabled = true;
+            button.textContent = 'Creating Account...';
+
+            const formData = new FormData(form);
+
+            formData.append('action', 'create_account');
+
+            try {
+
+                const response = await fetch(window.location.href, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+
+                    showMessage(data.message, 'success');
+
+                    setTimeout(function () {
+                        window.location.href = data.redirect_url;
+                    }, 1500);
+
+                } else {
+
+                    if (data.errors) {
+
+                        Object.keys(data.errors).forEach(function (field) {
+
+                            if (document.getElementById(field)) {
+                                showError(field, data.errors[field]);
+                            }
+
+                        });
+
+                    }
+
+                    if (data.message) {
+                        showMessage(data.message, 'danger');
+                    }
+
+                    button.disabled = false;
+                    button.textContent = 'Create Manager Account';
+
+                }
+
+            } catch (error) {
+
+                showMessage('Something went wrong. Please try again.', 'danger');
+
+                button.disabled = false;
+                button.textContent = 'Create Manager Account';
+
+            }
+
+        });
+
+    </script>
+
+</body>
+
+</html>

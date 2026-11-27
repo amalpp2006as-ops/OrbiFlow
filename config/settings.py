@@ -12,20 +12,12 @@ load_dotenv(BASE_DIR / '.env')
 
 
 # Security
-SECRET_KEY = os.getenv(
-    'DJANGO_SECRET_KEY',
-    'django-insecure-local-development-only'
-)
+
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 DEBUG = os.getenv('DJANGO_DEBUG', 'True').lower() == 'true'
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-if render_host:
-    CSRF_TRUSTED_ORIGINS = [
-        f'https://{render_host}'
-    ]
-else:
-    CSRF_TRUSTED_ORIGINS = []
 
 render_host = os.getenv('RENDER_EXTERNAL_HOSTNAME')
 
@@ -37,6 +29,12 @@ if os.getenv('DJANGO_ALLOWED_HOSTS'):
         os.getenv('DJANGO_ALLOWED_HOSTS').split(',')
     )
 
+if render_host:
+    CSRF_TRUSTED_ORIGINS = [
+        f'https://{render_host}'
+    ]
+else:
+    CSRF_TRUSTED_ORIGINS = []
 
 # Application Definition
 INSTALLED_APPS = [
@@ -44,6 +42,8 @@ INSTALLED_APPS = [
     'organization',
     'accounts',
     'core',
+    'careers',
+    'django_extensions',
 
     'django.contrib.admin',
     'django.contrib.auth',

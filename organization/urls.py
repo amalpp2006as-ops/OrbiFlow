@@ -22,6 +22,13 @@ urlpatterns = [
     path('departments/add/', views.add_department, name='add-department'),
     path('departments/edit/<int:department_id>/', views.edit_department, name='edit-department'),
     path('departments/toggle/<int:department_id>/', views.toggle_department, name='toggle-department'),
+    path('team-members/', views.team_members, name='team-members'),
+    path(
+    'employee-invitation/<uuid:invitation_code>/',
+    views.accept_employee_invitation,
+    name='accept-employee-invitation'
+    ),
+    path('employees/add/', views.add_employee, name='add-employee'),
 
 
 ]

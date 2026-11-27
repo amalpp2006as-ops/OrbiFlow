@@ -1,0 +1,85 @@
+{% extends 'core/dashboard/dashboard_base.html' %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <a href="{% url 'application_list' %}" class="btn btn-sm btn-outline-secondary mb-3">&larr; Back to Applications</a>
+
+    <div class="row g-4">
+        <!-- Candidate Details -->
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-sm p-4 mb-4">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h4>{{ application.full_name }}</h4>
+                        <p class="text-muted mb-1">Applied for: <strong>{{ application.vacancy.title }}</strong></p>
+                    </div>
+                    <a href="{{ application.resume.url }}" target="_blank" class="btn btn-warning btn-sm fw-bold">Download PDF Resume</a>
+                </div>
+                <hr>
+                <p><strong>Email:</strong> {{ application.email }} | <strong>Phone:</strong> {{ application.phone }}</p>
+                <p><strong>Education:</strong> {{ application.education }}</p>
+                <p><strong>Experience:</strong> {{ application.experience }}</p>
+                <p><strong>Skills:</strong> {{ application.skills }}</p>
+                {% if application.linkedin_url %}
+                <p><strong>LinkedIn:</strong> <a href="{{ application.linkedin_url }}" target="_blank">{{ application.linkedin_url }}</a></p>
+                {% endif %}
+                {% if application.portfolio_url %}
+                <p><strong>GitHub / Portfolio:</strong> <a href="{{ application.portfolio_url }}" target="_blank">{{ application.portfolio_url }}</a></p>
+                {% endif %}
+                {% if application.cover_letter %}
+                <p><strong>Cover Letter:</strong><br>{{ application.cover_letter|linebreaks }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Scheduled Interviews -->
+            <div class="card border-0 shadow-sm p-4">
+                <h5 class="mb-3">Scheduled Interviews</h5>
+                {% for iv in interviews %}
+                <div class="border rounded p-3 mb-2">
+                    <strong>{{ iv.scheduled_at|date:"M d, Y H:i" }}</strong> — Interviewer: {{ iv.interviewer }}<br>
+                    <small><strong>Link / Location:</strong> {{ iv.meeting_link_or_location }}</small>
+                    {% if iv.feedback %}
+                    <p class="mt-2 mb-0 small"><strong>Feedback:</strong> {{ iv.feedback }}</p>
+                    {% endif %}
+                </div>
+                {% empty %}
+                <p class="text-muted mb-0">No interviews scheduled yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- HR Actions: Status & Interview Form -->
+        <div class="col-lg-5">
+            <div class="card border-0 shadow-sm p-4 mb-4">
+                <h5 class="mb-3">Update Status & Private Notes</h5>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Recruitment Stage</label>
+                        {{ review_form.status }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Private HR Notes</label>
+                        {{ review_form.private_notes }}
+                    </div>
+                    <button type="submit" name="update_status" class="btn btn-dark w-100">Save Review</button>
+                </form>
+            </div>
+
+            <div class="card border-0 shadow-sm p-4">
+                <h5 class="mb-3">Schedule Interview</h5>
+                <form method="post" action="{% url 'schedule_interview' application.pk %}">
+                    {% csrf_token %}
+                    {% for field in interview_form %}
+                    <div class="mb-3">
+                        <label class="form-label">{{ field.label }}</label>
+                        {{ field }}
+                    </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-warning w-100 fw-bold">Schedule & Notify Candidate</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

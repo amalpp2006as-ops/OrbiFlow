@@ -1,0 +1,829 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description"
+        content="Explore OrbiFlow's digital solution portfolio, featuring enterprise web platforms, mobile applications, custom software, UI/UX design, and cybersecurity.">
+    <meta name="keywords"
+        content="OrbiFlow, Web Development, Mobile Applications, Software Development, UI UX Design, Cybersecurity, Case Studies">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Our Portfolio | OrbiFlow</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Aldrich&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'core/css/font-awesome.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'core/css/elegant-icons.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'core/css/owl.carousel.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'core/css/slicknav.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}" type="text/css">
+
+    <style>
+        .portfolio-breadcrumb {
+            background-image: url("{% static 'core/images/breadcrumb-bg.jpg' %}");
+            background-size: cover;
+            background-position: center;
+        }
+
+        .portfolio-footer {
+            background-image: url("{% static 'core/images/footer-bg.jpg' %}");
+            background-size: cover;
+            background-position: center;
+        }
+
+        .stat-box {
+            background: #ffffff;
+            border: 1px solid #eaeaea;
+            border-top: 3px solid #dfa667;
+            padding: 28px 20px;
+            text-align: center;
+            height: 100%;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+        }
+
+        .stat-box h2 {
+            font-family: 'Aldrich', sans-serif;
+            font-size: 38px;
+            color: #111111;
+            margin-bottom: 6px;
+        }
+
+        .stat-box p {
+            margin: 0;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #707070;
+            font-weight: 600;
+        }
+
+        .filter-btn {
+            border: 1px solid #dcdcdc;
+            background: #ffffff;
+            color: #333333;
+            padding: 8px 18px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #111111;
+            color: #ffffff;
+            border-color: #111111;
+        }
+
+        .case-card {
+            background: #ffffff;
+            border: 1px solid #e9e9e9;
+            padding: 30px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        }
+
+        .case-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.07);
+            border-color: #dfa667;
+        }
+
+        .case-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .case-category {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: #dfa667;
+            background: #fdf6ee;
+            padding: 5px 12px;
+            border-radius: 2px;
+        }
+
+        .case-year {
+            font-size: 12px;
+            color: #888888;
+            font-weight: 600;
+        }
+
+        .case-card h4 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #111111;
+            margin-bottom: 8px;
+            line-height: 1.35;
+        }
+
+        .case-client {
+            font-size: 13px;
+            color: #6c757d;
+            margin-bottom: 14px;
+        }
+
+        .case-desc {
+            font-size: 14px;
+            color: #555555;
+            line-height: 1.7;
+            margin-bottom: 18px;
+        }
+
+        .case-impact {
+            background: #f8f9fa;
+            border-left: 3px solid #111111;
+            padding: 12px 15px;
+            margin-bottom: 18px;
+            font-size: 13px;
+            color: #222222;
+        }
+
+        .tech-tags {
+            margin-top: auto;
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .tech-tag {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            color: #444444;
+            background: #f1f2f4;
+            padding: 4px 10px;
+            margin: 0 4px 6px 0;
+            border-radius: 2px;
+        }
+
+        .archive-table th {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #555555;
+            border-top: none;
+        }
+
+        .archive-table td {
+            font-size: 14px;
+            vertical-align: middle;
+            padding: 14px 12px;
+        }
+
+        .pillar-box {
+            padding: 28px;
+            background: #f9f9f9;
+            border: 1px solid #eeeeee;
+            height: 100%;
+        }
+
+        .pillar-box i {
+            font-size: 26px;
+            color: #dfa667;
+            margin-bottom: 14px;
+        }
+
+        .pillar-box h5 {
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #111111;
+        }
+
+        .pillar-box p {
+            font-size: 14px;
+            color: #666666;
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Offcanvas Menu Begin -->
+    <div class="offcanvas-menu-overlay"></div>
+    <div class="offcanvas-menu-wrapper">
+        <div class="offcanvas__logo">
+            <a href="{% url 'home' %}">
+                <img src="{% static 'core/images/logo.png' %}" alt="OrbiFlow">
+            </a>
+        </div>
+        <div id="mobile-menu-wrap"></div>
+        <div class="offcanvas__widget">
+            <span>Have a project in mind?</span>
+            <h4>Let's Connect</h4>
+        </div>
+    </div>
+    <!-- Offcanvas Menu End -->
+
+
+    <!-- Header Section Begin -->
+    <section class="hero">
+        <header class="orbiflow-header">
+            <div class="orbiflow-navbar">
+                <!-- LOGO -->
+                <a href="{% url 'home' %}" class="orbiflow-logo">OrbiFlow</a>
+
+                <!-- MOBILE MENU BUTTON -->
+                <input type="checkbox" id="menu-toggle">
+                <label for="menu-toggle" class="menu-icon">☰</label>
+
+                <!-- NAVIGATION -->
+                <nav class="orbiflow-nav">
+                    <ul>
+                        <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                            <a href="{% url 'home' %}">Home</a>
+                        </li>
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+                            <a href="{% url 'about' %}">About Us <span>⌄</span></a>
+                        </li>
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'services' %}active{% endif %}">
+                            <a href="{% url 'services' %}">Services <span>⌄</span></a>
+                        </li>
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'industries' %}active{% endif %}">
+                            <a href="{% url 'industries' %}">Industries <span>⌄</span></a>
+                        </li>
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'projects' %}active{% endif %}">
+                            <a style="font-size: 17px; color: black; font-weight: bolder;"
+                                href="{% url 'projects' %}">Portfolio <span>⌄</span></a>
+                        </li>
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'careers' %}active{% endif %}">
+                            <a href="{% url 'careers' %}">Careers <span>⌄</span></a>
+                        </li>
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'blog' %}active{% endif %}">
+                            <a href="{% url 'blog' %}">Blog <span>⌄</span></a>
+                        </li>
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+                            <a href="{% url 'contact' %}">Contact Us <span>⌄</span></a>
+                        </li>
+                    </ul>
+
+                    <!-- LOGIN AND REGISTER -->
+                    <ul class="auth-nav">
+                        <li><a href="{% url 'login-page' %}">Login</a></li>
+                        <li><a href="{% url 'register-page' %}" class="register-btn">Register</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+    </section>
+    <!-- Header Section End -->
+
+
+    <!-- Breadcrumb Section Begin -->
+    <div class="breadcrumb-option spad portfolio-breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Our Portfolio</h2>
+                        <div class="breadcrumb__links">
+                            <a href="{% url 'home' %}">Home</a>
+                            <span>Portfolio</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Section End -->
+
+
+    <!-- Portfolio Section Begin -->
+    <section class="project-page spad">
+        <div class="container">
+
+            <!-- Portfolio Introduction -->
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="section-title">
+                        <span>PROVEN TRACK RECORD</span>
+                        <h2>Engineered for Scale, Built for Impact</h2>
+                        <p>
+                            Over the years, OrbiFlow has partnered with startups, growing enterprises, and global
+                            organizations to architect mission-critical web platforms, custom ERP systems, mobile
+                            applications, and hardened cloud infrastructure.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Impact Metrics Row -->
+            <div class="row mb-5">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="stat-box">
+                        <h2>140+</h2>
+                        <p>Projects Delivered</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="stat-box">
+                        <h2>85+</h2>
+                        <p>Active Global Clients</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="stat-box">
+                        <h2>98%</h2>
+                        <p>Client Retention Rate</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="stat-box">
+                        <h2>12+</h2>
+                        <p>Industries Served</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Filter Buttons -->
+            <div class="row mb-4">
+                <div class="col-lg-12 text-center">
+                    <button class="filter-btn active" data-filter="all">All Works</button>
+                    <button class="filter-btn" data-filter="web">Web Platforms</button>
+                    <button class="filter-btn" data-filter="software">Enterprise Software</button>
+                    <button class="filter-btn" data-filter="mobile">Mobile Apps</button>
+                    <button class="filter-btn" data-filter="design">UI/UX & Systems</button>
+                    <button class="filter-btn" data-filter="security">Cybersecurity</button>
+                </div>
+            </div>
+
+            <!-- Featured Case Studies Grid (No Images) -->
+            <div class="row" id="portfolio-grid">
+
+                <!-- Case Study 1 -->
+                <div class="col-lg-6 col-md-6 mb-4 portfolio-item" data-category="software">
+                    <div class="case-card">
+                        <div class="case-meta">
+                            <span class="case-category">Enterprise Software</span>
+                            <span class="case-year">2026</span>
+                        </div>
+                        <h4>FinEdge Core Treasury & Billing Platform</h4>
+                        <p class="case-client"><i class="fa fa-building-o mr-1"></i> FinTech & Financial Services</p>
+                        <p class="case-desc">
+                            Architected a multi-tenant financial operations platform handling automated invoicing,
+                            multi-currency reconciliation, role-based approvals, and real-time audit trails for
+                            mid-market enterprises.
+                        </p>
+                        <div class="case-impact">
+                            <strong>Key Impact:</strong> Reduced monthly reconciliation time by 62% and processed
+                            1.2M+ automated transactions with 99.98% uptime.
+                        </div>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Django</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Celery</span>
+                            <span class="tech-tag">AWS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case Study 2 -->
+                <div class="col-lg-6 col-md-6 mb-4 portfolio-item" data-category="web">
+                    <div class="case-card">
+                        <div class="case-meta">
+                            <span class="case-category">Web Platform</span>
+                            <span class="case-year">2026</span>
+                        </div>
+                        <h4>CartNova Multi-Vendor Commerce Ecosystem</h4>
+                        <p class="case-client"><i class="fa fa-shopping-bag mr-1"></i> Retail & E-Commerce</p>
+                        <p class="case-desc">
+                            Built a high-throughput marketplace supporting 450+ independent sellers with live
+                            inventory sync, dynamic shipping calculators, split-payment settlements, and a custom
+                            analytics portal.
+                        </p>
+                        <div class="case-impact">
+                            <strong>Key Impact:</strong> Increased checkout conversion by 38% and cut average page
+                            load time from 4.1s down to 0.9s.
+                        </div>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Django REST</span>
+                            <span class="tech-tag">Redis</span>
+                            <span class="tech-tag">Bootstrap 5</span>
+                            <span class="tech-tag">Stripe API</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case Study 3 -->
+                <div class="col-lg-6 col-md-6 mb-4 portfolio-item" data-category="mobile">
+                    <div class="case-card">
+                        <div class="case-meta">
+                            <span class="case-category">Mobile Application</span>
+                            <span class="case-year">2025</span>
+                        </div>
+                        <h4>MediSync Telehealth & Patient Care App</h4>
+                        <p class="case-client"><i class="fa fa-medkit mr-1"></i> Healthcare & Diagnostics</p>
+                        <p class="case-desc">
+                            Developed a cross-platform mobile application enabling encrypted video consultations,
+                            digital prescriptions, lab report tracking, and automated appointment reminders for a
+                            network of 18 clinics.
+                        </p>
+                        <div class="case-impact">
+                            <strong>Key Impact:</strong> 45,000+ active patients onboarded within 6 months and a
+                            41% drop in missed clinic appointments.
+                        </div>
+                        <div class="tech-tags">
+                            <span class="tech-tag">React Native</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">WebRTC</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case Study 4 -->
+                <div class="col-lg-6 col-md-6 mb-4 portfolio-item" data-category="software">
+                    <div class="case-card">
+                        <div class="case-meta">
+                            <span class="case-category">Enterprise Software</span>
+                            <span class="case-year">2025</span>
+                        </div>
+                        <h4>LogiTrack Fleet & Warehouse Management ERP</h4>
+                        <p class="case-client"><i class="fa fa-truck mr-1"></i> Logistics & Supply Chain</p>
+                        <p class="case-desc">
+                            Engineered an end-to-end dispatch, GPS route monitoring, and warehouse barcode-scanning
+                            suite replacing legacy spreadsheets across 9 regional distribution hubs.
+                        </p>
+                        <div class="case-impact">
+                            <strong>Key Impact:</strong> Improved on-time delivery rates to 96.4% and reduced
+                            inventory discrepancy losses by 54%.
+                        </div>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Django</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">Docker</span>
+                            <span class="tech-tag">REST API</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case Study 5 -->
+                <div class="col-lg-6 col-md-6 mb-4 portfolio-item" data-category="security">
+                    <div class="case-card">
+                        <div class="case-meta">
+                            <span class="case-category">Cybersecurity</span>
+                            <span class="case-year">2025</span>
+                        </div>
+                        <h4>AegisCloud Security Audit & Hardening Suite</h4>
+                        <p class="case-client"><i class="fa fa-shield mr-1"></i> SaaS & Cloud Infrastructure</p>
+                        <p class="case-desc">
+                            Executed full-scope web application penetration testing, API vulnerability remediation,
+                            zero-trust IAM restructuring, and automated CI/CD security scanning for a B2B SaaS
+                            provider.
+                        </p>
+                        <div class="case-impact">
+                            <strong>Key Impact:</strong> Remediated 27 critical/high vulnerabilities and enabled the
+                            client to pass enterprise SOC 2 readiness audits.
+                        </div>
+                        <div class="tech-tags">
+                            <span class="tech-tag">OWASP</span>
+                            <span class="tech-tag">Penetration Testing</span>
+                            <span class="tech-tag">Cloud IAM</span>
+                            <span class="tech-tag">Nginx</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case Study 6 -->
+                <div class="col-lg-6 col-md-6 mb-4 portfolio-item" data-category="design">
+                    <div class="case-card">
+                        <div class="case-meta">
+                            <span class="case-category">UI/UX & Systems</span>
+                            <span class="case-year">2025</span>
+                        </div>
+                        <h4>EduSpark Learning Platform Redesign</h4>
+                        <p class="case-client"><i class="fa fa-graduation-cap mr-1"></i> EdTech & Online Learning</p>
+                        <p class="case-desc">
+                            Redesigned the entire student and instructor experience from the ground up, introducing
+                            a modular design system, accessible course dashboards, and streamlined assessment
+                            workflows.
+                        </p>
+                        <div class="case-impact">
+                            <strong>Key Impact:</strong> Boosted course completion rates by 33% and reduced
+                            onboarding support tickets by half.
+                        </div>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Figma</span>
+                            <span class="tech-tag">Design Systems</span>
+                            <span class="tech-tag">WCAG 2.1</span>
+                            <span class="tech-tag">React</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case Study 7 -->
+                <div class="col-lg-6 col-md-6 mb-4 portfolio-item" data-category="web">
+                    <div class="case-card">
+                        <div class="case-meta">
+                            <span class="case-category">Web Platform</span>
+                            <span class="case-year">2024</span>
+                        </div>
+                        <h4>UrbanStay Property & Tenant Management Portal</h4>
+                        <p class="case-client"><i class="fa fa-home mr-1"></i> Real Estate & PropTech</p>
+                        <p class="case-desc">
+                            Delivered a unified portal for property managers and tenants featuring digital lease
+                            signing, automated rent collection, maintenance ticket routing, and owner financial
+                            statements.
+                        </p>
+                        <div class="case-impact">
+                            <strong>Key Impact:</strong> Managing 3,400+ residential units with 89% of rent payments
+                            now collected automatically online.
+                        </div>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Django</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">Bootstrap</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case Study 8 -->
+                <div class="col-lg-6 col-md-6 mb-4 portfolio-item" data-category="mobile">
+                    <div class="case-card">
+                        <div class="case-meta">
+                            <span class="case-category">Mobile Application</span>
+                            <span class="case-year">2024</span>
+                        </div>
+                        <h4>QuickServe Hospitality POS & Ordering App</h4>
+                        <p class="case-client"><i class="fa fa-cutlery mr-1"></i> Food & Hospitality</p>
+                        <p class="case-desc">
+                            Built a synchronized table-side ordering app, kitchen display system (KDS), and loyalty
+                            program deployed across a 22-outlet restaurant group.
+                        </p>
+                        <div class="case-impact">
+                            <strong>Key Impact:</strong> Cut average table turnaround time by 19% and grew repeat
+                            loyalty orders by 47%.
+                        </div>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Flutter</span>
+                            <span class="tech-tag">Firebase</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">REST API</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Additional Completed Projects Table -->
+            <div class="row mt-5 pt-4">
+                <div class="col-lg-12 text-center mb-4">
+                    <div class="section-title">
+                        <span>EXTENDED ARCHIVE</span>
+                        <h2>More Recent Deliveries</h2>
+                        <p>A snapshot of additional engagements delivered by our engineering and design teams.</p>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="table-responsive">
+                        <table class="table table-hover archive-table border">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Project / Solution</th>
+                                    <th>Industry</th>
+                                    <th>Scope</th>
+                                    <th>Outcome</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>NovaHR Workforce Suite</strong></td>
+                                    <td>Human Resources</td>
+                                    <td>Attendance, Payroll & Recruitment Portal</td>
+                                    <td>Adopted by 1,800+ employees across 4 offices</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>GreenGrid Solar Telemetry</strong></td>
+                                    <td>Clean Energy</td>
+                                    <td>IoT Web Dashboard & Alerting Engine</td>
+                                    <td>Real-time monitoring for 600+ solar arrays</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>SwiftDoc Legal Vault</strong></td>
+                                    <td>LegalTech</td>
+                                    <td>Encrypted Document Management & E-Sign</td>
+                                    <td>100% paperless case filing workflow</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Veloce Auto Dealer CRM</strong></td>
+                                    <td>Automotive</td>
+                                    <td>Lead Pipeline & Service Booking Platform</td>
+                                    <td>+52% increase in scheduled test drives</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>ApexManufacture QA Tracker</strong></td>
+                                    <td>Manufacturing</td>
+                                    <td>Factory Floor Inspection & Defect Reporting</td>
+                                    <td>31% reduction in batch defect rates</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>ClearPath Travel Booking Engine</strong></td>
+                                    <td>Travel & Tourism</td>
+                                    <td>Custom Itinerary Builder & Payment Gateway</td>
+                                    <td>Handled 15,000+ seasonal bookings smoothly</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delivery Standards -->
+            <div class="row mt-5 pt-4">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="pillar-box">
+                        <i class="fa fa-cogs"></i>
+                        <h5>Scalable Architecture</h5>
+                        <p>Every platform is engineered with clean, modular codebases and optimized databases built to
+                            handle growth without costly rewrites.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="pillar-box">
+                        <i class="fa fa-lock"></i>
+                        <h5>Security by Design</h5>
+                        <p>Role-based access controls, encrypted data pipelines, and OWASP-aligned testing are built
+                            into every release cycle.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-12 mb-4">
+                    <div class="pillar-box">
+                        <i class="fa fa-line-chart"></i>
+                        <h5>Measurable Business Outcomes</h5>
+                        <p>We measure success by speed, conversion rates, operational efficiency, and long-term
+                            reliability—not just lines of code.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact CTA -->
+            <div class="row mt-4">
+                <div class="col-lg-12 text-center">
+                    <a href="{% url 'contact' %}" class="primary-btn normal-btn">
+                        Start Your Project With OrbiFlow
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!-- Portfolio Section End -->
+
+
+    <!-- Footer Section Begin -->
+    <footer class="footer portfolio-footer">
+        <div class="container">
+
+            <div class="footer__top">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="footer__top__text">
+                            <h2>Have a Project in Mind?</h2>
+                            <p style="color: #ffffff; margin-top: 15px;">
+                                Let's discuss your ideas and turn them into meaningful digital solutions.
+                            </p>
+                            <a href="{% url 'contact' %}" class="primary-btn" style="margin-top: 20px;">
+                                Get In Touch
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- About OrbiFlow -->
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="footer__about">
+                        <div class="footer__logo">
+                            <a href="{% url 'home' %}" class="orbiflow-logo"
+                                style="color: #ffffff; font-size: 28px; font-weight: 700;">
+                                OrbiFlow
+                            </a>
+                        </div>
+                        <p>
+                            We create digital solutions that help businesses
+                            grow, improve their online presence and achieve
+                            their goals through technology.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Company Links -->
+                <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Company</h6>
+                        <ul>
+                            <li><a href="{% url 'home' %}">Home</a></li>
+                            <li><a href="{% url 'about' %}">About Us</a></li>
+                            <li><a href="{% url 'services' %}">Services</a></li>
+                            <li><a href="{% url 'projects' %}">Our Works</a></li>
+                            <li><a href="{% url 'careers' %}">Careers</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Services Links -->
+                <div class="col-lg-2 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Our Services</h6>
+                        <ul>
+                            <li><a href="{% url 'services' %}">Web Development</a></li>
+                            <li><a href="{% url 'services' %}">Mobile App Development</a></li>
+                            <li><a href="{% url 'services' %}">UI/UX Design</a></li>
+                            <li><a href="{% url 'services' %}">Cybersecurity</a></li>
+                            <li><a href="{% url 'services' %}">Digital Marketing</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Contact -->
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="footer__address">
+                        <h6>Get In Touch</h6>
+                        <p>
+                            Have questions or want to discuss a project?
+                            We'd love to hear from you.
+                        </p>
+                        <ul>
+                            <li>
+                                <a href="{% url 'contact' %}">Visit Our Contact Page</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="copyright">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="copyright__text">
+                            <p>
+                                Copyright ©
+                                <script>document.write(new Date().getFullYear());</script>
+                                OrbiFlow. All rights reserved.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+    <!-- Footer Section End -->
+
+
+    <!-- Js Plugins -->
+    <script src="{% static 'core/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'core/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'core/js/jquery.slicknav.js' %}"></script>
+    <script src="{% static 'core/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'core/js/slick.min.js' %}"></script>
+    <script src="{% static 'core/js/main.js' %}"></script>
+
+    <!-- Portfolio Category Filter -->
+    <script>
+        document.querySelectorAll('.filter-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                var filter = this.getAttribute('data-filter');
+                document.querySelectorAll('.portfolio-item').forEach(function (item) {
+                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>

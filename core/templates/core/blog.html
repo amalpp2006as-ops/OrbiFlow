@@ -1,0 +1,716 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description"
+        content="Read engineering insights, web development guides, UI/UX trends, and cybersecurity articles from the OrbiFlow team.">
+    <meta name="keywords"
+        content="OrbiFlow Blog, Web Development, Django, Software Engineering, UI UX Design, Cybersecurity, Tech Insights">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Blog & Insights | OrbiFlow</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Aldrich&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'core/css/font-awesome.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'core/css/elegant-icons.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'core/css/owl.carousel.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'core/css/slicknav.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}" type="text/css">
+
+    <style>
+        .blog-breadcrumb {
+            background-image: url("{% static 'core/images/breadcrumb-bg.jpg' %}");
+            background-size: cover;
+            background-position: center;
+        }
+
+        .blog-footer {
+            background-image: url("{% static 'core/images/footer-bg.jpg' %}");
+            background-size: cover;
+            background-position: center;
+        }
+
+        .article-card {
+            background: #ffffff;
+            border: 1px solid #e9e9e9;
+            border-left: 4px solid #111111;
+            padding: 32px;
+            margin-bottom: 28px;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-left-color 0.25s ease;
+        }
+
+        .article-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+            border-left-color: #dfa667;
+        }
+
+        .article-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 14px;
+            font-size: 12px;
+            color: #777777;
+            margin-bottom: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 600;
+        }
+
+        .article-badge {
+            background: #fdf6ee;
+            color: #dfa667;
+            padding: 4px 10px;
+            border-radius: 2px;
+            font-weight: 700;
+        }
+
+        .article-card h3 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #111111;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .article-card h3 a {
+            color: #111111;
+            text-decoration: none;
+        }
+
+        .article-card h3 a:hover {
+            color: #dfa667;
+        }
+
+        .article-card p {
+            font-size: 14px;
+            color: #555555;
+            line-height: 1.75;
+            margin-bottom: 20px;
+        }
+
+        .read-more-btn {
+            display: inline-block;
+            background: #111111;
+            color: #ffffff !important;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 10px 22px;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            transition: background 0.2s ease;
+        }
+
+        .read-more-btn:hover {
+            background: #dfa667;
+            color: #111111 !important;
+        }
+
+        .quote-banner {
+            background: #111111;
+            color: #ffffff;
+            padding: 32px;
+            margin-bottom: 28px;
+            border-left: 4px solid #dfa667;
+        }
+
+        .quote-banner p {
+            color: #f1f1f1;
+            font-size: 17px;
+            font-style: italic;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .quote-banner span {
+            color: #dfa667;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-box {
+            background: #ffffff;
+            border: 1px solid #eaeaea;
+            padding: 26px;
+            margin-bottom: 26px;
+        }
+
+        .sidebar-box h5 {
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #111111;
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f2f2f2;
+        }
+
+        .cat-filter-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .cat-filter-list li {
+            margin-bottom: 10px;
+        }
+
+        .cat-filter-btn {
+            width: 100%;
+            text-align: left;
+            background: transparent;
+            border: none;
+            padding: 6px 10px;
+            font-size: 14px;
+            color: #444444;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            transition: all 0.2s ease;
+        }
+
+        .cat-filter-btn:hover,
+        .cat-filter-btn.active {
+            background: #fdf6ee;
+            color: #111111;
+            font-weight: 700;
+        }
+
+        .featured-link {
+            display: block;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            text-decoration: none;
+        }
+
+        .featured-link:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .featured-link span {
+            display: block;
+            font-size: 11px;
+            color: #dfa667;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .featured-link h6 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #111111;
+            line-height: 1.45;
+            margin: 0;
+        }
+
+        .featured-link:hover h6 {
+            color: #dfa667;
+        }
+
+        .tag-pill {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #444444;
+            background: #f4f5f7;
+            padding: 5px 12px;
+            margin: 0 5px 8px 0;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .tag-pill:hover {
+            background: #111111;
+            color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Offcanvas Menu Begin -->
+    <div class="offcanvas-menu-overlay"></div>
+    <div class="offcanvas-menu-wrapper">
+        <div class="offcanvas__logo">
+            <a href="{% url 'home' %}">
+                <img src="{% static 'core/images/logo.png' %}" alt="OrbiFlow">
+            </a>
+        </div>
+        <div id="mobile-menu-wrap"></div>
+        <div class="offcanvas__widget">
+            <span>Have a project in mind?</span>
+            <h4>Let's Connect</h4>
+        </div>
+    </div>
+    <!-- Offcanvas Menu End -->
+
+    <!-- Header Section Begin -->
+    <section class="hero">
+        <header class="orbiflow-header">
+            <div class="orbiflow-navbar">
+                <!-- LOGO -->
+                <a href="{% url 'home' %}" class="orbiflow-logo">OrbiFlow</a>
+
+                <!-- MOBILE MENU BUTTON -->
+                <input type="checkbox" id="menu-toggle">
+                <label for="menu-toggle" class="menu-icon">☰</label>
+
+                <!-- NAVIGATION -->
+                <nav class="orbiflow-nav">
+                    <ul>
+                        <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                            <a href="{% url 'home' %}">Home</a>
+                        </li>
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+                            <a href="{% url 'about' %}">About Us <span>⌄</span></a>
+                        </li>
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'services' %}active{% endif %}">
+                            <a href="{% url 'services' %}">Services <span>⌄</span></a>
+                        </li>
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'industries' %}active{% endif %}">
+                            <a href="{% url 'industries' %}">Industries <span>⌄</span></a>
+                        </li>
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'projects' %}active{% endif %}">
+                            <a href="{% url 'projects' %}">Portfolio <span>⌄</span></a>
+                        </li>
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'careers' %}active{% endif %}">
+                            <a href="{% url 'careers' %}">Careers <span>⌄</span></a>
+                        </li>
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'blog' %}active{% endif %}">
+                            <a style="font-size: 17px; color: black; font-weight: bolder;"
+                                href="{% url 'blog' %}">Blog <span>⌄</span></a>
+                        </li>
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+                            <a href="{% url 'contact' %}">Contact Us <span>⌄</span></a>
+                        </li>
+                    </ul>
+
+                    <!-- LOGIN AND REGISTER -->
+                    <ul class="auth-nav">
+                        <li><a href="{% url 'login-page' %}">Login</a></li>
+                        <li><a href="{% url 'register-page' %}" class="register-btn">Register</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+    </section>
+    <!-- Header Section End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <div class="breadcrumb-option spad blog-breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>OrbiFlow Insights & Blog</h2>
+                        <div class="breadcrumb__links">
+                            <a href="{% url 'home' %}">Home</a>
+                            <span>Blog</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Blog Section Begin -->
+    <section class="blog spad">
+        <div class="container">
+
+            <!-- Intro -->
+            <div class="row mb-4">
+                <div class="col-lg-12 text-center">
+                    <div class="section-title">
+                        <span>ENGINEERING & STRATEGY</span>
+                        <h2>Latest Articles & Technical Guides</h2>
+                        <p>
+                            Deep dives into scalable web architecture, product design, cloud security, and digital
+                            transformation written by our engineers and strategists.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Main Articles Column -->
+                <div class="col-lg-8" id="blog-posts-container">
+
+                    <!-- Article 1 -->
+                    <article class="article-card blog-post-item" data-category="engineering">
+                        <div class="article-meta">
+                            <span class="article-badge">Web Engineering</span>
+                            <span><i class="fa fa-calendar-o mr-1"></i> Nov 18, 2026</span>
+                            <span><i class="fa fa-user-o mr-1"></i> OrbiFlow Engineering Team</span>
+                            <span><i class="fa fa-clock-o mr-1"></i> 6 min read</span>
+                        </div>
+                        <h3>
+                            <a href="{% url 'blog-details' %}">
+                                Scaling Django & PostgreSQL Applications for High-Traffic Enterprise Workloads
+                            </a>
+                        </h3>
+                        <p>
+                            Learn how our backend team optimizes database indexing, query batching, Redis caching,
+                            and asynchronous Celery workers to keep enterprise platforms fast and reliable under
+                            heavy concurrent traffic.
+                        </p>
+                        <a href="{% url 'blog-details' %}" class="read-more-btn">
+                            Read Full Article <i class="fa fa-arrow-right ml-1"></i>
+                        </a>
+                    </article>
+
+                    <!-- Article 2 -->
+                    <article class="article-card blog-post-item" data-category="security">
+                        <div class="article-meta">
+                            <span class="article-badge">Cybersecurity</span>
+                            <span><i class="fa fa-calendar-o mr-1"></i> Nov 04, 2026</span>
+                            <span><i class="fa fa-user-o mr-1"></i> Security Operations</span>
+                            <span><i class="fa fa-clock-o mr-1"></i> 5 min read</span>
+                        </div>
+                        <h3>
+                            <a href="{% url 'blog-details' %}">
+                                OWASP Top 10 Checklist: Hardening Modern Web Apps Before Production Launch
+                            </a>
+                        </h3>
+                        <p>
+                            Security shouldn't be an afterthought. We walk through practical defenses against broken
+                            access control, SQL injection, misconfigured CORS headers, and insecure file uploads
+                            using automated CI/CD checks.
+                        </p>
+                        <a href="{% url 'blog-details' %}" class="read-more-btn">
+                            Read Full Article <i class="fa fa-arrow-right ml-1"></i>
+                        </a>
+                    </article>
+
+                    <!-- Editorial Quote -->
+                    <div class="quote-banner">
+                        <p>
+                            “Great software isn't defined by how many features you ship—it's defined by how reliably
+                            it solves real business problems every single day.”
+                        </p>
+                        <span>— OrbiFlow Product Architecture Team</span>
+                    </div>
+
+                    <!-- Article 3 -->
+                    <article class="article-card blog-post-item" data-category="design">
+                        <div class="article-meta">
+                            <span class="article-badge">UI/UX Design</span>
+                            <span><i class="fa fa-calendar-o mr-1"></i> Oct 21, 2026</span>
+                            <span><i class="fa fa-user-o mr-1"></i> Product Design Studio</span>
+                            <span><i class="fa fa-clock-o mr-1"></i> 4 min read</span>
+                        </div>
+                        <h3>
+                            <a href="{% url 'blog-details' %}">
+                                Building Accessible Design Systems That Speed Up Frontend Delivery by 40%
+                            </a>
+                        </h3>
+                        <p>
+                            A consistent component library bridges the gap between Figma and production code.
+                            Discover how reusable tokens, responsive grids, and WCAG-compliant contrast ratios
+                            eliminate UI regressions across multi-team projects.
+                        </p>
+                        <a href="{% url 'blog-details' %}" class="read-more-btn">
+                            Read Full Article <i class="fa fa-arrow-right ml-1"></i>
+                        </a>
+                    </article>
+
+                    <!-- Article 4 -->
+                    <article class="article-card blog-post-item" data-category="business">
+                        <div class="article-meta">
+                            <span class="article-badge">Digital Strategy</span>
+                            <span><i class="fa fa-calendar-o mr-1"></i> Oct 09, 2026</span>
+                            <span><i class="fa fa-user-o mr-1"></i> OrbiFlow Consulting</span>
+                            <span><i class="fa fa-clock-o mr-1"></i> 7 min read</span>
+                        </div>
+                        <h3>
+                            <a href="{% url 'blog-details' %}">
+                                Custom ERP vs. Off-the-Shelf SaaS: Making the Right Call for Growing Companies
+                            </a>
+                        </h3>
+                        <p>
+                            When spreadsheets break down, businesses face a critical choice. We compare total cost
+                            of ownership, workflow flexibility, and integration limits to help decision-makers
+                            choose the right path.
+                        </p>
+                        <a href="{% url 'blog-details' %}" class="read-more-btn">
+                            Read Full Article <i class="fa fa-arrow-right ml-1"></i>
+                        </a>
+                    </article>
+
+                    <!-- Article 5 -->
+                    <article class="article-card blog-post-item" data-category="engineering">
+                        <div class="article-meta">
+                            <span class="article-badge">Web Engineering</span>
+                            <span><i class="fa fa-calendar-o mr-1"></i> Sep 26, 2026</span>
+                            <span><i class="fa fa-user-o mr-1"></i> Frontend Guild</span>
+                            <span><i class="fa fa-clock-o mr-1"></i> 5 min read</span>
+                        </div>
+                        <h3>
+                            <a href="{% url 'blog-details' %}">
+                                Cutting Page Load Times Under 1 Second: Asset Compression & Core Web Vitals
+                            </a>
+                        </h3>
+                        <p>
+                            Slow websites cost conversions. Here is our practical playbook for eliminating memory
+                            bloat, optimizing static bundles, lazy-loading media, and hitting 95+ Lighthouse scores
+                            in production.
+                        </p>
+                        <a href="{% url 'blog-details' %}" class="read-more-btn">
+                            Read Full Article <i class="fa fa-arrow-right ml-1"></i>
+                        </a>
+                    </article>
+
+                </div>
+
+                <!-- Sidebar Column (No Images) -->
+                <div class="col-lg-4">
+
+                    <!-- Search Box -->
+                    <div class="sidebar-box">
+                        <h5>Search Articles</h5>
+                        <div class="input-group">
+                            <input type="text" id="blog-search-input" class="form-control"
+                                placeholder="Search topics, tech...">
+                            <div class="input-group-append">
+                                <span class="input-group-text bg-dark text-white border-dark">
+                                    <i class="fa fa-search"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Categories Filter -->
+                    <div class="sidebar-box">
+                        <h5>Categories</h5>
+                        <ul class="cat-filter-list">
+                            <li>
+                                <button class="cat-filter-btn active" data-cat="all">
+                                    <span>All Articles</span><span>5</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="cat-filter-btn" data-cat="engineering">
+                                    <span>Web Engineering</span><span>2</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="cat-filter-btn" data-cat="security">
+                                    <span>Cybersecurity</span><span>1</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="cat-filter-btn" data-cat="design">
+                                    <span>UI/UX Design</span><span>1</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="cat-filter-btn" data-cat="business">
+                                    <span>Digital Strategy</span><span>1</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Featured Reads -->
+                    <div class="sidebar-box">
+                        <h5>Featured Reads</h5>
+                        <a href="{% url 'blog-details' %}" class="featured-link">
+                            <span>Web Engineering</span>
+                            <h6>Scaling Django & PostgreSQL for Enterprise Workloads</h6>
+                        </a>
+                        <a href="{% url 'blog-details' %}" class="featured-link">
+                            <span>Cybersecurity</span>
+                            <h6>OWASP Top 10 Checklist Before Production Launch</h6>
+                        </a>
+                        <a href="{% url 'blog-details' %}" class="featured-link">
+                            <span>Digital Strategy</span>
+                            <h6>Custom ERP vs. Off-the-Shelf SaaS Comparison</h6>
+                        </a>
+                    </div>
+
+                    <!-- Popular Tags -->
+                    <div class="sidebar-box">
+                        <h5>Popular Tags</h5>
+                        <div>
+                            <a href="{% url 'blog-details' %}" class="tag-pill">Django</a>
+                            <a href="{% url 'blog-details' %}" class="tag-pill">PostgreSQL</a>
+                            <a href="{% url 'blog-details' %}" class="tag-pill">React</a>
+                            <a href="{% url 'blog-details' %}" class="tag-pill">UI/UX</a>
+                            <a href="{% url 'blog-details' %}" class="tag-pill">OWASP</a>
+                            <a href="{% url 'blog-details' %}" class="tag-pill">Cloud</a>
+                            <a href="{% url 'blog-details' %}" class="tag-pill">Performance</a>
+                            <a href="{% url 'blog-details' %}" class="tag-pill">ERP</a>
+                        </div>
+                    </div>
+
+                    <!-- CTA Box -->
+                    <div class="sidebar-box" style="background: #111111; color: #ffffff; border: none;">
+                        <h5 style="color: #ffffff; border-bottom-color: #333333;">Need Technical Advice?</h5>
+                        <p style="color: #cccccc; font-size: 14px; line-height: 1.6;">
+                            Planning a new web platform, mobile app, or security audit? Talk directly with our
+                            engineering leads.
+                        </p>
+                        <a href="{% url 'contact' %}" class="read-more-btn"
+                            style="background: #dfa667; color: #111111 !important; width: 100%; text-align: center;">
+                            Schedule a Consultation
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Blog Section End -->
+
+    <!-- Footer Section Begin -->
+    <footer class="footer blog-footer">
+        <div class="container">
+            <div class="footer__top">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="footer__top__text">
+                            <h2>Have a Project in Mind?</h2>
+                            <p style="color: #ffffff; margin-top: 15px;">
+                                Let's discuss your ideas and turn them into meaningful digital solutions.
+                            </p>
+                            <a href="{% url 'contact' %}" class="primary-btn" style="margin-top: 20px;">
+                                Get In Touch
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- About OrbiFlow -->
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="footer__about">
+                        <div class="footer__logo">
+                            <a href="{% url 'home' %}" class="orbiflow-logo"
+                                style="color: #ffffff; font-size: 28px; font-weight: 700;">
+                                OrbiFlow
+                            </a>
+                        </div>
+                        <p>
+                            We create digital solutions that help businesses
+                            grow, improve their online presence and achieve
+                            their goals through technology.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Company Links -->
+                <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Company</h6>
+                        <ul>
+                            <li><a href="{% url 'home' %}">Home</a></li>
+                            <li><a href="{% url 'about' %}">About Us</a></li>
+                            <li><a href="{% url 'services' %}">Services</a></li>
+                            <li><a href="{% url 'projects' %}">Our Works</a></li>
+                            <li><a href="{% url 'careers' %}">Careers</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Services Links -->
+                <div class="col-lg-2 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Our Services</h6>
+                        <ul>
+                            <li><a href="{% url 'services' %}">Web Development</a></li>
+                            <li><a href="{% url 'services' %}">Mobile App Development</a></li>
+                            <li><a href="{% url 'services' %}">UI/UX Design</a></li>
+                            <li><a href="{% url 'services' %}">Cybersecurity</a></li>
+                            <li><a href="{% url 'services' %}">Digital Marketing</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Contact -->
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="footer__address">
+                        <h6>Get In Touch</h6>
+                        <p>
+                            Have questions or want to discuss a project?
+                            We'd love to hear from you.
+                        </p>
+                        <ul>
+                            <li><a href="{% url 'contact' %}">Visit Our Contact Page</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="copyright">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="copyright__text">
+                            <p>
+                                Copyright ©
+                                <script>document.write(new Date().getFullYear());</script>
+                                OrbiFlow. All rights reserved.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer Section End -->
+
+    <!-- Js Plugins -->
+    <script src="{% static 'core/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'core/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'core/js/jquery.slicknav.js' %}"></script>
+    <script src="{% static 'core/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'core/js/slick.min.js' %}"></script>
+    <script src="{% static 'core/js/main.js' %}"></script>
+
+    <!-- Category Filter & Live Search -->
+    <script>
+        const catButtons = document.querySelectorAll('.cat-filter-btn');
+        const posts = document.querySelectorAll('.blog-post-item');
+        const searchInput = document.getElementById('blog-search-input');
+
+        let activeCategory = 'all';
+
+        function filterPosts() {
+            const query = searchInput.value.toLowerCase().trim();
+            posts.forEach(post => {
+                const matchesCat = activeCategory === 'all' || post.getAttribute('data-category') === activeCategory;
+                const matchesText = post.innerText.toLowerCase().includes(query);
+                post.style.display = (matchesCat && matchesText) ? 'block' : 'none';
+            });
+        }
+
+        catButtons.forEach(btn => {
+            btn.addEventListener('click', function () {
+                catButtons.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                activeCategory = this.getAttribute('data-cat');
+                filterPosts();
+            });
+        });
+
+        searchInput.addEventListener('input', filterPosts);
+    </script>
+</body>
+
+</html>

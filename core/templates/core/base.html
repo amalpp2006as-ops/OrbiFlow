@@ -102,69 +102,99 @@
     </main>
 
 
-    <!-- FOOTER -->
+<!-- FOOTER -->
 {% block footer %}
-    <footer class="main-footer">
 
-        <div class="container">
+<footer class="main-footer">
 
-            <div class="row gy-4">
+    <div class="container">
 
-                <div class="col-lg-4">
+        <div class="row gy-4">
 
-                    <a href="{% url 'home' %}" class="footer-logo">
-                        Orbi<span>Flow</span>.
-                    </a>
+            <!-- Company Description -->
+            <div class="col-lg-4 col-md-6">
 
-                    <p class="footer-description">
-                        Engineering digital possibilities through
-                        innovation, technology and intelligent solutions.
-                    </p>
+                <a href="{% url 'home' %}" class="footer-logo">
+                    Orbi<span>Flow</span>.
+                </a>
 
-                </div>
+                <p class="footer-description">
+                    OrbiFlow delivers innovative digital solutions
+                    designed to help businesses grow, improve
+                    efficiency and build a stronger digital presence.
 
-                <div class="col-lg-2 col-6">
-
-                    <h6>Company</h6>
-
-                    <a href="{% url 'home' %}#about">About Us</a>
-                    <a href="{% url 'home' %}#careers">Careers</a>
-                    <a href="{% url 'home' %}#contact">Contact</a>
-
-                </div>
-
-                <div class="col-lg-3 col-6">
-
-                    <h6>Our Services</h6>
-
-                    <a href="{% url 'home' %}#services">Web Development</a>
-                    <a href="{% url 'home' %}#services">AI Solutions</a>
-                    <a href="{% url 'home' %}#services">Digital Solutions</a>
-
-                </div>
-
-                <div class="col-lg-3">
-
-                    <h6>Explore</h6>
-
-                    <a href="{% url 'home' %}#industries">Industries</a>
-                    <a href="{% url 'home' %}#insights">Insights</a>
-                    <a href="{% url 'home' %}#portfolio">Our Work</a>
-
-                </div>
+                    We turn ideas into meaningful technology.
+                </p>
 
             </div>
 
-            <hr>
+            <!-- Company Links -->
+            <div class="col-lg-2 col-md-6 col-6">
 
-            <div class="footer-bottom">
-                <p>© 2026 OrbiFlow. All Rights Reserved.</p>
-                <p>Building a smarter digital future.</p>
+                <h6>Company</h6>
+
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'about' %}">About Us</a>
+                <a href="{% url 'projects' %}">Our Work</a>
+                <a href="{% url 'careers' %}">Careers</a>
+                <a href="{% url 'contact' %}">Contact Us</a>
+
+            </div>
+
+            <!-- Services -->
+            <div class="col-lg-3 col-md-6 col-6">
+
+                <h6>Our Services</h6>
+
+                <a href="{% url 'services' %}">Web Development</a>
+                <a href="{% url 'services' %}">Mobile App Development</a>
+                <a href="{% url 'services' %}">UI/UX Design</a>
+                <a href="{% url 'services' %}">Cybersecurity</a>
+                <a href="{% url 'services' %}">AI & Automation</a>
+
+            </div>
+
+            <!-- Explore -->
+            <div class="col-lg-3 col-md-6">
+
+                <h6>Explore</h6>
+
+                <a href="{% url 'industries' %}">Industries</a>
+                <a href="{% url 'blog' %}">Insights & Blog</a>
+                <a href="{% url 'projects' %}">Portfolio</a>
+                <a href="{% url 'contact' %}">Get In Touch</a>
+
+                <div class="mt-3">
+                    <a href="{% url 'login-page' %}">Login</a>
+                    <a href="{% url 'register-page' %}">Create Account</a>
+                </div>
+
             </div>
 
         </div>
 
-    </footer>
+        <hr>
+
+        <!-- Copyright -->
+        <div class="footer-bottom">
+
+            <p>
+                © <script>
+                    document.write(new Date().getFullYear());
+                </script>
+                OrbiFlow. All Rights Reserved.
+            </p>
+
+            <p>
+                Building a Smarter Digital Future.
+            </p>
+
+        </div>
+
+    </div>
+
+</footer>
+
 {% endblock %}
 
 

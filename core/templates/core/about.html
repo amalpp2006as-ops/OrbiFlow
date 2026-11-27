@@ -1,0 +1,491 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Staging Template">
+    <meta name="keywords" content="Staging, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Staging | Template</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Aldrich&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'core/css/font-awesome.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'core/css/elegant-icons.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'core/css/owl.carousel.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'core/css/slicknav.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}" type="text/css">
+</head>
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Offcanvas Menu Begin -->
+    <div class="offcanvas-menu-overlay"></div>
+    <div class="offcanvas-menu-wrapper">
+        <div class="offcanvas__logo">
+            <a href="#"><img src="{% static 'core/images/logo.png' %}" alt=""></a>
+        </div>
+        <div id="mobile-menu-wrap"></div>
+        <div class="offcanvas__widget">
+            <span>Call us for any questions</span>
+            <h4>+01 123 456 789</h4>
+        </div>
+    </div>
+    <!-- Offcanvas Menu End -->
+
+    <!-- Header Section Begin -->
+    <section class="hero">
+        <header class="orbiflow-header">
+
+            <div class="orbiflow-navbar">
+
+                <!-- LOGO -->
+
+                <a href="#" class="orbiflow-logo">OrbiFlow</a>
+
+                <!-- MOBILE MENU BUTTON -->
+
+                <input type="checkbox" id="menu-toggle">
+
+                <label for="menu-toggle" class="menu-icon">
+                    ☰
+                </label>
+
+                <!-- NAVIGATION -->
+
+                <nav class="orbiflow-nav">
+
+                    <!-- MAIN MENU -->
+
+                    <ul>
+
+                        <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                            <a href="{% url 'home' %}">Home</a>
+                        </li>
+
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+                            <a style="font-size: 17px; color: black; font-weight: bolder;"
+                                href="{% url 'about' %}">About Us <span>⌄</span></a>
+                        </li>
+
+                        <li
+                            class="has-dropdown {% if request.resolver_match.url_name == 'services' %}active{% endif %}">
+                            <a href="{% url 'services' %}">Services <span>⌄</span></a>
+                        </li>
+
+                        <li
+                            class="has-dropdown {% if request.resolver_match.url_name == 'industries' %}active{% endif %}">
+                            <a href="{% url 'industries' %}">Industries <span>⌄</span></a>
+                        </li>
+
+                        <li
+                            class="has-dropdown {% if request.resolver_match.url_name == 'projects' %}active{% endif %}">
+                            <a href="{% url 'projects' %}">Portfolio <span>⌄</span></a>
+                        </li>
+
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'careers' %}active{% endif %}">
+                            <a href="{% url 'careers' %}">Careers <span>⌄</span></a>
+                        </li>
+
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'blog' %}active{% endif %}">
+                            <a href="{% url 'blog' %}">Blog <span>⌄</span></a>
+                        </li>
+
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+                            <a href="{% url 'contact' %}">Contact Us <span>⌄</span></a>
+                        </li>
+
+                    </ul>
+
+                    <!-- LOGIN AND REGISTER -->
+
+                    <ul class="auth-nav">
+
+                        <li>
+                            <a href="{% url 'login-page' %}">Login</a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'register-page' %}" class="register-btn">Register</a>
+                        </li>
+
+                    </ul>
+
+                </nav>
+
+            </div>
+
+        </header>
+    </section>
+    <!-- Header Section End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <div class="breadcrumb-option spad set-bg" data-setbg="{% static 'core/images/breadcrumb-bg.jpg' %}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>About Us</h2>
+                        <div class="breadcrumb__links">
+                            <a href="{% url 'home' %}">Home</a>
+                            <span>About Us</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Section End -->
+
+    <!-- About Page Section End -->
+
+<!-- About Page Section Begin -->
+<section class="about-page spad">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-4 col-md-4">
+                <div class="about__text about__page__text">
+                    <div class="section-title">
+                        <span>ABOUT ORBIFLOW</span>
+                        <h2>Turning Your Ideas Into Meaningful Solutions</h2>
+                    </div>
+
+                    <div class="about__para__text">
+                        <p>
+                            At OrbiFlow, we believe every successful project
+                            begins with understanding your vision. We are
+                            committed to delivering thoughtful, reliable and
+                            high-quality digital solutions that help businesses
+                            grow and achieve their goals. Our focus is on
+                            understanding your requirements, paying attention
+                            to every detail and providing an experience you
+                            can trust.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8 col-md-8">
+                <div class="about__page__services">
+
+                    <div class="about__page__services__text">
+                        <p>
+                            Every business is unique, and we believe its
+                            solutions should be unique too. We take the time
+                            to understand your expectations and work towards
+                            delivering results that bring real value to your
+                            business. Your ideas, goals and satisfaction
+                            are always important to us.
+                        </p>
+
+                        <p>
+                            We value your trust and believe in building
+                            long-lasting relationships through honest
+                            communication, dedication and a customer-first
+                            approach. At OrbiFlow, your success is our
+                            motivation.
+                        </p>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="services__item">
+                                <img src="{% static 'core/images/services/services-5.png' %}" alt="Our Mission">
+
+                                <h4>Our Mission</h4>
+
+                                <p>
+                                    Our mission is to understand our customers'
+                                    needs and deliver reliable, meaningful
+                                    and high-quality solutions. We strive to
+                                    make every project a valuable experience
+                                    through dedication, creativity and
+                                    professional service.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="services__item">
+                                <img src="{% static 'core/images/services/services-6.png' %}" alt="Our Vision">
+
+                                <h4>Our Vision</h4>
+
+                                <p>
+                                    Our vision is to build lasting relationships
+                                    with customers by becoming a trusted
+                                    partner for their digital needs. We aim
+                                    to create meaningful solutions that
+                                    inspire confidence, support growth and
+                                    make a positive difference.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- About Page Section End -->
+
+
+
+    <!-- Call To Action Section Begin -->
+    <section class="callto spad set-bg" data-setbg="{% static 'core/images/call-bg.jpg' %}">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="col-lg-10 text-center">
+                    <div class="callto__text">
+                    <span>Let's Build Something Great Together</span>
+                    <h2>Your Ideas Deserve the Right Partner. Let's Turn Your Vision Into Reality.</h2>
+                    <a href="{% url 'contact' %}" class="primary-btn">Get In Touch</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Call To Action Section End -->
+
+    <!-- Team Section Begin -->
+<!-- Why Choose OrbiFlow Section Begin -->
+<section class="team spad">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title">
+                    <span>WHY ORBIFLOW</span>
+                    <h2>Why Choose Us?</h2>
+                    <p>
+                        We believe in creating meaningful experiences
+                        through quality, commitment and customer satisfaction.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-lg-4 col-md-6">
+                <div class="services__item">
+                    <img src="{% static 'core/images/services/services-1.png' %}" alt="Quality Service">
+
+                    <h4>Quality You Can Trust</h4>
+
+                    <p>
+                        We focus on delivering quality in every project.
+                        From the initial idea to the final result, we pay
+                        attention to details and strive for excellence.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="services__item">
+                    <img src="{% static 'core/images/services/services-2.png' %}" alt="Customer Focus">
+
+                    <h4>Customer-Centred Approach</h4>
+
+                    <p>
+                        Your needs and expectations come first. We listen
+                        carefully, understand your goals and work towards
+                        providing solutions that match your vision.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="services__item">
+                    <img src="{% static 'core/images/services/services-3.png' %}" alt="Professional Commitment">
+
+                    <h4>Professional Commitment</h4>
+
+                    <p>
+                        We believe in honest communication, dedication
+                        and responsible service. Your trust is important
+                        to us, and we work hard to earn it.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="services__item">
+                    <img src="{% static 'core/images/services/services-4.png' %}" alt="Creative Solutions">
+
+                    <h4>Creative Solutions</h4>
+
+                    <p>
+                        Every project deserves a thoughtful approach.
+                        We value fresh ideas and practical solutions
+                        that bring your vision closer to reality.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="services__item">
+                    <img src="{% static 'core/images/services/services-5.png' %}" alt="Transparency">
+
+                    <h4>Honesty & Transparency</h4>
+
+                    <p>
+                        We value open communication and believe that
+                        a successful customer relationship begins
+                        with trust and understanding.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="services__item">
+                    <img src="{% static 'core/images/services/services-6.png' %}" alt="Customer Satisfaction">
+
+                    <h4>Your Satisfaction Matters</h4>
+
+                    <p>
+                        Your satisfaction is an important measure
+                        of our success. We aim to make every project
+                        a positive and valuable experience.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- Why Choose OrbiFlow Section End -->
+    <!-- Team Section End -->
+
+<!-- Footer Section Begin -->
+<footer class="footer set-bg" data-setbg="{% static 'core/images/footer-bg.jpg' %}">
+    <div class="container">
+
+        <div class="footer__top">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="footer__top__text">
+                        <h2>Have a Project in Mind?</h2>
+                        <p style="color: #ffffff; margin-top: 15px;">
+                            Let's discuss your ideas and turn them into meaningful digital solutions.
+                        </p>
+                        <a href="{% url 'contact' %}" class="primary-btn" style="margin-top: 20px;">
+                            Get In Touch
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <!-- About OrbiFlow -->
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="footer__about">
+                    <div class="footer__logo">
+                        <a href="{% url 'home' %}" class="orbiflow-logo"
+                           style="color: #ffffff; font-size: 28px; font-weight: 700;">
+                            OrbiFlow
+                        </a>
+                    </div>
+
+                    <p>
+                        We create digital solutions that help businesses
+                        grow, improve their online presence and achieve
+                        their goals through technology.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Company Links -->
+            <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+                <div class="footer__widget">
+                    <h6>Company</h6>
+                    <ul>
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'about' %}">About Us</a></li>
+                        <li><a href="{% url 'services' %}">Services</a></li>
+                        <li><a href="{% url 'projects' %}">Our Works</a></li>
+                        <li><a href="{% url 'careers' %}">Careers</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Services Links -->
+            <div class="col-lg-2 col-md-3 col-sm-6">
+                <div class="footer__widget">
+                    <h6>Our Services</h6>
+                    <ul>
+                        <li><a href="{% url 'services' %}">Web Development</a></li>
+                        <li><a href="{% url 'services' %}">Mobile App Development</a></li>
+                        <li><a href="{% url 'services' %}">UI/UX Design</a></li>
+                        <li><a href="{% url 'services' %}">Cybersecurity</a></li>
+                        <li><a href="{% url 'services' %}">Digital Marketing</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Contact -->
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="footer__address">
+                    <h6>Get In Touch</h6>
+                    <p>
+                        Have questions or want to discuss a project?
+                        We'd love to hear from you.
+                    </p>
+                    <ul>
+                        <li>
+                            <a href="{% url 'contact' %}">Visit Our Contact Page</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Copyright -->
+        <div class="copyright">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="copyright__text">
+                        <p>
+                            Copyright ©
+                            <script>
+                                document.write(new Date().getFullYear());
+                            </script>
+                            OrbiFlow. All rights reserved.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</footer>
+<!-- Footer Section End -->
+
+    <!-- Js Plugins -->
+    <script src="{% static 'core/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'core/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'core/js/jquery.slicknav.js' %}"></script>
+    <script src="{% static 'core/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'core/js/slick.min.js' %}"></script>
+    <script src="{% static 'core/js/main.js' %}"></script>
+</body>
+
+</html>

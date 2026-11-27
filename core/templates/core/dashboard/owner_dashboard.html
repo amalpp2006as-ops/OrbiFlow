@@ -1,0 +1,1486 @@
+{% extends "core/dashboard/dashboard_base.html" %}
+
+{% block title %}Owner Dashboard | OrbiFlow{% endblock %}
+
+{% block dashboard_heading %}
+Business Owner Dashboard
+{% endblock %}
+
+{% block dashboard_nav %}
+
+<a href="{% url 'owner-dashboard' %}" class="active"><i class="fa fa-th-large me-2"></i>Dashboard</a>
+<a href="{% url 'departments-list' %}"><i class="fa fa-sitemap me-2"></i>Departments</a>
+<a href="{% url 'managers-list' %}"><i class="fa fa-id-badge me-2"></i>Managers</a>
+<a href="#" data-soon="Employees Directory"><i class="fa fa-users me-2"></i>Employees</a>
+<a href="#" data-soon="Projects Hub"><i class="fa fa-briefcase me-2"></i>Projects</a>
+<a href="#" data-soon="Tasks Board"><i class="fa fa-check-square-o me-2"></i>Tasks</a>
+<a href="#" data-soon="Customer Portal"><i class="fa fa-address-book-o me-2"></i>Customers</a>
+<a href="#" data-soon="Executive Reports"><i class="fa fa-bar-chart me-2"></i>Reports</a>
+<a href="#" data-soon="AI Assistant"><i class="fa fa-bolt me-2"></i>AI Assistant</a>
+<a href="#" data-soon="AI Reports"><i class="fa fa-magic me-2"></i>AI Reports</a>
+<a href="#" data-soon="Workspace Settings"><i class="fa fa-cog me-2"></i>Settings</a>
+
+<hr>
+
+<a href="{% url 'profile-page' %}"><i class="fa fa-user-circle me-2"></i>My Profile</a>
+<a href="{% url 'home' %}"><i class="fa fa-globe me-2"></i>Visit Website</a>
+
+<form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit" class="owner-logout"><i class="fa fa-sign-out me-2"></i>Logout</button>
+</form>
+
+<style>
+.owner-logout {
+    display: block;
+    width: 100%;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: #d9534f;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: 600;
+    transition: background 0.2s ease;
+}
+
+.owner-logout:hover {
+    background: #fff1f0;
+}
+</style>
+
+{% endblock %}
+
+
+{% block dashboard_content %}
+
+<style>
+    :root {
+        --of-dark: #111111;
+        --of-dark-soft: #1c1c1e;
+        --of-gold: #dfa667;
+        --of-gold-soft: #fdf6ee;
+        --of-gold-text: #9d6f3b;
+        --of-border: #ececef;
+        --of-muted: #6c757d;
+        --of-bg: #f8f9fb;
+        --of-radius: 14px;
+    }
+
+    .of-shell {
+        color: var(--of-dark);
+    }
+
+    .of-topbar {
+        background: #ffffff;
+        border: 1px solid var(--of-border);
+        border-radius: var(--of-radius);
+        padding: 18px 24px;
+        margin-bottom: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+        box-shadow: 0 6px 24px rgba(17, 17, 17, 0.04);
+    }
+
+    .of-greeting-top {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .of-greeting h3 {
+        font-size: 22px;
+        font-weight: 800;
+        color: var(--of-dark);
+        margin: 0;
+        letter-spacing: -0.3px;
+    }
+
+    .of-status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: #eefaf1;
+        color: #198754;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+    }
+
+    .of-status-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #198754;
+        box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.2);
+    }
+
+    .of-greeting p {
+        font-size: 13px;
+        color: var(--of-muted);
+        margin: 4px 0 0;
+    }
+
+    .of-topbar-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .of-search-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 14px;
+        border-radius: 10px;
+        border: 1px solid var(--of-border);
+        background: var(--of-bg);
+        color: var(--of-muted);
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .of-search-btn:hover {
+        border-color: var(--of-gold);
+        color: var(--of-dark);
+        background: #ffffff;
+    }
+
+    .of-kbd {
+        font-size: 11px;
+        font-weight: 700;
+        padding: 2px 6px;
+        border-radius: 5px;
+        background: #ffffff;
+        border: 1px solid #dddddd;
+        color: #555555;
+    }
+
+    .of-btn-outline {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 9px 14px;
+        border-radius: 10px;
+        border: 1px solid var(--of-border);
+        background: #ffffff;
+        color: var(--of-dark) !important;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .of-btn-outline:hover {
+        background: var(--of-dark);
+        color: #ffffff !important;
+        border-color: var(--of-dark);
+    }
+
+    .of-profile-trigger {
+        display: inline-flex;
+        align-items: center;
+        gap: 11px;
+        padding: 5px 14px 5px 5px;
+        border-radius: 40px;
+        background: var(--of-gold-soft);
+        border: 1px solid #f0dec8;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .of-profile-trigger:hover {
+        background: var(--of-dark);
+        border-color: var(--of-dark);
+    }
+
+    .of-profile-trigger:hover .of-profile-name,
+    .of-profile-trigger:hover .of-profile-role {
+        color: #ffffff;
+    }
+
+    .of-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--of-gold);
+        flex-shrink: 0;
+    }
+
+    .of-avatar-fallback {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--of-dark);
+        color: var(--of-gold);
+        font-weight: 800;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid var(--of-gold);
+        flex-shrink: 0;
+    }
+
+    .of-profile-info {
+        line-height: 1.25;
+        text-align: left;
+    }
+
+    .of-profile-name {
+        display: block;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--of-dark);
+    }
+
+    .of-profile-role {
+        display: block;
+        font-size: 11px;
+        color: var(--of-gold-text);
+        font-weight: 600;
+    }
+
+    .of-kpi-card {
+        display: block;
+        text-decoration: none;
+        background: #ffffff;
+        border: 1px solid var(--of-border);
+        border-radius: var(--of-radius);
+        padding: 20px 22px;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+    }
+
+    .of-kpi-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--of-dark);
+        transition: background 0.22s ease;
+    }
+
+    .of-kpi-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 14px 28px rgba(17, 17, 17, 0.07);
+        border-color: #e4d4be;
+    }
+
+    .of-kpi-card:hover::before {
+        background: var(--of-gold);
+    }
+
+    .of-kpi-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 14px;
+    }
+
+    .of-kpi-label {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.9px;
+        color: var(--of-muted);
+        margin: 0;
+    }
+
+    .of-kpi-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: var(--of-gold-soft);
+        color: var(--of-gold-text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+    }
+
+    .of-kpi-value-row {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 6px;
+    }
+
+    .of-kpi-value {
+        font-size: 32px;
+        font-weight: 800;
+        color: var(--of-dark);
+        line-height: 1;
+    }
+
+    .of-kpi-pill {
+        font-size: 11px;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 999px;
+        background: var(--of-bg);
+        color: var(--of-dark);
+        border: 1px solid var(--of-border);
+    }
+
+    .of-kpi-sub {
+        font-size: 12px;
+        color: #8a8f98;
+    }
+
+    .of-panel {
+        background: #ffffff;
+        border: 1px solid var(--of-border);
+        border-radius: var(--of-radius);
+        padding: 22px 24px;
+        margin-bottom: 24px;
+        box-shadow: 0 4px 18px rgba(17, 17, 17, 0.025);
+    }
+
+    .of-panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 18px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #f2f2f5;
+    }
+
+    .of-panel-header h5 {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--of-dark);
+        margin: 0;
+    }
+
+    .of-panel-sub {
+        font-size: 12px;
+        color: var(--of-muted);
+    }
+
+    .of-seg-group {
+        display: inline-flex;
+        background: var(--of-bg);
+        border: 1px solid var(--of-border);
+        border-radius: 8px;
+        padding: 3px;
+        gap: 3px;
+    }
+
+    .of-seg-btn {
+        border: none;
+        background: transparent;
+        color: var(--of-muted);
+        font-size: 12px;
+        font-weight: 600;
+        padding: 5px 11px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .of-seg-btn.active {
+        background: var(--of-dark);
+        color: #ffffff;
+    }
+
+    .of-chart-wrap {
+        position: relative;
+        height: 260px;
+        width: 100%;
+    }
+
+    .of-action-tile {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 15px;
+        border-radius: 12px;
+        border: 1px solid var(--of-border);
+        background: var(--of-bg);
+        color: var(--of-dark) !important;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 13px;
+        transition: all 0.2s ease;
+    }
+
+    .of-action-tile i {
+        width: 36px;
+        height: 36px;
+        border-radius: 9px;
+        background: var(--of-dark);
+        color: var(--of-gold);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        flex-shrink: 0;
+        transition: all 0.2s ease;
+    }
+
+    .of-action-tile:hover {
+        background: var(--of-dark);
+        color: #ffffff !important;
+        border-color: var(--of-dark);
+        transform: translateY(-2px);
+    }
+
+    .of-action-tile:hover i {
+        background: var(--of-gold);
+        color: var(--of-dark);
+    }
+
+    .of-table-filter {
+        max-width: 210px;
+        font-size: 12px;
+        border-radius: 8px;
+        border: 1px solid var(--of-border);
+        padding: 6px 11px;
+    }
+
+    .of-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+    }
+
+    .of-table th {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.7px;
+        color: var(--of-muted);
+        font-weight: 700;
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--of-border);
+        background: var(--of-bg);
+    }
+
+    .of-table td {
+        padding: 12px;
+        border-bottom: 1px solid #f4f4f6;
+        vertical-align: middle;
+    }
+
+    .of-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .of-badge-gold {
+        background: var(--of-gold-soft);
+        color: var(--of-gold-text);
+        font-size: 11px;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 999px;
+    }
+
+    .of-company-card {
+        background: linear-gradient(145deg, #111111 0%, #1d1d20 100%);
+        color: #ffffff;
+        border-radius: var(--of-radius);
+        padding: 24px;
+        margin-bottom: 24px;
+        border-left: 4px solid var(--of-gold);
+        box-shadow: 0 12px 28px rgba(17, 17, 17, 0.14);
+    }
+
+    .of-company-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+    }
+
+    .of-company-head h5 {
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .of-company-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        font-size: 13px;
+    }
+
+    .of-company-row:last-of-type {
+        border-bottom: none;
+    }
+
+    .of-company-row span:first-child {
+        color: #a0a4ab;
+    }
+
+    .of-company-row span:last-child {
+        color: #ffffff;
+        font-weight: 600;
+        text-align: right;
+        word-break: break-word;
+    }
+
+    .of-btn-gold {
+        display: block;
+        width: 100%;
+        text-align: center;
+        background: var(--of-gold);
+        color: var(--of-dark) !important;
+        border-radius: 10px;
+        padding: 10px 14px;
+        font-size: 13px;
+        font-weight: 700;
+        text-decoration: none;
+        margin-top: 16px;
+        transition: all 0.2s ease;
+    }
+
+    .of-btn-gold:hover {
+        background: #ecc08b;
+        transform: translateY(-1px);
+    }
+
+    .of-progress-item {
+        margin-bottom: 15px;
+    }
+
+    .of-progress-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .of-progress-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        font-weight: 600;
+        color: #333333;
+        margin-bottom: 6px;
+    }
+
+    .of-progress-track {
+        height: 8px;
+        background: #f0f0f3;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .of-progress-fill {
+        height: 100%;
+        background: var(--of-gold);
+        border-radius: 10px;
+        transition: width 0.5s ease;
+    }
+
+    .of-checklist-filters {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 12px;
+    }
+
+    .of-filter-pill {
+        border: 1px solid var(--of-border);
+        background: #ffffff;
+        color: var(--of-muted);
+        font-size: 11px;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 999px;
+        cursor: pointer;
+    }
+
+    .of-filter-pill.active {
+        background: var(--of-dark);
+        color: #ffffff;
+        border-color: var(--of-dark);
+    }
+
+    .of-note-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        background: var(--of-bg);
+        border: 1px solid #f0f0f3;
+        border-radius: 10px;
+        margin-bottom: 8px;
+        font-size: 13px;
+    }
+
+    .of-note-item.done .of-note-text {
+        text-decoration: line-through;
+        color: #9aa0a6;
+    }
+
+    .of-prio-tag {
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 2px 7px;
+        border-radius: 999px;
+        flex-shrink: 0;
+    }
+
+    .of-prio-high { background: #fdecea; color: #c62828; }
+    .of-prio-medium { background: var(--of-gold-soft); color: var(--of-gold-text); }
+    .of-prio-low { background: #eaf4ff; color: #1565c0; }
+
+    .of-note-delete {
+        border: none;
+        background: transparent;
+        color: #c62828;
+        cursor: pointer;
+        font-size: 15px;
+        line-height: 1;
+        padding: 2px 4px;
+    }
+
+    .of-timeline {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .of-timeline li {
+        position: relative;
+        padding-left: 22px;
+        padding-bottom: 16px;
+        border-left: 2px solid #f0f0f3;
+    }
+
+    .of-timeline li:last-child {
+        padding-bottom: 0;
+        border-left-color: transparent;
+    }
+
+    .of-timeline li::before {
+        content: "";
+        position: absolute;
+        left: -6px;
+        top: 4px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--of-gold);
+    }
+
+    .of-timeline-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--of-dark);
+        margin-bottom: 2px;
+    }
+
+    .of-timeline-time {
+        font-size: 11px;
+        color: #888888;
+    }
+
+    .of-cmd-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(17, 17, 17, 0.55);
+        backdrop-filter: blur(4px);
+        display: none;
+        align-items: flex-start;
+        justify-content: center;
+        padding-top: 10vh;
+        z-index: 9999;
+    }
+
+    .of-cmd-backdrop.open {
+        display: flex;
+    }
+
+    .of-cmd-box {
+        width: 100%;
+        max-width: 520px;
+        margin: 0 16px;
+        background: #ffffff;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+        border: 1px solid var(--of-border);
+    }
+
+    .of-cmd-input-wrap {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 18px;
+        border-bottom: 1px solid var(--of-border);
+    }
+
+    .of-cmd-input {
+        border: none;
+        outline: none;
+        width: 100%;
+        font-size: 14px;
+        color: var(--of-dark);
+    }
+
+    .of-cmd-list {
+        max-height: 300px;
+        overflow-y: auto;
+        padding: 8px;
+    }
+
+    .of-cmd-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 12px;
+        border-radius: 10px;
+        text-decoration: none;
+        color: var(--of-dark);
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .of-cmd-item:hover {
+        background: var(--of-gold-soft);
+        color: var(--of-dark);
+    }
+
+    .of-toast {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        background: var(--of-dark);
+        color: #ffffff;
+        border-left: 4px solid var(--of-gold);
+        padding: 13px 18px;
+        border-radius: 12px;
+        font-size: 13px;
+        font-weight: 600;
+        box-shadow: 0 14px 36px rgba(0, 0, 0, 0.22);
+        transform: translateY(20px);
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.25s ease;
+        z-index: 10000;
+    }
+
+    .of-toast.show {
+        transform: translateY(0);
+        opacity: 1;
+    }
+</style>
+
+<div class="of-shell"
+     id="of-metrics-root"
+     data-departments="{{ total_departments|default:0 }}"
+     data-managers="{{ total_managers|default:0 }}"
+     data-employees="{{ total_employees|default:0 }}"
+     data-projects="{{ active_projects|default:0 }}"
+     data-tasks="{{ pending_tasks|default:0 }}"
+     data-company="{% if request.user.company %}{{ request.user.company.name }}{% else %}Unassigned{% endif %}">
+
+    <div class="of-topbar">
+        <div class="of-greeting">
+            <div class="of-greeting-top">
+                <h3 id="of-greeting-text">
+                    Welcome back, {{ request.user.first_name|default:request.user.username }}!
+                </h3>
+                <span class="of-status-pill">
+                    <span class="of-status-dot"></span> Workspace Live
+                </span>
+            </div>
+            <p>
+                <span id="of-live-date"></span> &bull; <span id="of-live-clock"></span> &bull; OrbiFlow Executive Control Center
+            </p>
+        </div>
+
+        <div class="of-topbar-right">
+            <button type="button" class="of-search-btn" id="of-open-cmd">
+                <i class="fa fa-search"></i>
+                <span>Quick Jump</span>
+                <span class="of-kbd">Ctrl K</span>
+            </button>
+
+            <button type="button" class="of-btn-outline" id="of-export-csv" title="Download KPI Snapshot CSV">
+                <i class="fa fa-download"></i> Export CSV
+            </button>
+
+            <a href="{% url 'home' %}" class="of-btn-outline" title="Go to Main Website">
+                <i class="fa fa-globe"></i> Home
+            </a>
+
+            <a href="{% url 'profile-page' %}" class="of-profile-trigger" title="View My Profile">
+                {% if request.user.profile_image %}
+                    <img src="{{ request.user.profile_image.url }}" alt="Owner Photo" class="of-avatar">
+                {% elif request.user.profile_picture %}
+                    <img src="{{ request.user.profile_picture.url }}" alt="Owner Photo" class="of-avatar">
+                {% elif request.user.avatar %}
+                    <img src="{{ request.user.avatar.url }}" alt="Owner Photo" class="of-avatar">
+                {% else %}
+                    <div class="of-avatar-fallback">
+                        {{ request.user.first_name|default:request.user.username|slice:":1"|upper }}
+                    </div>
+                {% endif %}
+
+                <div class="of-profile-info">
+                    <span class="of-profile-name">
+                        {{ request.user.get_full_name|default:request.user.username }}
+                    </span>
+                    <span class="of-profile-role">Business Owner</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-6 col-xl-3">
+            <a href="{% url 'departments-list' %}" class="of-kpi-card">
+                <div class="of-kpi-top">
+                    <p class="of-kpi-label">Departments</p>
+                    <div class="of-kpi-icon"><i class="fa fa-sitemap"></i></div>
+                </div>
+                <div class="of-kpi-value-row">
+                    <div class="of-kpi-value">{{ total_departments|default:"0" }}</div>
+                    <span class="of-kpi-pill">Manage &rarr;</span>
+                </div>
+                <div class="of-kpi-sub">Active operational units</div>
+            </a>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <a href="{% url 'managers-list' %}" class="of-kpi-card">
+                <div class="of-kpi-top">
+                    <p class="of-kpi-label">Total Managers</p>
+                    <div class="of-kpi-icon"><i class="fa fa-user-secret"></i></div>
+                </div>
+                <div class="of-kpi-value-row">
+                    <div class="of-kpi-value">{{ total_managers|default:"0" }}</div>
+                    <span class="of-kpi-pill">Manage &rarr;</span>
+                </div>
+                <div class="of-kpi-sub">Department &amp; team leads</div>
+            </a>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <a href="#" data-soon="Employees Directory" class="of-kpi-card">
+                <div class="of-kpi-top">
+                    <p class="of-kpi-label">Total Employees</p>
+                    <div class="of-kpi-icon"><i class="fa fa-users"></i></div>
+                </div>
+                <div class="of-kpi-value-row">
+                    <div class="of-kpi-value">{{ total_employees|default:"0" }}</div>
+                    <span class="of-kpi-pill">Staff</span>
+                </div>
+                <div class="of-kpi-sub">Active workforce across teams</div>
+            </a>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <a href="#" data-soon="Projects & Tasks" class="of-kpi-card">
+                <div class="of-kpi-top">
+                    <p class="of-kpi-label">Active Projects</p>
+                    <div class="of-kpi-icon"><i class="fa fa-briefcase"></i></div>
+                </div>
+                <div class="of-kpi-value-row">
+                    <div class="of-kpi-value">{{ active_projects|default:"0" }}</div>
+                    <span class="of-kpi-pill">{{ pending_tasks|default:"0" }} pending tasks</span>
+                </div>
+                <div class="of-kpi-sub">Running company initiatives</div>
+            </a>
+        </div>
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-lg-8">
+
+            <div class="of-panel">
+                <div class="of-panel-header">
+                    <div>
+                        <h5>Organization Analytics</h5>
+                        <span class="of-panel-sub">Real-time breakdown of your PostgreSQL workspace records</span>
+                    </div>
+                    <div class="of-seg-group">
+                        <button type="button" class="of-seg-btn active" data-chart="bar">Bar View</button>
+                        <button type="button" class="of-seg-btn" data-chart="doughnut">Distribution</button>
+                    </div>
+                </div>
+
+                <div class="of-chart-wrap">
+                    <canvas id="of-org-chart"></canvas>
+                </div>
+            </div>
+
+            <div class="of-panel">
+                <div class="of-panel-header">
+                    <div>
+                        <h5>Quick Management Actions</h5>
+                        <span class="of-panel-sub">Direct access to core OrbiFlow modules</span>
+                    </div>
+                    <span class="of-badge-gold">Executive Access</span>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-4 col-sm-6">
+                        <a href="{% url 'departments-list' %}" class="of-action-tile">
+                            <i class="fa fa-sitemap"></i>
+                            <span>Departments</span>
+                        </a>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <a href="{% url 'managers-list' %}" class="of-action-tile">
+                            <i class="fa fa-id-badge"></i>
+                            <span>Managers</span>
+                        </a>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <a href="{% url 'profile-page' %}" class="of-action-tile">
+                            <i class="fa fa-user-circle"></i>
+                            <span>Owner Profile</span>
+                        </a>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <a href="#" data-soon="Project Creation" class="of-action-tile">
+                            <i class="fa fa-folder-open"></i>
+                            <span>Create Project</span>
+                        </a>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <a href="#" data-soon="Executive Reports" class="of-action-tile">
+                            <i class="fa fa-line-chart"></i>
+                            <span>View Reports</span>
+                        </a>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <a href="#" data-soon="AI Assistant" class="of-action-tile">
+                            <i class="fa fa-bolt"></i>
+                            <span>AI Assistant</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="of-panel">
+                <div class="of-panel-header">
+                    <div>
+                        <h5>Departments Snapshot</h5>
+                        <span class="of-panel-sub">Live overview of registered units</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <input type="text" id="of-dept-search" class="of-table-filter" placeholder="Filter departments...">
+                        <a href="{% url 'departments-list' %}" class="of-btn-outline" style="padding: 6px 12px; font-size: 12px;">View All</a>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="of-table" id="of-dept-table">
+                        <thead>
+                            <tr>
+                                <th>Department</th>
+                                <th>Status</th>
+                                <th class="text-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if recent_departments %}
+                                {% for dept in recent_departments %}
+                                <tr>
+                                    <td class="fw-semibold">{{ dept.name }}</td>
+                                    <td><span class="of-badge-gold">Active</span></td>
+                                    <td class="text-end">
+                                        <a href="{% url 'departments-list' %}" class="text-dark fw-semibold text-decoration-none">Open &rarr;</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="3" class="text-center text-muted py-4">
+                                        No departments listed yet.
+                                        <a href="{% url 'departments-list' %}" class="fw-bold text-dark ms-1">Create your first department &rarr;</a>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="of-panel mb-0">
+                <div class="of-panel-header">
+                    <h5>Recent Activity Feed</h5>
+                    <span class="of-badge-gold">Live Workspace</span>
+                </div>
+
+                <ul class="of-timeline">
+                    <li>
+                        <div class="of-timeline-title">Owner session active</div>
+                        <div class="of-timeline-time">Authenticated as {{ request.user.email|default:request.user.username }}</div>
+                    </li>
+                    <li>
+                        <div class="of-timeline-title">PostgreSQL organization metrics synced</div>
+                        <div class="of-timeline-time">{{ total_departments|default:"0" }} departments &bull; {{ total_managers|default:"0" }} managers &bull; {{ total_employees|default:"0" }} employees</div>
+                    </li>
+                    <li>
+                        <div class="of-timeline-title">Public website connected</div>
+                        <div class="of-timeline-time">OrbiFlow landing, portfolio, and contact pages are live</div>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="of-company-card">
+                <div class="of-company-head">
+                    <h5><i class="fa fa-building-o me-2" style="color:#dfa667;"></i>Company Overview</h5>
+                    <span class="of-status-pill" style="background: rgba(76, 217, 100, 0.16); color: #4cd964;">Active</span>
+                </div>
+
+                {% if request.user.company %}
+                    <div class="of-company-row">
+                        <span>Company</span>
+                        <span>{{ request.user.company.name }}</span>
+                    </div>
+                    <div class="of-company-row">
+                        <span>Email</span>
+                        <span>{{ request.user.company.email|default:"Not set" }}</span>
+                    </div>
+                    <div class="of-company-row">
+                        <span>Phone</span>
+                        <span>{{ request.user.company.phone|default:"Not set" }}</span>
+                    </div>
+                    <div class="of-company-row">
+                        <span>Owner</span>
+                        <span>{{ request.user.get_full_name|default:request.user.username }}</span>
+                    </div>
+                {% else %}
+                    <p style="color:#c8cbd0; font-size:13px; margin-bottom:10px;">
+                        No company profile linked yet. Complete your company details to unlock full branding.
+                    </p>
+                {% endif %}
+
+                <a href="{% url 'profile-page' %}" class="of-btn-gold">
+                    Manage Company &amp; Profile
+                </a>
+            </div>
+
+            <div class="of-panel">
+                <div class="of-panel-header">
+                    <h5>Workspace Readiness</h5>
+                    <span class="of-panel-sub" id="of-readiness-score">Calculated</span>
+                </div>
+
+                <div class="of-progress-item">
+                    <div class="of-progress-meta">
+                        <span>Company Profile</span>
+                        <span>{% if request.user.company %}100%{% else %}40%{% endif %}</span>
+                    </div>
+                    <div class="of-progress-track">
+                        <div class="of-progress-fill" style="width: {% if request.user.company %}100%{% else %}40%{% endif %};"></div>
+                    </div>
+                </div>
+
+                <div class="of-progress-item">
+                    <div class="of-progress-meta">
+                        <span>Departments Configured</span>
+                        <span>{% if total_departments %}100%{% else %}20%{% endif %}</span>
+                    </div>
+                    <div class="of-progress-track">
+                        <div class="of-progress-fill" style="width: {% if total_departments %}100%{% else %}20%{% endif %}; background:#111111;"></div>
+                    </div>
+                </div>
+
+                <div class="of-progress-item">
+                    <div class="of-progress-meta">
+                        <span>Managers Assigned</span>
+                        <span>{% if total_managers %}100%{% else %}25%{% endif %}</span>
+                    </div>
+                    <div class="of-progress-track">
+                        <div class="of-progress-fill" style="width: {% if total_managers %}100%{% else %}25%{% endif %};"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="of-panel mb-0">
+                <div class="of-panel-header">
+                    <div>
+                        <h5>Executive Checklist</h5>
+                        <span class="of-panel-sub" id="of-notes-counter">0 remaining</span>
+                    </div>
+                    <button type="button" id="of-clear-done" class="of-filter-pill">Clear Done</button>
+                </div>
+
+                <div class="input-group input-group-sm mb-2">
+                    <input type="text" id="of-note-input" class="form-control" placeholder="Add action item...">
+                    <select id="of-note-priority" class="form-select" style="max-width: 92px;">
+                        <option value="high">High</option>
+                        <option value="medium" selected>Med</option>
+                        <option value="low">Low</option>
+                    </select>
+                    <button class="btn btn-dark" type="button" id="of-note-add">Add</button>
+                </div>
+
+                <div class="of-checklist-filters">
+                    <button type="button" class="of-filter-pill active" data-filter="all">All</button>
+                    <button type="button" class="of-filter-pill" data-filter="pending">Pending</button>
+                    <button type="button" class="of-filter-pill" data-filter="done">Done</button>
+                </div>
+
+                <div id="of-notes-list"></div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="of-cmd-backdrop" id="of-cmd-modal">
+    <div class="of-cmd-box">
+        <div class="of-cmd-input-wrap">
+            <i class="fa fa-search text-muted"></i>
+            <input type="text" id="of-cmd-input" class="of-cmd-input" placeholder="Jump to Departments, Managers, Profile, Export...">
+            <span class="of-kbd">ESC</span>
+        </div>
+        <div class="of-cmd-list" id="of-cmd-list">
+            <a href="{% url 'owner-dashboard' %}" class="of-cmd-item"><span><i class="fa fa-th-large me-2"></i>Owner Dashboard</span><small class="text-muted">Page</small></a>
+            <a href="{% url 'departments-list' %}" class="of-cmd-item"><span><i class="fa fa-sitemap me-2"></i>Manage Departments</span><small class="text-muted">Module</small></a>
+            <a href="{% url 'managers-list' %}" class="of-cmd-item"><span><i class="fa fa-id-badge me-2"></i>Manage Managers</span><small class="text-muted">Module</small></a>
+            <a href="{% url 'profile-page' %}" class="of-cmd-item"><span><i class="fa fa-user-circle me-2"></i>My Profile &amp; Company</span><small class="text-muted">Account</small></a>
+            <a href="{% url 'home' %}" class="of-cmd-item"><span><i class="fa fa-globe me-2"></i>Visit Public Website</span><small class="text-muted">Site</small></a>
+            <div class="of-cmd-item" id="of-cmd-export"><span><i class="fa fa-download me-2"></i>Export KPI Summary (CSV)</span><small class="text-muted">Action</small></div>
+        </div>
+    </div>
+</div>
+
+<div class="of-toast" id="of-toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+    (function () {
+        const toastEl = document.getElementById("of-toast");
+        let toastTimer = null;
+
+        function showToast(msg) {
+            toastEl.textContent = msg;
+            toastEl.classList.add("show");
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => toastEl.classList.remove("show"), 2800);
+        }
+
+        document.querySelectorAll("[data-soon]").forEach((el) => {
+            el.addEventListener("click", (e) => {
+                e.preventDefault();
+                showToast(el.getAttribute("data-soon") + " module is scheduled next.");
+            });
+        });
+
+        const userName = "{{ request.user.first_name|default:request.user.username|escapejs }}";
+        const greetingEl = document.getElementById("of-greeting-text");
+        const dateEl = document.getElementById("of-live-date");
+        const clockEl = document.getElementById("of-live-clock");
+
+        function updateClock() {
+            const now = new Date();
+            const hour = now.getHours();
+            let greet = "Welcome back";
+            if (hour < 12) greet = "Good morning";
+            else if (hour < 17) greet = "Good afternoon";
+            else greet = "Good evening";
+
+            if (greetingEl) greetingEl.textContent = greet + ", " + userName + "!";
+            if (dateEl) {
+                dateEl.textContent = now.toLocaleDateString("en-US", {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric"
+                });
+            }
+            if (clockEl) {
+                clockEl.textContent = now.toLocaleTimeString("en-US", {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                });
+            }
+        }
+        updateClock();
+        setInterval(updateClock, 30000);
+
+        const root = document.getElementById("of-metrics-root");
+        const metrics = {
+            departments: parseInt(root.dataset.departments || "0", 10),
+            managers: parseInt(root.dataset.managers || "0", 10),
+            employees: parseInt(root.dataset.employees || "0", 10),
+            projects: parseInt(root.dataset.projects || "0", 10),
+            tasks: parseInt(root.dataset.tasks || "0", 10),
+            company: root.dataset.company || "OrbiFlow"
+        };
+
+        let orgChart = null;
+        const ctx = document.getElementById("of-org-chart");
+
+        function renderChart(type) {
+            if (!ctx || typeof Chart === "undefined") return;
+            if (orgChart) orgChart.destroy();
+
+            const labels = ["Departments", "Managers", "Employees", "Projects", "Pending Tasks"];
+            const values = [metrics.departments, metrics.managers, metrics.employees, metrics.projects, metrics.tasks];
+            const colors = ["#111111", "#dfa667", "#343a40", "#b8844c", "#ced4da"];
+
+            orgChart = new Chart(ctx, {
+                type: type,
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: "Records",
+                        data: values,
+                        backgroundColor: colors,
+                        borderRadius: type === "bar" ? 8 : 0,
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: type === "doughnut",
+                            position: "bottom"
+                        }
+                    },
+                    scales: type === "bar" ? {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { precision: 0 },
+                            grid: { color: "#f2f2f5" }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    } : {}
+                }
+            });
+        }
+
+        renderChart("bar");
+
+        document.querySelectorAll("[data-chart]").forEach((btn) => {
+            btn.addEventListener("click", () => {
+                document.querySelectorAll("[data-chart]").forEach((b) => b.classList.remove("active"));
+                btn.classList.add("active");
+                renderChart(btn.getAttribute("data-chart"));
+            });
+        });
+
+        function exportCSV() {
+            const rows = [
+                ["Metric", "Value"],
+                ["Company", metrics.company],
+                ["Departments", metrics.departments],
+                ["Managers", metrics.managers],
+                ["Employees", metrics.employees],
+                ["Active Projects", metrics.projects],
+                ["Pending Tasks", metrics.tasks],
+                ["Exported At", new Date().toLocaleString()]
+            ];
+            const csv = rows.map((r) => r.map((v) => '"' + String(v).replace(/"/g, '""') + '"').join(",")).join("\n");
+            const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "orbiflow_owner_snapshot.csv";
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast("Executive KPI snapshot downloaded.");
+        }
+
+        document.getElementById("of-export-csv").addEventListener("click", exportCSV);
+        document.getElementById("of-cmd-export").addEventListener("click", () => {
+            closeCmd();
+            exportCSV();
+        });
+
+        const deptSearch = document.getElementById("of-dept-search");
+        const deptRows = document.querySelectorAll("#of-dept-table tbody tr");
+        if (deptSearch) {
+            deptSearch.addEventListener("input", () => {
+                const q = deptSearch.value.trim().toLowerCase();
+                deptRows.forEach((tr) => {
+                    tr.style.display = tr.textContent.toLowerCase().includes(q) ? "" : "none";
+                });
+            });
+        }
+
+        const cmdModal = document.getElementById("of-cmd-modal");
+        const cmdInput = document.getElementById("of-cmd-input");
+        const cmdItems = document.querySelectorAll("#of-cmd-list .of-cmd-item");
+
+        function openCmd() {
+            cmdModal.classList.add("open");
+            cmdInput.value = "";
+            cmdItems.forEach((i) => (i.style.display = "flex"));
+            setTimeout(() => cmdInput.focus(), 50);
+        }
+
+        function closeCmd() {
+            cmdModal.classList.remove("open");
+        }
+
+        document.getElementById("of-open-cmd").addEventListener("click", openCmd);
+        cmdModal.addEventListener("click", (e) => {
+            if (e.target === cmdModal) closeCmd();
+        });
+
+        document.addEventListener("keydown", (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+                e.preventDefault();
+                openCmd();
+            } else if (e.key === "Escape") {
+                closeCmd();
+            }
+        });
+
+        cmdInput.addEventListener("input", () => {
+            const q = cmdInput.value.trim().toLowerCase();
+            cmdItems.forEach((item) => {
+                item.style.display = item.textContent.toLowerCase().includes(q) ? "flex" : "none";
+            });
+        });
+
+        const storageKey = "orbiflow_owner_notes_v2";
+        const listEl = document.getElementById("of-notes-list");
+        const inputEl = document.getElementById("of-note-input");
+        const prioEl = document.getElementById("of-note-priority");
+        const counterEl = document.getElementById("of-notes-counter");
+        let currentFilter = "all";
+
+        let notes = JSON.parse(localStorage.getItem(storageKey) || "null") || [
+            { text: "Review department managers list", priority: "high", done: false },
+            { text: "Verify company contact details", priority: "medium", done: false }
+        ];
+
+        function saveAndRender() {
+            localStorage.setItem(storageKey, JSON.stringify(notes));
+            const remaining = notes.filter((n) => !n.done).length;
+            counterEl.textContent = remaining + " remaining";
+
+            const filtered = notes
+                .map((n, idx) => ({ ...n, idx }))
+                .filter((n) => {
+                    if (currentFilter === "pending") return !n.done;
+                    if (currentFilter === "done") return n.done;
+                    return true;
+                });
+
+            listEl.innerHTML = "";
+            if (filtered.length === 0) {
+                const empty = document.createElement("p");
+                empty.className = "text-muted small mb-0 py-2 text-center";
+                empty.textContent = "No tasks in this view.";
+                listEl.appendChild(empty);
+                return;
+            }
+
+            filtered.forEach((note) => {
+                const row = document.createElement("div");
+                row.className = "of-note-item" + (note.done ? " done" : "");
+
+                const left = document.createElement("label");
+                left.className = "d-flex align-items-center gap-2 mb-0";
+                left.style.cursor = "pointer";
+
+                const cb = document.createElement("input");
+                cb.type = "checkbox";
+                cb.checked = note.done;
+                cb.addEventListener("change", () => {
+                    notes[note.idx].done = !notes[note.idx].done;
+                    saveAndRender();
+                });
+
+                const span = document.createElement("span");
+                span.className = "of-note-text";
+                span.textContent = note.text;
+
+                left.appendChild(cb);
+                left.appendChild(span);
+
+                const right = document.createElement("div");
+                right.className = "d-flex align-items-center gap-2";
+
+                const tag = document.createElement("span");
+                tag.className = "of-prio-tag of-prio-" + (note.priority || "medium");
+                tag.textContent = note.priority || "med";
+
+                const del = document.createElement("button");
+                del.type = "button";
+                del.className = "of-note-delete";
+                del.innerHTML = "&times;";
+                del.addEventListener("click", () => {
+                    notes.splice(note.idx, 1);
+                    saveAndRender();
+                });
+
+                right.appendChild(tag);
+                right.appendChild(del);
+
+                row.appendChild(left);
+                row.appendChild(right);
+                listEl.appendChild(row);
+            });
+        }
+
+        function addNote() {
+            const val = inputEl.value.trim();
+            if (!val) return;
+            notes.unshift({ text: val, priority: prioEl.value, done: false });
+            inputEl.value = "";
+            saveAndRender();
+        }
+
+        document.getElementById("of-note-add").addEventListener("click", addNote);
+        inputEl.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") addNote();
+        });
+
+        document.querySelectorAll("[data-filter]").forEach((btn) => {
+            btn.addEventListener("click", () => {
+                document.querySelectorAll("[data-filter]").forEach((b) => b.classList.remove("active"));
+                btn.classList.add("active");
+                currentFilter = btn.getAttribute("data-filter");
+                saveAndRender();
+            });
+        });
+
+        document.getElementById("of-clear-done").addEventListener("click", () => {
+            notes = notes.filter((n) => !n.done);
+            saveAndRender();
+        });
+
+        saveAndRender();
+    })();
+</script>
+
+{% endblock %}

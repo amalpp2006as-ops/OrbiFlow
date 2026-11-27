@@ -1,0 +1,472 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description"
+        content="Get in touch with OrbiFlow for web development, mobile applications, enterprise software, UI/UX design, cybersecurity, and career inquiries.">
+    <meta name="keywords"
+        content="OrbiFlow Contact, Web Development Inquiry, Software Agency, UI UX Design, Cybersecurity">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Contact Us | OrbiFlow</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Aldrich&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'core/css/font-awesome.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'core/css/elegant-icons.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'core/css/owl.carousel.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'core/css/slicknav.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}" type="text/css">
+
+    <style>
+        .contact-breadcrumb {
+            background-image: url("{% static 'core/images/breadcrumb-bg.jpg' %}");
+            background-size: cover;
+            background-position: center;
+        }
+
+        .contact-footer {
+            background-image: url("{% static 'core/images/footer-bg.jpg' %}");
+            background-size: cover;
+            background-position: center;
+        }
+
+        .info-card {
+            background: #ffffff;
+            border: 1px solid #eaeaea;
+            border-top: 3px solid #dfa667;
+            padding: 28px 24px;
+            height: 100%;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 26px rgba(0, 0, 0, 0.06);
+        }
+
+        .info-icon {
+            width: 50px;
+            height: 50px;
+            background: #111111;
+            color: #dfa667;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 18px;
+        }
+
+        .info-card h5 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #111111;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 8px;
+        }
+
+        .info-card p {
+            font-size: 14px;
+            color: #555555;
+            margin-bottom: 4px;
+            line-height: 1.6;
+        }
+
+        .contact-form-box {
+            background: #ffffff;
+            border: 1px solid #eaeaea;
+            padding: 36px;
+        }
+
+        .contact-form-box select {
+            width: 100%;
+            height: 50px;
+            border: 1px solid #e1e1e1;
+            padding: 0 18px;
+            font-size: 14px;
+            color: #555555;
+            margin-bottom: 24px;
+            background: #ffffff;
+        }
+
+        .hours-card {
+            background: #111111;
+            color: #ffffff;
+            padding: 34px 28px;
+            border-left: 4px solid #dfa667;
+            height: 100%;
+        }
+
+        .hours-card h4 {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .hours-card p {
+            color: #cccccc;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 22px;
+        }
+
+        .hours-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 24px 0;
+        }
+
+        .hours-list li {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            padding: 10px 0;
+            border-bottom: 1px solid #2a2a2a;
+            color: #e6e6e6;
+        }
+
+        .hours-list li span:last-child {
+            color: #dfa667;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Offcanvas Menu Begin -->
+    <div class="offcanvas-menu-overlay"></div>
+    <div class="offcanvas-menu-wrapper">
+        <div class="offcanvas__logo">
+            <a href="{% url 'home' %}">
+                <img src="{% static 'core/images/logo.png' %}" alt="OrbiFlow">
+            </a>
+        </div>
+        <div id="mobile-menu-wrap"></div>
+        <div class="offcanvas__widget">
+            <span>Have a project in mind?</span>
+            <h4>Let's Connect</h4>
+        </div>
+    </div>
+    <!-- Offcanvas Menu End -->
+
+    <!-- Header Section Begin -->
+    <section class="hero">
+        <header class="orbiflow-header">
+            <div class="orbiflow-navbar">
+                <!-- LOGO -->
+                <a href="{% url 'home' %}" class="orbiflow-logo">OrbiFlow</a>
+
+                <!-- MOBILE MENU BUTTON -->
+                <input type="checkbox" id="menu-toggle">
+                <label for="menu-toggle" class="menu-icon">☰</label>
+
+                <!-- NAVIGATION -->
+                <nav class="orbiflow-nav">
+                    <ul>
+                        <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                            <a href="{% url 'home' %}">Home</a>
+                        </li>
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+                            <a href="{% url 'about' %}">About Us <span>⌄</span></a>
+                        </li>
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'services' %}active{% endif %}">
+                            <a href="{% url 'services' %}">Services <span>⌄</span></a>
+                        </li>
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'industries' %}active{% endif %}">
+                            <a href="{% url 'industries' %}">Industries <span>⌄</span></a>
+                        </li>
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'projects' %}active{% endif %}">
+                            <a href="{% url 'projects' %}">Portfolio <span>⌄</span></a>
+                        </li>
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'careers' %}active{% endif %}">
+                            <a href="{% url 'careers' %}">Careers <span>⌄</span></a>
+                        </li>
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'blog' %}active{% endif %}">
+                            <a href="{% url 'blog' %}">Blog <span>⌄</span></a>
+                        </li>
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+                            <a style="font-size: 17px; color: black; font-weight: bolder;"
+                                href="{% url 'contact' %}">Contact Us <span>⌄</span></a>
+                        </li>
+                    </ul>
+
+                    <!-- LOGIN AND REGISTER -->
+                    <ul class="auth-nav">
+                        <li><a href="{% url 'login-page' %}">Login</a></li>
+                        <li><a href="{% url 'register-page' %}" class="register-btn">Register</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+    </section>
+    <!-- Header Section End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <div class="breadcrumb-option spad contact-breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Contact Us</h2>
+                        <div class="breadcrumb__links">
+                            <a href="{% url 'home' %}">Home</a>
+                            <span>Contact Us</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Contact Section Begin -->
+    <section class="contact spad">
+        <div class="container">
+
+            <!-- Intro -->
+            <div class="row mb-4">
+                <div class="col-lg-7">
+                    <div class="contact__text">
+                        <div class="section-title">
+                            <span>CONNECT WITH ORBIFLOW</span>
+                            <h2>Contact Details</h2>
+                        </div>
+                        <p>
+                            Whether you are planning a custom web platform, enterprise software, mobile app,
+                            cybersecurity audit, or exploring a career opportunity, our team is ready to help.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Info Cards (No Images) -->
+            <div class="row mb-5">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fa fa-phone"></i>
+                        </div>
+                        <h5>Phone & Support</h5>
+                        <p>+91 80 4567 8910</p>
+                        <p class="text-muted small">Mon – Fri, 9:30 AM – 6:30 PM IST</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fa fa-envelope"></i>
+                        </div>
+                        <h5>Email Address</h5>
+                        <p>hello@orbiflow.com</p>
+                        <p>hr@orbiflow.com <span class="text-muted small">(Careers)</span></p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-12 mb-4">
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fa fa-map-marker"></i>
+                        </div>
+                        <h5>Office Location</h5>
+                        <p>OrbiFlow Technologies</p>
+                        <p class="text-muted small">Tech Park & Innovation Hub</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Map Section (Unchanged) -->
+            <div class="map">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12087.069761554938!2d-74.2175599360452!3d40.767139456514954!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c254b5958982c3%3A0xb6ab3931055a2612!2sEast%20Orange%2C%20NJ%2C%20USA!5e0!3m2!1sen!2sbd!4v1581710470843!5m2!1sen!2sbd"
+                    height="460" style="border:0;" allowfullscreen=""></iframe>
+            </div>
+
+            <!-- Contact Form & Business Hours -->
+            <div class="row mt-5">
+                <div class="col-lg-8 mb-4">
+                    <div class="contact-form-box">
+                        <div class="section-title mb-4">
+                            <span>SEND A MESSAGE</span>
+                            <h2>Get in Touch</h2>
+                            <p>Fill out the form below and a specialist from our team will get back to you within 24 hours.</p>
+                        </div>
+
+                        <div class="contact__form">
+                            <form action="#" method="post">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <input type="text" name="name" placeholder="Full Name" required>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <input type="email" name="email" placeholder="Work Email Address" required>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <input type="text" name="phone" placeholder="Phone Number (Optional)">
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <select name="inquiry_type" required>
+                                            <option value="" disabled selected>Select Inquiry Type</option>
+                                            <option value="web">Web & Software Development</option>
+                                            <option value="mobile">Mobile App Development</option>
+                                            <option value="design">UI/UX Design</option>
+                                            <option value="security">Cybersecurity & Audit</option>
+                                            <option value="hr">Careers & Internships (HR)</option>
+                                            <option value="other">General Inquiry</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <textarea name="message" placeholder="Tell us about your project, timeline, or question..." required></textarea>
+                                        <button type="submit" class="site-btn">Send Message</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 mb-4">
+                    <div class="hours-card">
+                        <h4>Working Hours</h4>
+                        <p>
+                            Our engineering and client support teams operate across flexible schedules to support
+                            both local and international partners.
+                        </p>
+                        <ul class="hours-list">
+                            <li><span>Monday – Friday</span><span>9:30 AM – 6:30 PM</span></li>
+                            <li><span>Saturday</span><span>10:00 AM – 2:00 PM</span></li>
+                            <li><span>Sunday</span><span>Closed</span></li>
+                        </ul>
+                        <p class="mb-2" style="color: #ffffff; font-weight: 600;">Looking for a role at OrbiFlow?</p>
+                        <a href="{% url 'careers' %}" class="primary-btn" style="width: 100%; text-align: center;">
+                            Explore Open Positions
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!-- Contact Section End -->
+
+    <!-- Footer Section Begin -->
+    <footer class="footer contact-footer">
+        <div class="container">
+
+            <div class="footer__top">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="footer__top__text">
+                            <h2>Have a Project in Mind?</h2>
+                            <p style="color: #ffffff; margin-top: 15px;">
+                                Let's discuss your ideas and turn them into meaningful digital solutions.
+                            </p>
+                            <a href="{% url 'contact' %}" class="primary-btn" style="margin-top: 20px;">
+                                Get In Touch
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- About OrbiFlow -->
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="footer__about">
+                        <div class="footer__logo">
+                            <a href="{% url 'home' %}" class="orbiflow-logo"
+                                style="color: #ffffff; font-size: 28px; font-weight: 700;">
+                                OrbiFlow
+                            </a>
+                        </div>
+                        <p>
+                            We create digital solutions that help businesses
+                            grow, improve their online presence and achieve
+                            their goals through technology.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Company Links -->
+                <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Company</h6>
+                        <ul>
+                            <li><a href="{% url 'home' %}">Home</a></li>
+                            <li><a href="{% url 'about' %}">About Us</a></li>
+                            <li><a href="{% url 'services' %}">Services</a></li>
+                            <li><a href="{% url 'projects' %}">Our Works</a></li>
+                            <li><a href="{% url 'careers' %}">Careers</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Services Links -->
+                <div class="col-lg-2 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Our Services</h6>
+                        <ul>
+                            <li><a href="{% url 'services' %}">Web Development</a></li>
+                            <li><a href="{% url 'services' %}">Mobile App Development</a></li>
+                            <li><a href="{% url 'services' %}">UI/UX Design</a></li>
+                            <li><a href="{% url 'services' %}">Cybersecurity</a></li>
+                            <li><a href="{% url 'services' %}">Digital Marketing</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Contact -->
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="footer__address">
+                        <h6>Get In Touch</h6>
+                        <p>
+                            Have questions or want to discuss a project?
+                            We'd love to hear from you.
+                        </p>
+                        <ul>
+                            <li><a href="{% url 'contact' %}">Visit Our Contact Page</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="copyright">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="copyright__text">
+                            <p>
+                                Copyright ©
+                                <script>document.write(new Date().getFullYear());</script>
+                                OrbiFlow. All rights reserved.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+    <!-- Footer Section End -->
+
+    <!-- Js Plugins -->
+    <script src="{% static 'core/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'core/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'core/js/jquery.slicknav.js' %}"></script>
+    <script src="{% static 'core/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'core/js/slick.min.js' %}"></script>
+    <script src="{% static 'core/js/main.js' %}"></script>
+</body>
+
+</html>

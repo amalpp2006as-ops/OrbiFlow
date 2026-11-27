@@ -59,9 +59,9 @@
         navText: ["<i class='fa fa-angle-left'><i/>", "<i class='fa fa-angle-right'><i/>"],
         animateOut: 'fadeOut',
         animateIn: 'fadeIn',
-        smartSpeed: 1500,
+        smartSpeed: 600,
         autoHeight: false,
-        autoplay: true,
+        autoplay: false,
         mouseDrag: false,
         onInitialized: function (e) {
             var a = this.items().length;
@@ -189,3 +189,14 @@
     });
 
 })(jQuery);
+
+window.addEventListener('scroll', function () {
+    const header = document.querySelector('.orbiflow-header');
+    if (!header) return;
+
+    if (window.scrollY > 20) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+});

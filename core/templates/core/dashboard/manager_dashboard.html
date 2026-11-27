@@ -1,4 +1,4 @@
-{% extends "core/dashboard_base.html" %}
+{% extends "core/dashboard/dashboard_base.html" %}
 
 {% block title %}Manager Dashboard | OrbiFlow{% endblock %}
 
@@ -8,8 +8,10 @@ Manager Dashboard
 
 {% block dashboard_nav %}
 
+
 <a href="{% url 'manager-dashboard' %}">Dashboard</a>
-<a href="#">My Team</a>
+<a href="{% url 'team-members' %}">My Team</a>
+<a href="{% url 'add-employee' %}">Employees</a>
 <a href="#">Projects</a>
 <a href="#">Tasks</a>
 <a href="#">Deadlines</a>

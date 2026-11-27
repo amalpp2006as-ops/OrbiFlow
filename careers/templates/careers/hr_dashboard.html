@@ -1,0 +1,116 @@
+{% extends 'core/dashboard/dashboard_base.html' %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3>OrbiFlow Talent – Recruitment Dashboard</h3>
+        <div>
+            <a href="{% url 'application_list' %}" class="btn btn-outline-dark me-2">All Applications</a>
+            <a href="{% url 'vacancy_create' %}" class="btn btn-warning fw-bold">+ Post New Vacancy</a>
+        </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3 col-6">
+            <div class="card border-0 shadow-sm p-3">
+                <small class="text-muted">Total / Active Vacancies</small>
+                <h4 class="mb-0">{{ stats.total_vacancies }} / {{ stats.active_vacancies }}</h4>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="card border-0 shadow-sm p-3">
+                <small class="text-muted">Total / New Applications</small>
+                <h4 class="mb-0">{{ stats.total_applications }} / {{ stats.new_applications }}</h4>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="card border-0 shadow-sm p-3">
+                <small class="text-muted">Shortlisted / Interviews</small>
+                <h4 class="mb-0">{{ stats.shortlisted }} / {{ stats.scheduled_interviews }}</h4>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="card border-0 shadow-sm p-3">
+                <small class="text-muted">Hired / Rejected</small>
+                <h4 class="mb-0">{{ stats.hired }} / {{ stats.rejected }}</h4>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vacancies Table -->
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-white fw-bold">Job Vacancies</div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Title</th>
+                        <th>Department</th>
+                        <th>Deadline</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for v in vacancies %}
+                    <tr>
+                        <td>{{ v.title }}</td>
+                        <td>{{ v.department }}</td>
+                        <td>{{ v.deadline }}</td>
+                        <td>
+                            {% if v.is_published %}
+                            <span class="badge bg-success">Published</span>
+                            {% else %}
+                            <span class="badge bg-secondary">Draft</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'vacancy_edit' v.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
+                            <a href="{% url 'vacancy_toggle_publish' v.pk %}" class="btn btn-sm btn-outline-warning">
+                                {% if v.is_published %}Unpublish{% else %}Publish{% endif %}
+                            </a>
+                            <a href="{% url 'vacancy_delete' v.pk %}" class="btn btn-sm btn-outline-danger"
+                               onclick="return confirm('Delete this vacancy?');">Delete</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="5" class="text-center py-3">No vacancies created yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Recent Applications -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white fw-bold">Recent Applications</div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Candidate</th>
+                        <th>Position</th>
+                        <th>Applied</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for app in recent_applications %}
+                    <tr>
+                        <td>{{ app.full_name }}</td>
+                        <td>{{ app.vacancy.title }}</td>
+                        <td>{{ app.applied_at|date:"M d, Y" }}</td>
+                        <td><span class="badge bg-info text-dark">{{ app.get_status_display }}</span></td>
+                        <td><a href="{% url 'application_detail' app.pk %}" class="btn btn-sm btn-dark">Review</a></td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="5" class="text-center py-3">No applications yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,568 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Staging Template">
+    <meta name="keywords" content="Staging, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Staging | Template</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Aldrich&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'core/css/font-awesome.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'core/css/elegant-icons.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'core/css/owl.carousel.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'core/css/slicknav.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}" type="text/css">
+
+    <style>
+        .services__item img {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Offcanvas Menu Begin -->
+    <div class="offcanvas-menu-overlay"></div>
+    <div class="offcanvas-menu-wrapper">
+        <div class="offcanvas__logo">
+            <a href="#"><img src="{% static 'core/images/logo.png' %}" alt=""></a>
+        </div>
+        <div id="mobile-menu-wrap"></div>
+        <div class="offcanvas__widget">
+            <span>Call us for any questions</span>
+            <h4>+01 123 456 789</h4>
+        </div>
+    </div>
+    <!-- Offcanvas Menu End -->
+
+    <!-- Header Section Begin -->
+    <section class="hero">
+        <header class="orbiflow-header">
+
+            <div class="orbiflow-navbar">
+
+                <!-- LOGO -->
+
+                <a href="#" class="orbiflow-logo">OrbiFlow</a>
+
+                <!-- MOBILE MENU BUTTON -->
+
+                <input type="checkbox" id="menu-toggle">
+
+                <label for="menu-toggle" class="menu-icon">
+                    ☰
+                </label>
+
+                <!-- NAVIGATION -->
+
+                <nav class="orbiflow-nav">
+
+                    <!-- MAIN MENU -->
+
+                    <ul>
+
+                        <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                            <a href="{% url 'home' %}">Home</a>
+                        </li>
+
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+                            <a href="{% url 'about' %}">About Us <span>⌄</span></a>
+                        </li>
+
+                        <li
+                            class="has-dropdown {% if request.resolver_match.url_name == 'services' %}active{% endif %}">
+                            <a href="{% url 'services' %}">Services <span>⌄</span></a>
+                        </li>
+
+                        <li
+                            class="has-dropdown {% if request.resolver_match.url_name == 'industries' %}active{% endif %}">
+                            <a style="font-size: 17px; color: black; font-weight: bolder;" href="{% url 'industries' %}">Industries <span>⌄</span></a>
+                        </li>
+
+                        <li
+                            class="has-dropdown {% if request.resolver_match.url_name == 'projects' %}active{% endif %}">
+                            <a href="{% url 'projects' %}">Portfolio <span>⌄</span></a>
+                        </li>
+
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'careers' %}active{% endif %}">
+                            <a href="{% url 'careers' %}">Careers <span>⌄</span></a>
+                        </li>
+
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'blog' %}active{% endif %}">
+                            <a href="{% url 'blog' %}">Blog <span>⌄</span></a>
+                        </li>
+
+                        <li class="has-dropdown {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+                            <a href="{% url 'contact' %}">Contact Us <span>⌄</span></a>
+                        </li>
+
+                    </ul>
+
+                    <!-- LOGIN AND REGISTER -->
+
+                    <ul class="auth-nav">
+
+                        <li>
+                            <a href="{% url 'login-page' %}">Login</a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'register-page' %}" class="register-btn">Register</a>
+                        </li>
+
+                    </ul>
+
+                </nav>
+
+            </div>
+
+        </header>
+    </section>
+    <!-- Header Section End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <div class="breadcrumb-option spad set-bg" data-setbg="{% static 'core/images/breadcrumb-bg.jpg' %}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Industries We Serve</h2>
+                        <div class="breadcrumb__links">
+                            <a href="{% url 'home' %}">Home</a>
+                            <span>Industries</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+<!-- Industries Section Begin -->
+<section class="project-page spad">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title">
+                    <span>INDUSTRIES WE SERVE</span>
+                    <h2>Technology Solutions For Every Industry</h2>
+                    <p>
+                        Every industry has unique challenges and opportunities.
+                        At OrbiFlow, we develop digital solutions that help
+                        businesses improve operations, connect with customers
+                        and achieve their goals through technology.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-lg-6 col-md-6">
+                <div class="industry-card">
+                    <span>01</span>
+                    <h3>Healthcare</h3>
+                    <p>
+                        We help healthcare organizations improve patient
+                        experiences through digital platforms, appointment
+                        management systems, healthcare websites and secure
+                        information management solutions.
+                    </p>
+                    <h5>Our Solutions</h5>
+                    <ul>
+                        <li>Healthcare Website Development</li>
+                        <li>Appointment Management Systems</li>
+                        <li>Patient Management Platforms</li>
+                        <li>Data Security Solutions</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6">
+                <div class="industry-card">
+                    <span>02</span>
+                    <h3>Education</h3>
+                    <p>
+                        We support educational institutions with digital
+                        learning platforms and management systems that
+                        simplify communication, student management and
+                        academic operations.
+                    </p>
+                    <h5>Our Solutions</h5>
+                    <ul>
+                        <li>Learning Management Systems</li>
+                        <li>Student Management Platforms</li>
+                        <li>Educational Websites</li>
+                        <li>Online Learning Applications</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6">
+                <div class="industry-card">
+                    <span>03</span>
+                    <h3>Retail & E-Commerce</h3>
+                    <p>
+                        We help retail businesses establish their online
+                        presence and manage digital sales through modern
+                        e-commerce platforms and integrated business
+                        management solutions.
+                    </p>
+                    <h5>Our Solutions</h5>
+                    <ul>
+                        <li>E-Commerce Website Development</li>
+                        <li>Inventory Management Systems</li>
+                        <li>Online Payment Integration</li>
+                        <li>Customer Management Solutions</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6">
+                <div class="industry-card">
+                    <span>04</span>
+                    <h3>Finance & Banking</h3>
+                    <p>
+                        We provide digital solutions that help financial
+                        businesses improve customer experiences, organize
+                        operations and strengthen their digital security.
+                    </p>
+                    <h5>Our Solutions</h5>
+                    <ul>
+                        <li>Financial Management Software</li>
+                        <li>Business Web Applications</li>
+                        <li>Cybersecurity Assessment</li>
+                        <li>Process Automation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6">
+                <div class="industry-card">
+                    <span>05</span>
+                    <h3>Travel & Hospitality</h3>
+                    <p>
+                        We help travel agencies, hotels and hospitality
+                        businesses improve customer engagement through
+                        digital booking platforms and service management
+                        applications.
+                    </p>
+                    <h5>Our Solutions</h5>
+                    <ul>
+                        <li>Online Booking Platforms</li>
+                        <li>Hotel Management Systems</li>
+                        <li>Travel Website Development</li>
+                        <li>Customer Support Applications</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6">
+                <div class="industry-card">
+                    <span>06</span>
+                    <h3>Manufacturing & Logistics</h3>
+                    <p>
+                        We develop technology solutions that help
+                        manufacturing and logistics businesses coordinate
+                        operations, track activities and improve workflow
+                        efficiency.
+                    </p>
+                    <h5>Our Solutions</h5>
+                    <ul>
+                        <li>Inventory Management Software</li>
+                        <li>Supply Chain Management</li>
+                        <li>Operations Management Systems</li>
+                        <li>Workflow Automation</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-lg-12 text-center">
+                <h2>Let's Build Something For Your Industry</h2>
+                <p>
+                    Have a business challenge? Let's discuss how OrbiFlow
+                    can help you find the right digital solution.
+                </p>
+                <a href="{% url 'contact' %}" class="primary-btn">
+                    Contact Us
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- Industries Section End -->
+
+    <!-- Why Choose OrbiFlow Section Begin -->
+    <section class="services spad">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <span>WHY ORBIFLOW</span>
+                        <h2>Why Choose Us?</h2>
+                        <p>
+                            We believe great digital solutions are built on trust,
+                            quality and a clear understanding of your needs.
+                            Our priority is to make your experience smooth,
+                            valuable and satisfying.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="services__item">
+                        <h4>Customer-First Approach</h4>
+                        <p>
+                            Your ideas and expectations matter to us.
+                            We listen carefully, understand your requirements
+                            and work towards solutions that match your vision.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="services__item">
+                        <h4>Quality & Reliability</h4>
+                        <p>
+                            We focus on delivering dependable digital
+                            solutions with attention to detail, professional
+                            standards and a commitment to quality.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="services__item">
+                        <h4>Tailored Solutions</h4>
+                        <p>
+                            Every business has different goals.
+                            We take time to understand your needs and
+                            create solutions that suit your requirements.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="services__item">
+                        <h4>Dedicated Support</h4>
+                        <p>
+                            Our commitment doesn't end with delivery.
+                            We value long-term relationships and aim
+                            to provide helpful support whenever needed.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- Why Choose OrbiFlow Section End -->
+
+    <!-- Client Section Begin -->
+    <section class="clients spad">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <span>OUR COMMITMENT</span>
+                        <h2>Your Goals Matter to Us</h2>
+                        <p>
+                            Every successful project begins with understanding.
+                            We focus on clear communication, thoughtful planning
+                            and quality work to deliver an experience you can trust.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="services__item">
+                        <h4>Clear Communication</h4>
+                        <p>
+                            We listen to your ideas, understand your requirements
+                            and keep you informed throughout the project.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="services__item">
+                        <h4>Thoughtful Planning</h4>
+                        <p>
+                            We plan each project carefully to ensure the solution
+                            matches your goals and expectations.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="services__item">
+                        <h4>Quality-Focused Work</h4>
+                        <p>
+                            We pay attention to the details and aim to deliver
+                            professional, reliable and effective results.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="services__item">
+                        <h4>Customer Satisfaction</h4>
+                        <p>
+                            Your satisfaction is important to us.
+                            We value your feedback and work towards
+                            building lasting relationships.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+    <!-- Client Section End -->
+
+    <!-- Footer Section Begin -->
+    <footer class="footer set-bg" data-setbg="{% static 'core/images/footer-bg.jpg' %}">
+        <div class="container">
+
+            <div class="footer__top">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="footer__top__text">
+                            <h2>Have a Project in Mind?</h2>
+                            <p style="color: #ffffff; margin-top: 15px;">
+                                Let's discuss your ideas and turn them into meaningful digital solutions.
+                            </p>
+                            <a href="{% url 'contact' %}" class="primary-btn" style="margin-top: 20px;">
+                                Get In Touch
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <!-- About OrbiFlow -->
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="footer__about">
+                        <div class="footer__logo">
+                            <a href="{% url 'home' %}" class="orbiflow-logo"
+                                style="color: #ffffff; font-size: 28px; font-weight: 700;">
+                                OrbiFlow
+                            </a>
+                        </div>
+
+                        <p>
+                            We create digital solutions that help businesses
+                            grow, improve their online presence and achieve
+                            their goals through technology.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Company Links -->
+                <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Company</h6>
+                        <ul>
+                            <li><a href="{% url 'home' %}">Home</a></li>
+                            <li><a href="{% url 'about' %}">About Us</a></li>
+                            <li><a href="{% url 'services' %}">Services</a></li>
+                            <li><a href="{% url 'projects' %}">Our Works</a></li>
+                            <li><a href="{% url 'careers' %}">Careers</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Services Links -->
+                <div class="col-lg-2 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Our Services</h6>
+                        <ul>
+                            <li><a href="{% url 'services' %}">Web Development</a></li>
+                            <li><a href="{% url 'services' %}">Mobile App Development</a></li>
+                            <li><a href="{% url 'services' %}">UI/UX Design</a></li>
+                            <li><a href="{% url 'services' %}">Cybersecurity</a></li>
+                            <li><a href="{% url 'services' %}">Digital Marketing</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Contact -->
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="footer__address">
+                        <h6>Get In Touch</h6>
+                        <p>
+                            Have questions or want to discuss a project?
+                            We'd love to hear from you.
+                        </p>
+                        <ul>
+                            <li>
+                                <a href="{% url 'contact' %}">Visit Our Contact Page</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Copyright -->
+            <div class="copyright">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="copyright__text">
+                            <p>
+                                Copyright ©
+                                <script>
+                                    document.write(new Date().getFullYear());
+                                </script>
+                                OrbiFlow. All rights reserved.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+    <!-- Footer Section End -->
+
+    <!-- Js Plugins -->
+    <script src="{% static 'core/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'core/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'core/js/jquery.slicknav.js' %}"></script>
+    <script src="{% static 'core/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'core/js/slick.min.js' %}"></script>
+    <script src="{% static 'core/js/main.js' %}"></script>
+</body>
+
+</html>

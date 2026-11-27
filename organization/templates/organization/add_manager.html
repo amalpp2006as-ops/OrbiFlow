@@ -1,5 +1,5 @@
 
-{% extends "core/dashboard_base.html" %}
+{% extends "core/dashboard/dashboard_base.html" %}
 
 {% block title %}Add Manager | OrbiFlow{% endblock %}
 
@@ -125,16 +125,47 @@
                 </small>
             </div>
 
-            <div class="mb-4">
-                <label>Company</label>
+            <!-- DEPARTMENT -->
+<div class="mb-4">
+    <label for="department">Select Department</label>
 
-                <input
-                    type="text"
-                    class="form-control"
-                    value="{{ request.user.company.name }}"
-                    readonly
-                >
-            </div>
+    <select
+        name="department"
+        id="department"
+        class="form-control"
+        required
+    >
+        <option value="">Choose Department</option>
+
+        {% for department in departments %}
+            <option value="{{ department.id }}">
+                {{ department.name }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <small class="text-muted">
+        Select the department this manager will handle.
+    </small>
+</div>
+
+<!-- DESIGNATION -->
+<div class="mb-4">
+    <label for="designation">Manager Designation</label>
+
+    <input
+        type="text"
+        name="designation"
+        id="designation"
+        class="form-control"
+        placeholder="Example: Development Manager"
+        required
+    >
+
+    <small class="text-muted">
+        Enter the manager's official designation in the company.
+    </small>
+    </div>
 
             <div class="d-flex gap-3 flex-wrap">
 

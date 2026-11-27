@@ -1,0 +1,236 @@
+{% extends "core/dashboard/dashboard_base.html" %}
+
+{% block title %}Add Employee | OrbiFlow{% endblock %}
+
+{% block dashboard_heading %}Add Employee{% endblock %}
+
+{% block dashboard_nav %}
+
+<a href="{% url 'manager-dashboard' %}">Dashboard</a>
+<a href="{% url 'team-members' %}">My Team</a>
+<a href="#">Projects</a>
+<a href="#">Tasks</a>
+<a href="#">Deadlines</a>
+<a href="#">Reports</a>
+
+<hr>
+
+<a href="{% url 'profile-page' %}">My Profile</a>
+<a href="{% url 'home' %}">Visit Website</a>
+
+<form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit" class="add-employee-logout">
+        Logout
+    </button>
+</form>
+
+{% endblock %}
+
+{% block dashboard_content %}
+
+<style>
+
+.add-employee-container {
+    max-width: 750px;
+}
+
+.add-employee-card {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 30px;
+}
+
+.add-employee-card label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.add-employee-card input,
+.add-employee-card select {
+    padding: 12px;
+    border-radius: 6px;
+}
+
+.add-employee-submit {
+    background: #dfa667;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.add-employee-submit:hover {
+    background: #c88d4f;
+}
+
+.add-employee-logout {
+    display: block;
+    width: 100%;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: #a94442;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.add-employee-logout:hover {
+    background: #fff1f0;
+}
+
+@media (max-width: 576px) {
+
+    .add-employee-card {
+        padding: 20px;
+    }
+
+    .add-employee-submit {
+        width: 100%;
+    }
+
+}
+
+</style>
+
+
+<div class="add-employee-container">
+
+    <div class="mb-4">
+
+        <h3>Add New Employee</h3>
+
+        <p class="text-muted">
+            Invite a new employee to join your department at OrbiFlow.
+        </p>
+
+    </div>
+
+
+    {% if messages %}
+
+        {% for message in messages %}
+
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+
+    <div class="add-employee-card">
+
+        <h5 class="mb-4">Employee Information</h5>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <div class="mb-4">
+
+                <label for="email">
+                    Employee Email Address
+                </label>
+
+                <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    class="form-control"
+                    placeholder="employee@example.com"
+                    required
+                >
+
+                <small class="text-muted">
+                    An invitation link will be sent to this email.
+                </small>
+
+            </div>
+
+
+            <div class="mb-4">
+
+                <label>Department</label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    value="{{ department.name }}"
+                    readonly
+                >
+
+                <small class="text-muted">
+                    Your department is automatically assigned to the employee.
+                </small>
+
+            </div>
+
+
+            <div class="mb-4">
+
+                <label for="designation">
+                    Employee Job Designation
+                </label>
+
+                <select
+                    name="designation"
+                    id="designation"
+                    class="form-control"
+                    required
+                >
+
+                    <option value="">
+                        Select Employee Designation
+                    </option>
+
+                    {% for designation in designations %}
+
+                        <option value="{{ designation }}">
+                            {{ designation }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+                <small class="text-muted">
+                    Available designations are based on your department.
+                </small>
+
+            </div>
+
+
+            <div class="d-flex gap-3 flex-wrap">
+
+                <button
+                    type="submit"
+                    class="add-employee-submit"
+                >
+                    Send Invitation
+                </button>
+
+                <a
+                    href="{% url 'team-members' %}"
+                    class="btn btn-light px-4 py-2"
+                >
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

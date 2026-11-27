@@ -1,0 +1,382 @@
+{% extends "core/dashboard/dashboard_base.html" %}
+
+{% block title %}Employees | OrbiFlow{% endblock %}
+
+{% block dashboard_heading %}
+Employee Management
+{% endblock %}
+
+{% block dashboard_nav %}
+
+<a href="{% url 'manager-dashboard' %}">Dashboard</a>
+<a href="{% url 'team-members' %}" class="active">Employees</a>
+<a href="#">Projects</a>
+<a href="#">Tasks</a>
+<a href="#">Deadlines</a>
+<a href="#">Reports</a>
+
+<hr>
+
+<a href="{% url 'profile-page' %}">My Profile</a>
+<a href="{% url 'home' %}">Visit Website</a>
+
+<form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit" class="employee-logout">Logout</button>
+</form>
+
+{% endblock %}
+
+
+{% block dashboard_content %}
+
+<style>
+
+.employee-page {
+    width: 100%;
+}
+
+.employee-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.employee-add-btn {
+    background: #dfa667;
+    color: white;
+    padding: 11px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.employee-add-btn:hover {
+    background: #c88d4f;
+    color: white;
+}
+
+.employee-card {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 25px;
+    margin-bottom: 25px;
+}
+
+.employee-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.employee-table th,
+.employee-table td {
+    padding: 15px 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    white-space: nowrap;
+}
+
+.employee-table th {
+    color: #888;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.employee-table td {
+    font-size: 14px;
+}
+
+.employee-status {
+    background: #e7f7ed;
+    color: #23844b;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.employee-pending {
+    background: #fff3dc;
+    color: #a47722;
+}
+
+.employee-empty {
+    text-align: center;
+    padding: 35px 15px;
+    color: #888;
+}
+
+.employee-search {
+    max-width: 350px;
+    margin-bottom: 20px;
+}
+
+.employee-table-container {
+    overflow-x: auto;
+}
+
+.employee-logout {
+    display: block;
+    width: 100%;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: #a94442;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.employee-logout:hover {
+    background: #fff1f0;
+}
+
+@media(max-width: 768px) {
+    .employee-table {
+        min-width: 850px;
+    }
+}
+
+</style>
+
+
+<div class="employee-page">
+
+    <div class="employee-header">
+
+        <div>
+            <h3>Employees</h3>
+
+            <p class="text-muted mb-0">
+                Manage your department's employees and invitations.
+            </p>
+        </div>
+
+        <a href="{% url 'add-employee' %}" class="employee-add-btn">
+            + Add Employee
+        </a>
+
+    </div>
+
+
+    <!-- STATISTICS -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-6 col-xl-4">
+            <div class="card border-0 shadow-sm p-4">
+                <p class="text-muted mb-2">Total Employees</p>
+                <h2>{{ employee_count }}</h2>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <div class="card border-0 shadow-sm p-4">
+                <p class="text-muted mb-2">Pending Invitations</p>
+                <h2>{{ invitation_count }}</h2>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <div class="card border-0 shadow-sm p-4">
+                <p class="text-muted mb-2">Department</p>
+                <h5 class="mt-2">
+                    {{ department.name|default:"Not assigned" }}
+                </h5>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- MESSAGES -->
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+
+    <!-- EMPLOYEE LIST -->
+
+    <div class="employee-card">
+
+        <h5 class="mb-4">All Employees</h5>
+
+        <input
+            type="text"
+            id="employeeSearch"
+            class="form-control employee-search"
+            placeholder="Search employees..."
+        >
+
+        <div class="employee-table-container">
+
+            <table class="employee-table" id="employeeTable">
+
+                <thead>
+                    <tr>
+                        <th>Employee</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Designation</th>
+                        <th>Department</th>
+                        <th>Joined On</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for employee in employees %}
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    {{ employee.get_full_name|default:employee.username }}
+                                </strong>
+                            </td>
+
+                            <td>{{ employee.email }}</td>
+
+                            <td>
+                                {{ employee.phone|default:"Not provided" }}
+                            </td>
+
+                            <td>
+                                {{ employee.designation|default:employee.position|default:"Not assigned" }}
+                            </td>
+
+                            <td>
+                                {{ employee.department.name|default:"Not assigned" }}
+                            </td>
+
+                            <td>
+                                {{ employee.created_at|date:"d M Y" }}
+                            </td>
+
+                            <td>
+                                <span class="employee-status">
+                                    Active
+                                </span>
+                            </td>
+
+                        </tr>
+
+                    {% empty %}
+
+                        <tr>
+                            <td colspan="7" class="employee-empty">
+                                <h6>No employees added yet.</h6>
+                                <p>Click Add Employee to invite your first employee.</p>
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- PENDING INVITATIONS -->
+
+    <div class="employee-card">
+
+        <h5 class="mb-4">Pending Invitations</h5>
+
+        <div class="employee-table-container">
+
+            <table class="employee-table">
+
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Designation</th>
+                        <th>Invited On</th>
+                        <th>Expires On</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for invitation in invitations %}
+
+                        <tr>
+
+                            <td>{{ invitation.email }}</td>
+
+                            <td>{{ invitation.designation }}</td>
+
+                            <td>
+                                {{ invitation.created_at|date:"d M Y" }}
+                            </td>
+
+                            <td>
+                                {{ invitation.expires_at|date:"d M Y" }}
+                            </td>
+
+                            <td>
+                                <span class="employee-status employee-pending">
+                                    Pending
+                                </span>
+                            </td>
+
+                        </tr>
+
+                    {% empty %}
+
+                        <tr>
+                            <td colspan="5" class="employee-empty">
+                                No pending invitations.
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+document.getElementById("employeeSearch").addEventListener("keyup", function () {
+
+    let searchValue = this.value.toLowerCase();
+
+    let rows = document.querySelectorAll("#employeeTable tbody tr");
+
+    rows.forEach(function (row) {
+
+        let rowText = row.innerText.toLowerCase();
+
+        row.style.display = rowText.includes(searchValue) ? "" : "none";
+
+    });
+
+});
+
+</script>
+
+{% endblock %}
