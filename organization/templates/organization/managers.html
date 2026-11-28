@@ -34,10 +34,10 @@ Manager Management
 
 
 {% block dashboard_content %}
-
 <style>
 .manager-page {
     width: 100%;
+    color: #E7EDF7;
 }
 
 .manager-header {
@@ -51,28 +51,31 @@ Manager Management
 
 .manager-header h3 {
     margin-bottom: 7px;
+    color: #E7EDF7;
 }
 
 .manager-add-btn {
-    background: #dfa667;
-    color: white;
+    background: #8EACF5;
+    color: #0B1424;
     padding: 11px 20px;
     border-radius: 6px;
     text-decoration: none;
     font-weight: 600;
+    transition: all 0.2s ease;
 }
 
 .manager-add-btn:hover {
-    background: #c88d4f;
-    color: white;
+    background: #668EDB;
+    color: #ffffff;
 }
 
 .manager-card {
-    background: white;
-    border: 1px solid #eee;
+    background: #19273D;
+    border: 1px solid #30415C;
     border-radius: 10px;
     padding: 25px;
     margin-bottom: 25px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 }
 
 .manager-table {
@@ -84,30 +87,36 @@ Manager Management
 .manager-table td {
     padding: 15px 12px;
     text-align: left;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #30415C;
 }
 
 .manager-table th {
-    color: #888;
+    color: #AAB8CC;
     font-size: 12px;
     text-transform: uppercase;
+    background: #16263D;
 }
 
 .manager-table td {
     font-size: 14px;
+    color: #E7EDF7;
+}
+
+.manager-table tr:last-child td {
+    border-bottom: none;
 }
 
 .manager-status {
-    background: #e7f7ed;
-    color: #23844b;
+    background: rgba(46, 204, 113, 0.12);
+    color: #65D99A;
     padding: 6px 12px;
     border-radius: 20px;
     font-size: 12px;
 }
 
 .manager-pending {
-    background: #fff3dc;
-    color: #a47722;
+    background: rgba(142, 172, 245, 0.12);
+    color: #AFC5FA;
 }
 
 .manager-logout {
@@ -117,35 +126,83 @@ Manager Management
     border: none;
     border-radius: 6px;
     background: transparent;
-    color: #a94442;
+    color: #F28B82;
     text-align: left;
     cursor: pointer;
     font-family: inherit;
     font-size: inherit;
+    transition: all 0.2s ease;
 }
 
 .manager-logout:hover {
-    background: #fff1f0;
+    background: rgba(231, 76, 60, 0.12);
+    color: #FF9B91;
 }
 
 .manager-search {
     max-width: 350px;
     margin-bottom: 20px;
+    background: #16263D;
+    border: 1px solid #30415C;
+    color: #E7EDF7;
+    border-radius: 7px;
+    padding: 10px 12px;
+    width: 100%;
+}
+
+.manager-search::placeholder {
+    color: #8292AA;
+}
+
+.manager-search:focus {
+    outline: none;
+    border-color: #8EACF5;
+    box-shadow: 0 0 0 3px rgba(142, 172, 245, 0.12);
 }
 
 .manager-empty {
     text-align: center;
     padding: 35px 15px;
-    color: #888;
+    color: #8292AA;
 }
 
+/* Responsive Design */
+
 @media(max-width: 768px) {
+    .manager-card {
+        padding: 18px;
+    }
+
     .manager-table {
         min-width: 650px;
     }
 
     .manager-table-container {
         overflow-x: auto;
+        width: 100%;
+    }
+
+    .manager-header {
+        align-items: flex-start;
+    }
+
+    .manager-add-btn {
+        padding: 10px 16px;
+    }
+}
+
+@media(max-width: 480px) {
+    .manager-card {
+        padding: 14px;
+    }
+
+    .manager-header h3 {
+        font-size: 20px;
+    }
+
+    .manager-add-btn {
+        width: 100%;
+        text-align: center;
     }
 }
 </style>

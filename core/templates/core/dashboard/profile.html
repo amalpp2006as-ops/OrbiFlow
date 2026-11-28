@@ -2,9 +2,7 @@
 
 {% block title %}My Profile | OrbiFlow{% endblock %}
 
-{% block dashboard_heading %}
-My Profile
-{% endblock %}
+{% block dashboard_heading %}My Profile{% endblock %}
 
 {% block dashboard_nav %}
 
@@ -18,159 +16,361 @@ My Profile
 <a href="{% url 'customer-dashboard' %}">Dashboard</a>
 {% endif %}
 
-<a href="{% url 'profile-page' %}">My Profile</a>
-
-<hr>
-
-<a href="{% url 'home' %}">Visit Website</a>
-
-<form method="POST" action="{% url 'logout' %}">
-    {% csrf_token %}
-    <button type="submit" class="profile-logout">
-        Logout
-    </button>
-</form>
+<a href="{% url 'profile-page' %}" class="active">My Profile</a>
 
 {% endblock %}
+
 
 {% block dashboard_content %}
 
 <style>
-    .profile-container {
-        max-width: 950px;
+
+/* =====================================
+   PROFILE PAGE
+===================================== */
+
+.profile-page {
+    max-width: 1050px;
+    margin: 0 auto;
+    color: #E7EDF7;
+}
+
+
+/* =====================================
+   PROFILE CARDS
+===================================== */
+
+.profile-card {
+    background: rgba(25, 39, 61, 0.78);
+    border: 1px solid rgba(142, 172, 245, 0.13);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 22px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.profile-card:hover {
+    border-color: rgba(142, 172, 245, 0.28);
+}
+
+
+/* =====================================
+   PROFILE HEADER
+===================================== */
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.profile-avatar {
+    width: 95px;
+    height: 95px;
+    min-width: 95px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #30496D, #19273D);
+    border: 2px solid rgba(142, 172, 245, 0.35);
+    color: #A9C2FF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+    font-weight: 600;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(102, 142, 219, 0.12);
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-name {
+    font-size: 25px;
+    font-weight: 600;
+    color: #E7EDF7;
+    margin-bottom: 5px;
+}
+
+.profile-username {
+    color: #AAB8CC;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.profile-role {
+    display: inline-block;
+    padding: 6px 13px;
+    border-radius: 20px;
+    background: rgba(142, 172, 245, 0.12);
+    border: 1px solid rgba(142, 172, 245, 0.2);
+    color: #A9C2FF;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+/* =====================================
+   SECTION TITLES
+===================================== */
+
+.profile-card-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #E7EDF7;
+    padding-bottom: 17px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid rgba(148, 169, 199, 0.15);
+}
+
+
+/* =====================================
+   PROFILE DETAILS
+===================================== */
+
+.profile-detail {
+    margin-bottom: 23px;
+}
+
+.profile-detail label {
+    display: block;
+    font-size: 12px;
+    color: #8292AA;
+    margin-bottom: 7px;
+}
+
+.profile-detail p {
+    font-size: 14px;
+    color: #E7EDF7;
+    font-weight: 500;
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+
+/* =====================================
+   EDIT PROFILE FORM
+===================================== */
+
+.profile-edit-form {
+    display: none;
+    margin-top: 25px;
+    padding-top: 25px;
+    border-top: 1px solid rgba(148, 169, 199, 0.15);
+}
+
+.profile-edit-form.show {
+    display: block;
+}
+
+.profile-edit-form label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #AAB8CC;
+    margin-bottom: 8px;
+}
+
+.profile-edit-form input {
+    width: 100%;
+    padding: 12px 14px;
+    background: rgba(10, 20, 36, 0.75);
+    border: 1px solid #30415C;
+    border-radius: 8px;
+    margin-bottom: 18px;
+    font-size: 14px;
+    color: #E7EDF7;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.profile-edit-form input::placeholder {
+    color: #8292AA;
+}
+
+.profile-edit-form input:focus {
+    outline: none;
+    border-color: #8EACF5;
+    box-shadow: 0 0 0 3px rgba(142, 172, 245, 0.12);
+}
+
+
+/* =====================================
+   PROFILE ERRORS
+===================================== */
+
+.profile-error {
+    color: #FF8585;
+    font-size: 12px;
+    margin-top: -12px;
+    margin-bottom: 15px;
+}
+
+
+/* =====================================
+   PROFILE BUTTONS
+===================================== */
+
+.profile-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.profile-btn {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: all 0.25s ease;
+}
+
+.profile-btn-primary {
+    background: #668EDB;
+    color: #FFFFFF;
+}
+
+.profile-btn-primary:hover {
+    background: #7FA2EB;
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 142, 219, 0.2);
+}
+
+.profile-btn-secondary {
+    background: rgba(142, 172, 245, 0.09);
+    border-color: rgba(142, 172, 245, 0.18);
+    color: #C6D5F2;
+}
+
+.profile-btn-secondary:hover {
+    background: rgba(142, 172, 245, 0.17);
+    color: #FFFFFF;
+}
+
+.profile-btn-danger {
+    background: rgba(220, 80, 80, 0.10);
+    border-color: rgba(220, 80, 80, 0.2);
+    color: #FF9292;
+}
+
+.profile-btn-danger:hover {
+    background: rgba(220, 80, 80, 0.18);
+    color: #FFAAAA;
+}
+
+
+/* =====================================
+   PROFILE FOOTER
+===================================== */
+
+.profile-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    padding: 10px 3px 25px;
+}
+
+.profile-footer p {
+    color: #8292AA;
+    font-size: 12px;
+    margin: 0;
+}
+
+
+/* =====================================
+   RESPONSIVE DESIGN
+===================================== */
+
+@media (max-width: 576px) {
+
+    .profile-card {
+        padding: 20px;
+        border-radius: 12px;
     }
 
     .profile-header {
-        background: #ffffff;
-        padding: 30px;
-        border-radius: 10px;
-        border: 1px solid #eeeeee;
-        margin-bottom: 25px;
-        display: flex;
-        align-items: center;
-        gap: 25px;
+        align-items: flex-start;
+        gap: 15px;
     }
 
     .profile-avatar {
-        width: 95px;
-        height: 95px;
-        border-radius: 50%;
-        background: #22201d;
-        color: #dfa667;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 35px;
-        font-weight: 600;
-        flex-shrink: 0;
-        overflow: hidden;
+        width: 75px;
+        height: 75px;
+        min-width: 75px;
+        font-size: 27px;
     }
 
-    .profile-avatar img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+    .profile-name {
+        font-size: 20px;
     }
 
-    .profile-header h3 {
-        margin-bottom: 8px;
+    .profile-footer {
+        align-items: flex-start;
+        flex-direction: column;
     }
 
-    .profile-role {
-        display: inline-block;
-        background: #fdf3e9;
-        color: #a47c55;
-        padding: 6px 14px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: 600;
+    .profile-actions {
+        gap: 8px;
     }
 
-    .profile-card {
-        background: #ffffff;
-        border: 1px solid #eeeeee;
-        border-radius: 10px;
-        padding: 30px;
-        margin-bottom: 25px;
-    }
+}
 
-    .profile-card h5 {
-        margin-bottom: 25px;
-        padding-bottom: 15px;
-        border-bottom: 1px solid #eeeeee;
-    }
-
-    .profile-detail {
-        margin-bottom: 22px;
-    }
-
-    .profile-detail label {
-        display: block;
-        color: #999999;
-        font-size: 12px;
-        margin-bottom: 6px;
-    }
-
-    .profile-detail p {
-        color: #222222;
-        font-size: 14px;
-        font-weight: 500;
-        margin: 0;
-        overflow-wrap: anywhere;
-    }
-
-    .profile-logout {
-        display: block;
-        width: 100%;
-        padding: 12px 15px;
-        border: none;
-        border-radius: 6px;
-        background: transparent;
-        color: #a94442;
-        text-align: left;
-        cursor: pointer;
-        font-family: inherit;
-        font-size: inherit;
-    }
-
-    .profile-logout:hover {
-        background: #fff1f0;
-    }
-
-    @media (max-width: 576px) {
-        .profile-header {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .profile-card {
-            padding: 20px;
-        }
-    }
 </style>
 
-<div class="profile-container">
 
-    <div class="profile-header">
+<div class="profile-page">
 
-        <div class="profile-avatar">
+    <!-- PROFILE HEADER -->
 
-            {% if request.user.profile_picture %}
-                <img src="{{ request.user.profile_picture.url }}" alt="Profile Picture">
-            {% else %}
-                {{ request.user.first_name|default:request.user.username|first|upper }}
-            {% endif %}
+    <div class="profile-card">
 
-        </div>
+        <div class="profile-header">
 
-        <div>
-            <h3>
-                {{ request.user.get_full_name|default:request.user.username }}
-            </h3>
+            <div class="profile-avatar">
 
-            <span class="profile-role">
-                {{ request.user.get_role_display }}
-            </span>
+                {% if request.user.profile_picture %}
+                    <img
+                        src="{{ request.user.profile_picture.url }}"
+                        alt=""
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                    >
+                {% endif %}
+
+                <span {% if request.user.profile_picture %}style="display:none;"{% endif %}>
+                    {{ request.user.first_name|default:request.user.username|first|upper }}
+                </span>
+
+            </div>
+
+            <div>
+
+                <div class="profile-name">
+                    {{ request.user.get_full_name|default:request.user.username }}
+                </div>
+
+                <div class="profile-username">
+                    @{{ request.user.username }}
+                </div>
+
+                <span class="profile-role">
+                    {{ request.user.get_role_display }}
+                </span>
+
+            </div>
+
         </div>
 
     </div>
@@ -180,13 +380,18 @@ My Profile
 
     <div class="profile-card">
 
-        <h5>Personal Information</h5>
+        <h5 class="profile-card-title">Personal Information</h5>
 
         <div class="row">
 
             <div class="col-md-6 profile-detail">
-                <label>Full Name</label>
-                <p>{{ request.user.get_full_name|default:"Not provided" }}</p>
+                <label>First Name</label>
+                <p>{{ request.user.first_name|default:"Not provided" }}</p>
+            </div>
+
+            <div class="col-md-6 profile-detail">
+                <label>Last Name</label>
+                <p>{{ request.user.last_name|default:"Not provided" }}</p>
             </div>
 
             <div class="col-md-6 profile-detail">
@@ -196,7 +401,7 @@ My Profile
 
             <div class="col-md-6 profile-detail">
                 <label>Email Address</label>
-                <p>{{ request.user.email }}</p>
+                <p>{{ request.user.email|default:"Not provided" }}</p>
             </div>
 
             <div class="col-md-6 profile-detail">
@@ -216,30 +421,138 @@ My Profile
 
         </div>
 
+        <!-- EDIT BUTTON AT BOTTOM -->
+
+        <div class="profile-actions">
+
+            <button type="button" class="profile-btn profile-btn-primary"
+                    id="editProfileBtn">
+                Edit Profile
+            </button>
+
+        </div>
+
+
+        <!-- EDIT FORM -->
+
+        <div class="profile-edit-form" id="profileEditForm">
+
+            <h6 style="margin-bottom:20px;">Update Profile Details</h6>
+
+            <form method="POST" enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                <label for="{{ form.username.id_for_label }}">
+                    Username
+                </label>
+
+                {{ form.username }}
+
+                {% for error in form.username.errors %}
+                    <div class="profile-error">{{ error }}</div>
+                {% endfor %}
+
+                <label for="{{ form.profile_picture.id_for_label }}">
+                    Change Profile Photo
+                </label>
+
+                {{ form.profile_picture }}
+
+                {% for error in form.profile_picture.errors %}
+                    <div class="profile-error">{{ error }}</div>
+                {% endfor %}
+
+                {% if form.non_field_errors %}
+                    <div class="profile-error">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <div class="profile-actions">
+
+                    <button type="submit"
+                            class="profile-btn profile-btn-primary">
+                        Save Changes
+                    </button>
+
+                    <button type="button"
+                            class="profile-btn profile-btn-secondary"
+                            id="cancelEditBtn">
+                        Cancel
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
     </div>
+
+
+    <!-- ROLE-SPECIFIC INFORMATION -->
+
+    {% if request.user.role == 'MANAGER' or request.user.role == 'EMPLOYEE' %}
+
+    <div class="profile-card">
+
+        <h5 class="profile-card-title">Work Information</h5>
+
+        <div class="row">
+
+            <div class="col-md-6 profile-detail">
+                <label>Department</label>
+                <p>{{ request.user.department.name|default:"Not assigned" }}</p>
+            </div>
+
+            <div class="col-md-6 profile-detail">
+                <label>Designation</label>
+                <p>{{ request.user.designation|default:"Not provided" }}</p>
+            </div>
+
+            <div class="col-md-6 profile-detail">
+                <label>Position</label>
+                <p>{{ request.user.position|default:"Not provided" }}</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endif %}
 
 
     <!-- COMPANY INFORMATION -->
 
     <div class="profile-card">
 
-        <h5>Company Information</h5>
+        <h5 class="profile-card-title">Company Information</h5>
 
         {% if request.user.company %}
 
-            <div class="profile-detail">
-                <label>Company Name</label>
-                <p>{{ request.user.company.name }}</p>
-            </div>
+            <div class="row">
 
-            <div class="profile-detail">
-                <label>Company Email</label>
-                <p>{{ request.user.company.email }}</p>
-            </div>
+                <div class="col-md-6 profile-detail">
+                    <label>Company Name</label>
+                    <p>{{ request.user.company.name }}</p>
+                </div>
 
-            <div class="profile-detail">
-                <label>Company Phone</label>
-                <p>{{ request.user.company.phone }}</p>
+                <div class="col-md-6 profile-detail">
+                    <label>Company Email</label>
+                    <p>{{ request.user.company.email|default:"Not provided" }}</p>
+                </div>
+
+                <div class="col-md-6 profile-detail">
+                    <label>Company Phone</label>
+                    <p>{{ request.user.company.phone|default:"Not provided" }}</p>
+                </div>
+
+                <div class="col-md-6 profile-detail">
+                    <label>Company Website</label>
+                    <p>{{ request.user.company.website|default:"Not provided" }}</p>
+                </div>
+
             </div>
 
         {% elif customer_companies %}
@@ -255,7 +568,7 @@ My Profile
 
         {% else %}
 
-            <p class="text-muted">
+            <p style="color:#999; font-size:14px;">
                 No company information available.
             </p>
 
@@ -263,6 +576,64 @@ My Profile
 
     </div>
 
+
+    <!-- ACCOUNT SECURITY -->
+
+    <div class="profile-card">
+
+        <h5 class="profile-card-title">Account Security</h5>
+
+        <div class="profile-detail">
+            <label>Password</label>
+            <p>For your security, your password is not displayed.</p>
+        </div>
+
+        <a href="{% url 'forgot-password-page' %}"
+           class="profile-btn profile-btn-secondary">
+            Reset Password
+        </a>
+
+    </div>
+
+
+    <!-- BOTTOM ACCOUNT ACTIONS -->
+
+    <div class="profile-footer">
+
+        <p>Manage your OrbiFlow account securely.</p>
+
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+
+            <button type="submit"
+                    class="profile-btn profile-btn-danger">
+                Logout
+            </button>
+
+        </form>
+
+    </div>
+
 </div>
+
+
+<script>
+    const editButton = document.getElementById('editProfileBtn');
+    const cancelButton = document.getElementById('cancelEditBtn');
+    const editForm = document.getElementById('profileEditForm');
+
+    editButton.addEventListener('click', function () {
+        editForm.classList.add('show');
+        editForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+
+    cancelButton.addEventListener('click', function () {
+        editForm.classList.remove('show');
+    });
+
+    {% if form.errors %}
+        editForm.classList.add('show');
+    {% endif %}
+</script>
 
 {% endblock %}

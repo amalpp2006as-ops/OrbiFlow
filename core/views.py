@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.views.decorators.http import require_POST
 from organization.models import CustomerRelationship
+from accounts.forms import ProfileForm
 
 
 # ==================================
@@ -96,14 +97,31 @@ def profile_page(request):
     if not request.user.is_authenticated:
         return redirect('login-page')
 
+    user = request.user
+
+    if request.method == 'POST':
+        form = ProfileForm(
+            request.POST,
+            request.FILES,
+            instance=user
+        )
+
+        if form.is_valid():
+            form.save()
+            return redirect('profile-page')
+
+    else:
+        form = ProfileForm(instance=user)
+
     customer_companies = []
 
-    if request.user.role == 'CUSTOMER':
+    if user.role == 'CUSTOMER':
         customer_companies = CustomerRelationship.objects.filter(
-            customer=request.user
+            customer=user
         ).select_related('company')
 
     return render(request, 'core/dashboard/profile.html', {
+        'form': form,
         'customer_companies': customer_companies
     })
 

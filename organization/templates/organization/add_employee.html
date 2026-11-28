@@ -36,27 +36,55 @@
 }
 
 .add-employee-card {
-    background: white;
-    border: 1px solid #eee;
+    background: rgba(25, 39, 61, 0.78);
+    border: 1px solid rgba(142, 172, 245, 0.16);
     border-radius: 10px;
     padding: 30px;
+    color: #E7EDF7;
+    backdrop-filter: blur(14px);
 }
 
 .add-employee-card label {
     font-size: 14px;
     font-weight: 600;
     margin-bottom: 8px;
+    color: #AAB8CC;
 }
 
 .add-employee-card input,
 .add-employee-card select {
     padding: 12px;
     border-radius: 6px;
+    background: rgba(10, 20, 36, 0.75);
+    border: 1px solid #30415C;
+    color: #E7EDF7;
+}
+
+.add-employee-card input::placeholder {
+    color: #8292AA;
+}
+
+.add-employee-card input:focus,
+.add-employee-card select:focus {
+    background: rgba(10, 20, 36, 0.9);
+    border-color: #8EACF5;
+    color: #E7EDF7;
+    box-shadow: 0 0 0 3px rgba(142, 172, 245, 0.12);
+    outline: none;
+}
+
+.add-employee-card select option {
+    background: #19273D;
+    color: #E7EDF7;
+}
+
+.add-employee-card small {
+    color: #8292AA !important;
 }
 
 .add-employee-submit {
-    background: #dfa667;
-    color: white;
+    background: #668EDB;
+    color: #FFFFFF;
     border: none;
     padding: 12px 25px;
     border-radius: 6px;
@@ -64,7 +92,8 @@
 }
 
 .add-employee-submit:hover {
-    background: #c88d4f;
+    background: #7FA2EB;
+    color: #FFFFFF;
 }
 
 .add-employee-logout {
@@ -74,7 +103,7 @@
     border: none;
     border-radius: 6px;
     background: transparent;
-    color: #a94442;
+    color: #FF9292;
     text-align: left;
     cursor: pointer;
     font-family: inherit;
@@ -82,7 +111,7 @@
 }
 
 .add-employee-logout:hover {
-    background: #fff1f0;
+    background: rgba(220, 80, 80, 0.10);
 }
 
 @media (max-width: 576px) {
@@ -107,7 +136,7 @@
         <h3>Add New Employee</h3>
 
         <p class="text-muted">
-            Invite a new employee to join your department at OrbiFlow.
+            Invite a new employee to join your company at OrbiFlow.
         </p>
 
     </div>
@@ -159,17 +188,49 @@
 
             <div class="mb-4">
 
-                <label>Department</label>
+                <label for="department">
+                    Department
+                </label>
 
-                <input
-                    type="text"
-                    class="form-control"
-                    value="{{ department.name }}"
-                    readonly
-                >
+                {% if can_choose_department %}
+
+                    <select
+                        name="department"
+                        id="department"
+                        class="form-control"
+                        required
+                    >
+
+                        <option value="">
+                            Select Department
+                        </option>
+
+                        {% for item in departments %}
+
+                            <option
+                                value="{{ item.id }}"
+                                {% if department.id == item.id %}selected{% endif %}
+                            >
+                                {{ item.name }}
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                {% else %}
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        value="{{ department.name }}"
+                        readonly
+                    >
+
+                {% endif %}
 
                 <small class="text-muted">
-                    Your department is automatically assigned to the employee.
+                    Select the department where the employee will work.
                 </small>
 
             </div>
@@ -203,7 +264,7 @@
                 </select>
 
                 <small class="text-muted">
-                    Available designations are based on your department.
+                    Available designations change based on the selected department.
                 </small>
 
             </div>
@@ -232,5 +293,63 @@
     </div>
 
 </div>
+
+
+{{ designations_by_department|json_script:"designations-data" }}
+
+<script>
+
+const departmentSelect = document.getElementById('department');
+const designationSelect = document.getElementById('designation');
+
+const designationsData = JSON.parse(
+    document.getElementById('designations-data').textContent
+);
+
+function updateDesignations() {
+
+    if (!departmentSelect) {
+        return;
+    }
+
+    const selectedOption = departmentSelect.options[
+        departmentSelect.selectedIndex
+    ];
+
+    const departmentName = selectedOption.text.trim();
+
+    const designations = designationsData[departmentName] || [];
+
+    designationSelect.innerHTML = '';
+
+    const defaultOption = document.createElement('option');
+
+    defaultOption.value = '';
+    defaultOption.textContent = 'Select Employee Designation';
+
+    designationSelect.appendChild(defaultOption);
+
+    designations.forEach(function(designation) {
+
+        const option = document.createElement('option');
+
+        option.value = designation;
+        option.textContent = designation;
+
+        designationSelect.appendChild(option);
+
+    });
+
+}
+
+if (departmentSelect) {
+
+    departmentSelect.addEventListener('change', updateDesignations);
+
+    updateDesignations();
+
+}
+
+</script>
 
 {% endblock %}

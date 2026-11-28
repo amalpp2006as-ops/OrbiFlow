@@ -770,38 +770,77 @@ EMPLOYEE_DESIGNATIONS = {
     ],
 }
 
-
 # ADD EMPLOYEE
 @login_required
 def add_employee(request):
 
-    if request.user.role != 'MANAGER':
+    user = request.user
+
+    if user.role not in ['BUSINESS_OWNER', 'MANAGER']:
         return redirect('dashboard-redirect')
 
-    department = request.user.department
+    departments = Department.objects.filter(
+        company=user.company,
+        is_active=True
+    ).order_by('name')
 
-    if not department:
-        department = Department.objects.filter(
-            manager=request.user,
-            company=request.user.company
-        ).first()
+    department = None
+    can_choose_department = False
 
-    if not department:
-        return redirect('manager-dashboard')
+    if user.role == 'BUSINESS_OWNER':
 
-    designations = EMPLOYEE_DESIGNATIONS.get(
-        department.name,
-        []
-    )
+        can_choose_department = True
+
+    elif user.role == 'MANAGER':
+
+        manager_department = user.department
+
+        if not manager_department:
+            manager_department = Department.objects.filter(
+                manager=user,
+                company=user.company
+            ).first()
+
+        if not manager_department:
+            return redirect('dashboard-redirect')
+
+        if manager_department.name.strip().lower() in [
+            'human resources',
+            'hr'
+        ]:
+
+            can_choose_department = True
+            department = manager_department
+
+        else:
+            return redirect('dashboard-redirect')
+
+    designations = []
 
     if request.method == 'POST':
 
         email = request.POST.get('email', '').strip().lower()
         designation = request.POST.get('designation', '').strip()
 
-        if not email or not designation:
+        if can_choose_department:
+
+            department_id = request.POST.get('department')
+
+            department = get_object_or_404(
+                Department,
+                id=department_id,
+                company=user.company,
+                is_active=True
+            )
+
+        if not email or not designation or not department:
             messages.error(request, 'Please fill in all fields.')
             return redirect('add-employee')
+
+        designations = EMPLOYEE_DESIGNATIONS.get(
+            department.name,
+            []
+        )
 
         try:
             validate_email(email)
@@ -812,7 +851,7 @@ def add_employee(request):
         if designation not in designations:
             messages.error(
                 request,
-                'Please select a valid designation for your department.'
+                'Please select a valid designation for this department.'
             )
             return redirect('add-employee')
 
@@ -824,7 +863,7 @@ def add_employee(request):
             return redirect('add-employee')
 
         existing_invitation = Invitation.objects.filter(
-            company=request.user.company,
+            company=user.company,
             email__iexact=email,
             role='EMPLOYEE',
             is_used=False,
@@ -839,12 +878,12 @@ def add_employee(request):
             return redirect('add-employee')
 
         invitation = Invitation.objects.create(
-            company=request.user.company,
+            company=user.company,
             email=email,
             role='EMPLOYEE',
             department=department,
             designation=designation,
-            invited_by=request.user,
+            invited_by=user,
             expires_at=timezone.now() + timedelta(days=2)
         )
 
@@ -861,7 +900,7 @@ def add_employee(request):
                 subject='Invitation to join OrbiFlow',
                 message=(
                     f'You have been invited to join '
-                    f'{request.user.company.name}.\n\n'
+                    f'{user.company.name}.\n\n'
                     f'Your Department: {department.name}\n'
                     f'Your Designation: {designation}\n'
                     f'Your Role: Employee\n\n'
@@ -890,14 +929,24 @@ def add_employee(request):
 
         return redirect('team-members')
 
+    if department:
+        designations = EMPLOYEE_DESIGNATIONS.get(
+            department.name,
+            []
+        )
+
     return render(
         request,
         'organization/add_employee.html',
         {
             'department': department,
-            'designations': designations
+            'departments': departments,
+            'designations': designations,
+            'designations_by_department': EMPLOYEE_DESIGNATIONS,
+            'can_choose_department': can_choose_department
         }
     )
+
 # ACCEPT EMPLOYEE INVITATION
 def accept_employee_invitation(request, invitation_code):
 

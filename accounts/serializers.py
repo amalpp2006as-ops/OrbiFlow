@@ -29,6 +29,7 @@ class OwnerRegisterSerializer(serializers.ModelSerializer):
     confirm_password = serializers.CharField(write_only=True)
     company_name = serializers.CharField(max_length=200, write_only=True)
     company_phone = serializers.CharField(max_length=15, write_only=True)
+    profile_picture = serializers.ImageField(required=False, allow_null=True)
 
     class Meta:
         model = User
@@ -42,6 +43,7 @@ class OwnerRegisterSerializer(serializers.ModelSerializer):
             'phone',
             'company_name',
             'company_phone',
+            'profile_picture',
         ]
 
     def validate_email(self, value):
@@ -96,6 +98,7 @@ class CustomerRegisterSerializer(serializers.ModelSerializer):
 
     password = serializers.CharField(write_only=True)
     confirm_password = serializers.CharField(write_only=True)
+    profile_picture = serializers.ImageField(required=False, allow_null=True)
 
     class Meta:
         model = User
@@ -107,6 +110,7 @@ class CustomerRegisterSerializer(serializers.ModelSerializer):
             'first_name',
             'last_name',
             'phone',
+            'profile_picture',
         ]
 
     def validate_email(self, value):

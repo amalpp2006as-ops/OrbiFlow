@@ -6650,179 +6650,7 @@ ol {
 	}
 }
 
-/* HEADER */
 
-.orbiflow-header {
-	width: 100%;
-	padding: 20px 0;
-}
-
-.orbiflow-navbar {
-	width: 94%;
-	max-width: 1450px;
-	min-height: 75px;
-	margin: auto;
-	padding: 8px 15px;
-	background: #ffffff;
-	border-radius: 35px;
-	display: flex;
-	align-items: center;
-	justify-content: flex-start;
-	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-}
-
-/* LOGO */
-
-.orbiflow-logo {
-	background: #222222;
-	color: #ffffff;
-	padding: 10px 14px;
-	border-radius: 30px;
-	font-size: 18px;
-	font-weight: 700;
-	text-decoration: none;
-	white-space: nowrap;
-	flex-shrink: 0;
-}
-
-/* MOBILE MENU BUTTON */
-
-#menu-toggle {
-	display: none;
-}
-
-.menu-icon {
-	display: none;
-	font-size: 25px;
-	cursor: pointer;
-	color: #222222;
-}
-
-/* MAIN NAVIGATION */
-
-.orbiflow-nav {
-	display: flex;
-	align-items: center;
-	flex: 1;
-	min-width: 0;
-	margin-left: 24px;
-}
-
-.orbiflow-nav>ul:first-child {
-	display: flex;
-	align-items: center;
-	justify-content: flex-start;
-	gap: 16px;
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	width: auto;
-}
-
-.orbiflow-nav ul li {
-	position: relative;
-}
-
-.orbiflow-nav ul li a {
-	color: #555555;
-	font-size: 14px;
-	font-weight: 500;
-	text-decoration: none;
-	white-space: nowrap;
-	transition: 0.3s;
-}
-
-.orbiflow-nav ul li a:hover {
-	color: #1769ff;
-}
-
-.orbiflow-nav ul li a span {
-    display: none;
-}
-
-/* DROPDOWN */
-
-.orbiflow-nav .dropdown {
-	position: absolute;
-	top: 100%;
-	left: 0;
-	min-width: 210px;
-	max-height: 70vh;
-	overflow-y: auto;
-	background: #ffffff;
-	display: none;
-	flex-direction: column;
-	align-items: stretch;
-	gap: 0;
-	padding: 10px 0;
-	margin-top: 15px;
-	border-radius: 10px;
-	box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-	z-index: 1000;
-}
-
-.orbiflow-nav .dropdown li {
-	width: 100%;
-}
-
-.orbiflow-nav .dropdown li a {
-	display: block;
-	padding: 10px 18px;
-	font-size: 14px;
-}
-
-.orbiflow-nav .has-dropdown:hover>.dropdown,
-.orbiflow-nav .has-dropdown:focus-within>.dropdown {
-	display: flex;
-}
-
-/* LOGIN AND REGISTER */
-
-.orbiflow-nav .auth-nav {
-	display: flex;
-	align-items: center;
-	gap: 18px;
-	list-style: none;
-	margin: 0 0 0 auto;
-	padding: 0;
-	width: auto;
-	flex-shrink: 0;
-}
-
-.orbiflow-nav .auth-nav li a {
-	font-size: 14px;
-	font-weight: 600;
-	white-space: nowrap;
-}
-
-/* REGISTER BUTTON */
-
-.orbiflow-nav .register-btn {
-	background: #222222;
-	color: #ffffff;
-	padding: 12px 23px;
-	border-radius: 30px;
-	display: inline-block;
-}
-
-.orbiflow-nav .register-btn:hover {
-	background: #717475;
-	color: #ffffff;
-}
-
-/* DESKTOP */
-
-@media (min-width: 1001px) {
-
-	.orbiflow-nav {
-		display: flex;
-	}
-
-	.orbiflow-nav>ul:first-child {
-		flex-wrap: nowrap;
-	}
-
-}
 
 /* TABLET AND MOBILE */
 
@@ -7041,7 +6869,26 @@ ol {
 }
 
 
-/* Outer container: fixed position only, completely invisible */
+/* ================================================================
+   ORBIFLOW CUSTOM STYLES
+   Theme: Midnight Navy / Slate Blue
+   Existing class names and layout behaviour are preserved.
+================================================================ */
+
+:root {
+    --orbiflow-bg-main: #0B1424;
+    --orbiflow-bg-sidebar: #16263D;
+    --orbiflow-bg-card: #19273D;
+    --orbiflow-bg-card-hover: #202F46;
+    --orbiflow-border: #30415C;
+    --orbiflow-accent: #8EACF5;
+    --orbiflow-accent-hover: #668EDB;
+    --orbiflow-text: #E7EDF7;
+    --orbiflow-text-secondary: #AAB8CC;
+    --orbiflow-text-muted: #8292AA;
+}
+
+/* Floating glass header */
 .orbiflow-header,
 .orbiflow-header.scrolled {
     position: fixed;
@@ -7050,53 +6897,157 @@ ol {
     transform: translateX(-50%);
     width: 92%;
     max-width: 1240px;
+    padding: 0;
     z-index: 9999;
     background: transparent !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    box-shadow: none !important;
     border: none !important;
+    box-shadow: none !important;
 }
 
-/* Inner pill: single transparent glass blur at all times */
 .orbiflow-navbar,
 .orbiflow-header.scrolled .orbiflow-navbar {
     width: 94%;
     max-width: 1450px;
+    min-height: 75px;
     margin: auto;
-    background: rgba(255, 255, 255, 0.30) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
+    padding: 8px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background: rgba(22, 38, 61, 0.82) !important;
+    border: 1px solid rgba(142, 172, 245, 0.18) !important;
     border-radius: 35px;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    box-shadow: none !important;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.20) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
 }
 
-body {
-    padding-top: 0;
+.orbiflow-logo {
+    background: linear-gradient(145deg, #30496D, #19273D);
+    color: var(--orbiflow-text);
+    border: 1px solid rgba(142, 172, 245, 0.25);
 }
 
-/* Make navbar links solid black for visibility over blur */
+.menu-icon {
+    color: var(--orbiflow-text);
+}
+
 .orbiflow-nav ul li a,
 .orbiflow-nav .auth-nav li a {
-    color: #000000 !important;
+    color: var(--orbiflow-text-secondary) !important;
     font-weight: 600;
+    transition: color 0.25s ease, transform 0.25s ease;
 }
 
-/* Keep Register button text white */
-.orbiflow-nav .auth-nav li a.register-btn {
-    color: #ffffff !important;
+.orbiflow-nav ul li a:hover,
+.orbiflow-nav ul li a:focus {
+    color: var(--orbiflow-accent) !important;
+    transform: translateY(-2px);
 }
+
+.orbiflow-nav .dropdown {
+    background: rgba(22, 38, 61, 0.96);
+    border: 1px solid rgba(142, 172, 245, 0.18);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.orbiflow-nav .dropdown li a {
+    color: var(--orbiflow-text-secondary) !important;
+}
+
+.orbiflow-nav .dropdown li a:hover {
+    background: rgba(142, 172, 245, 0.10);
+    color: var(--orbiflow-text) !important;
+}
+
+.orbiflow-nav .register-btn {
+    background: var(--orbiflow-accent-hover);
+    color: #FFFFFF !important;
+    border: 1px solid rgba(142, 172, 245, 0.25);
+}
+
+.orbiflow-nav .register-btn:hover {
+    background: var(--orbiflow-accent);
+    color: #0B1424 !important;
+}
+
+/* Industries cards */
+.industry-card {
+    background: rgba(25, 39, 61, 0.82);
+    border: 1px solid rgba(142, 172, 245, 0.15);
+    border-radius: 14px;
+    transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.industry-card:hover {
+    background: #202F46;
+    border-color: rgba(142, 172, 245, 0.32);
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.20);
+}
+
+.industry-card > span {
+    color: var(--orbiflow-accent);
+}
+
+.industry-card h3,
+.industry-card h5 {
+    color: var(--orbiflow-text);
+}
+
+.industry-card p,
+.industry-card ul li {
+    color: var(--orbiflow-text-secondary);
+}
+
+.industry-card:hover h3,
+.industry-card:hover h5,
+.industry-card:hover p,
+.industry-card:hover ul li,
+.industry-card:hover > span {
+    color: var(--orbiflow-text);
+}
+
 @media (max-width: 1000px) {
     .orbiflow-nav {
-        background: rgba(255, 255, 255, 0.88) !important;
+        background: rgba(22, 38, 61, 0.96) !important;
+        border: 1px solid rgba(142, 172, 245, 0.18);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22) !important;
         backdrop-filter: blur(16px) !important;
         -webkit-backdrop-filter: blur(16px) !important;
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
     }
 
     .orbiflow-nav .dropdown {
-        background: rgba(255, 255, 255, 0.65) !important;
+        background: rgba(25, 39, 61, 0.98);
+    }
+}
+
+@media (max-width: 767px) {
+    .industry-card {
+        padding: 25px;
+        min-height: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .orbiflow-header {
+        top: 12px;
+    }
+
+    .orbiflow-navbar {
+        width: 94%;
+        padding: 10px 14px;
+        min-height: 55px;
+    }
+
+    .orbiflow-logo {
+        font-size: 16px;
+        padding: 9px 14px;
+    }
+
+    .menu-icon {
+        font-size: 23px;
     }
 }

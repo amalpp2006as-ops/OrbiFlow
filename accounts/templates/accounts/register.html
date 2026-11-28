@@ -165,6 +165,20 @@ Create Account | OrbiFlow
 
         <form id="registerForm">
 
+            <!-- ACCOUNT TYPE -->
+
+            <div class="section-heading">
+                ACCOUNT TYPE
+            </div>
+
+            <label for="accountType">Select Account Type</label>
+
+            <select id="accountType" required>
+                <option value="">Select Account Type</option>
+                <option value="owner">Business Owner</option>
+                <option value="customer">Customer</option>
+            </select>
+
 
             <!-- PERSONAL DETAILS -->
 
@@ -194,6 +208,9 @@ Create Account | OrbiFlow
 
             <label for="phone">Phone Number</label>
             <input type="text" id="phone" required>
+
+            <label for="profile_picture">Profile Photo</label>
+            <input type="file" id="profile_picture" accept="image/*">
 
 
             <!-- COMPANY DETAILS -->
@@ -295,24 +312,28 @@ Create Account | OrbiFlow
             return;
         }
 
-        const data = {
+        const data = new FormData();
 
-            first_name: document.getElementById("first_name").value,
-            last_name: document.getElementById("last_name").value,
-            username: document.getElementById("username").value,
-            email: document.getElementById("email").value,
-            phone: document.getElementById("phone").value,
-            password: document.getElementById("password").value,
-            confirm_password: document.getElementById("confirm_password").value
+        data.append("first_name", document.getElementById("first_name").value);
+        data.append("last_name", document.getElementById("last_name").value);
+        data.append("username", document.getElementById("username").value);
+        data.append("email", document.getElementById("email").value);
+        data.append("phone", document.getElementById("phone").value);
+        data.append("password", document.getElementById("password").value);
+        data.append("confirm_password", document.getElementById("confirm_password").value);
 
-        };
+        const profilePicture = document.getElementById("profile_picture").files[0];
+
+        if (profilePicture) {
+            data.append("profile_picture", profilePicture);
+        }
 
         let url;
 
         if (type === "owner") {
 
-            data.company_name = companyName.value;
-            data.company_phone = companyPhone.value;
+            data.append("company_name", companyName.value);
+            data.append("company_phone", companyPhone.value);
 
             url = "{% url 'owner-register' %}";
 
@@ -332,11 +353,7 @@ Create Account | OrbiFlow
 
                 method: "POST",
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify(data)
+                body: data
 
             });
 

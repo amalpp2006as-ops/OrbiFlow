@@ -30,27 +30,6 @@ Business Owner Dashboard
     <button type="submit" class="owner-logout"><i class="fa fa-sign-out me-2"></i>Logout</button>
 </form>
 
-<style>
-.owner-logout {
-    display: block;
-    width: 100%;
-    padding: 12px 15px;
-    border: none;
-    border-radius: 6px;
-    background: transparent;
-    color: #d9534f;
-    text-align: left;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: inherit;
-    font-weight: 600;
-    transition: background 0.2s ease;
-}
-
-.owner-logout:hover {
-    background: #fff1f0;
-}
-</style>
 
 {% endblock %}
 
@@ -790,6 +769,428 @@ Business Owner Dashboard
         transform: translateY(0);
         opacity: 1;
     }
+    
+/* ==================================
+   ORBIFLOW OWNER DASHBOARD THEME
+================================== */
+
+.of-shell {
+    color: #E7EDF7;
+}
+
+/* Topbar */
+
+.of-topbar {
+    background: rgba(25, 39, 61, 0.85);
+    border-color: #30415C;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.of-greeting h3,
+.of-profile-name,
+.of-kpi-value,
+.of-panel-header h5,
+.of-timeline-title {
+    color: #E7EDF7;
+}
+
+.of-greeting p,
+.of-panel-sub,
+.of-kpi-label,
+.of-kpi-sub {
+    color: #AAB8CC;
+}
+
+/* Search */
+
+.of-search-btn {
+    background: #202F46;
+    border-color: #30415C;
+    color: #AAB8CC;
+}
+
+.of-search-btn:hover {
+    background: #263A56;
+    border-color: #8EACF5;
+    color: #E7EDF7;
+}
+
+.of-kbd {
+    background: #16263D;
+    border-color: #30415C;
+    color: #AAB8CC;
+}
+
+/* Buttons */
+
+.of-btn-outline {
+    background: #202F46;
+    border-color: #30415C;
+    color: #E7EDF7 !important;
+}
+
+.of-btn-outline:hover {
+    background: #668EDB;
+    border-color: #668EDB;
+    color: #ffffff !important;
+}
+
+/* Profile */
+
+.of-profile-trigger {
+    background: rgba(142, 172, 245, 0.10);
+    border-color: #30415C;
+}
+
+.of-profile-trigger:hover {
+    background: #263A56;
+    border-color: #8EACF5;
+}
+
+.of-avatar {
+    border-color: #8EACF5;
+}
+
+.of-avatar-fallback {
+    background: #263A56;
+    color: #8EACF5;
+    border-color: #8EACF5;
+}
+
+.of-profile-role {
+    color: #AFC5FA;
+}
+
+/* KPI Cards */
+
+.of-kpi-card {
+    background: #19273D;
+    border-color: #30415C;
+}
+
+.of-kpi-card::before {
+    background: #668EDB;
+}
+
+.of-kpi-card:hover {
+    border-color: #668EDB;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22);
+}
+
+.of-kpi-card:hover::before {
+    background: #8EACF5;
+}
+
+.of-kpi-icon {
+    background: rgba(142, 172, 245, 0.12);
+    color: #8EACF5;
+}
+
+.of-kpi-pill {
+    background: #202F46;
+    border-color: #30415C;
+    color: #AAB8CC;
+}
+
+/* Panels */
+
+.of-panel {
+    background: rgba(25, 39, 61, 0.85);
+    border-color: #30415C;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.of-panel-header {
+    border-bottom-color: #30415C;
+}
+
+/* Segmented Buttons */
+
+.of-seg-group {
+    background: #16263D;
+    border-color: #30415C;
+}
+
+.of-seg-btn {
+    color: #AAB8CC;
+}
+
+.of-seg-btn.active {
+    background: #668EDB;
+    color: #ffffff;
+}
+
+/* Action Tiles */
+
+.of-action-tile {
+    background: #202F46;
+    border-color: #30415C;
+    color: #E7EDF7 !important;
+}
+
+.of-action-tile i {
+    background: #263A56;
+    color: #8EACF5;
+}
+
+.of-action-tile:hover {
+    background: #263A56;
+    border-color: #8EACF5;
+    color: #ffffff !important;
+}
+
+.of-action-tile:hover i {
+    background: #8EACF5;
+    color: #0B1424;
+}
+
+/* Tables */
+
+.of-table {
+    color: #E7EDF7;
+}
+
+.of-table th {
+    background: #16263D;
+    border-bottom-color: #30415C;
+    color: #AAB8CC;
+}
+
+.of-table td {
+    border-bottom-color: #30415C;
+    color: #E7EDF7;
+}
+
+.of-table-filter {
+    background: #16263D;
+    border-color: #30415C;
+    color: #E7EDF7;
+}
+
+/* Badges */
+
+.of-badge-gold {
+    background: rgba(142, 172, 245, 0.12);
+    color: #AFC5FA;
+}
+
+/* Company Card */
+
+.of-company-card {
+    background: linear-gradient(145deg, #16263D 0%, #202F46 100%);
+    border-left-color: #8EACF5;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+}
+
+.of-company-row {
+    border-bottom-color: rgba(255, 255, 255, 0.09);
+}
+
+.of-company-row span:first-child {
+    color: #AAB8CC;
+}
+
+.of-company-row span:last-child {
+    color: #E7EDF7;
+}
+
+/* Company Button */
+
+.of-btn-gold {
+    background: #8EACF5;
+    color: #0B1424 !important;
+}
+
+.of-btn-gold:hover {
+    background: #AFC5FA;
+}
+
+/* Progress */
+
+.of-progress-meta {
+    color: #E7EDF7;
+}
+
+.of-progress-track {
+    background: #30415C;
+}
+
+.of-progress-fill {
+    background: #8EACF5;
+}
+
+/* Checklist */
+
+.of-filter-pill {
+    background: #202F46;
+    border-color: #30415C;
+    color: #AAB8CC;
+}
+
+.of-filter-pill.active {
+    background: #668EDB;
+    border-color: #668EDB;
+    color: #ffffff;
+}
+
+/* Notes */
+
+.of-note-item {
+    background: #202F46;
+    border-color: #30415C;
+    color: #E7EDF7;
+}
+
+.of-note-item.done .of-note-text {
+    color: #8292AA;
+}
+
+/* Timeline */
+
+.of-timeline li {
+    border-left-color: #30415C;
+}
+
+.of-timeline li::before {
+    background: #8EACF5;
+}
+
+.of-timeline-time {
+    color: #8292AA;
+}
+
+/* Command Palette */
+
+.of-cmd-backdrop {
+    background: rgba(5, 12, 24, 0.75);
+}
+
+.of-cmd-box {
+    background: #19273D;
+    border-color: #30415C;
+}
+
+.of-cmd-input-wrap {
+    border-bottom-color: #30415C;
+}
+
+.of-cmd-input {
+    background: transparent;
+    color: #E7EDF7;
+}
+
+.of-cmd-input::placeholder {
+    color: #8292AA;
+}
+
+.of-cmd-item {
+    color: #E7EDF7;
+}
+
+.of-cmd-item:hover {
+    background: #263A56;
+    color: #8EACF5;
+}
+
+/* Toast */
+
+.of-toast {
+    background: #19273D;
+    color: #E7EDF7;
+    border-left-color: #8EACF5;
+    border: 1px solid #30415C;
+}
+
+/* Form Controls */
+
+.of-shell input,
+.of-shell select,
+.of-shell textarea {
+    background-color: #16263D;
+    border-color: #30415C;
+    color: #E7EDF7;
+}
+
+.of-shell input::placeholder,
+.of-shell textarea::placeholder {
+    color: #8292AA;
+}
+
+.of-shell input:focus,
+.of-shell select:focus,
+.of-shell textarea:focus {
+    border-color: #8EACF5;
+    box-shadow: 0 0 0 3px rgba(142, 172, 245, 0.12);
+    outline: none;
+}
+
+.of-shell option {
+    background: #16263D;
+    color: #E7EDF7;
+}
+
+/* Responsive */
+
+@media (max-width: 767px) {
+    .of-topbar {
+        padding: 16px;
+    }
+
+    .of-panel {
+        padding: 18px;
+    }
+
+    .of-kpi-card {
+        padding: 17px;
+    }
+
+    .of-kpi-value {
+        font-size: 27px;
+    }
+
+    .of-topbar-right {
+        width: 100%;
+    }
+
+    .of-search-btn,
+    .of-btn-outline {
+        justify-content: center;
+    }
+
+    .of-company-card {
+        padding: 18px;
+    }
+
+    .of-chart-wrap {
+        height: 220px;
+    }
+}
+
+@media (max-width: 480px) {
+    .of-greeting h3 {
+        font-size: 19px;
+    }
+
+    .of-profile-trigger {
+        padding-right: 10px;
+    }
+
+    .of-panel {
+        padding: 15px;
+    }
+
+    .of-checklist-filters {
+        flex-wrap: wrap;
+    }
+
+    .of-company-row {
+        flex-wrap: wrap;
+    }
+
+    .of-company-row span:last-child {
+        text-align: left;
+    }
+}
 </style>
 
 <div class="of-shell"

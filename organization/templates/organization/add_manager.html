@@ -34,34 +34,54 @@
 }
 
 .add-manager-card {
-    background: white;
-    border: 1px solid #eee;
+    background: #19273D;
+    border: 1px solid #30415C;
     border-radius: 10px;
     padding: 30px;
+    color: #E7EDF7;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 }
 
 .add-manager-card label {
     font-size: 14px;
     font-weight: 600;
     margin-bottom: 8px;
+    color: #AAB8CC;
 }
 
 .add-manager-card input {
     padding: 12px;
     border-radius: 6px;
+    background: #16263D;
+    border: 1px solid #30415C;
+    color: #E7EDF7;
+    width: 100%;
+}
+
+.add-manager-card input::placeholder {
+    color: #8292AA;
+}
+
+.add-manager-card input:focus {
+    border-color: #8EACF5;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(142, 172, 245, 0.12);
 }
 
 .add-manager-submit {
-    background: #dfa667;
-    color: white;
+    background: #8EACF5;
+    color: #0B1424;
     border: none;
     padding: 12px 25px;
     border-radius: 6px;
     font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .add-manager-submit:hover {
-    background: #c88d4f;
+    background: #668EDB;
+    color: #ffffff;
 }
 
 .add-logout {
@@ -71,15 +91,35 @@
     border: none;
     border-radius: 6px;
     background: transparent;
-    color: #a94442;
+    color: #F28B82;
     text-align: left;
     cursor: pointer;
     font-family: inherit;
     font-size: inherit;
+    transition: all 0.2s ease;
 }
 
 .add-logout:hover {
-    background: #fff1f0;
+    background: rgba(231, 76, 60, 0.12);
+    color: #FF9B91;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+    .add-manager-card {
+        padding: 22px;
+    }
+}
+
+@media (max-width: 480px) {
+    .add-manager-card {
+        padding: 17px;
+    }
+
+    .add-manager-submit {
+        width: 100%;
+    }
 }
 </style>
 

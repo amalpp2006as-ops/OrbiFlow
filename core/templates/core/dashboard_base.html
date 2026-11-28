@@ -1,0 +1,145 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}OrbiFlow | Dashboard{% endblock %}
+
+{% block header %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+
+    <aside class="dashboard-sidebar" id="dashboardSidebar">
+
+        <button type="button" class="sidebar-close" id="sidebarClose"
+                aria-label="Close navigation">
+            &times;
+        </button>
+
+        <div class="dashboard-logo">
+            <span class="dashboard-logo-mark">∞</span>
+            <span class="dashboard-logo-name">Orbi<span>Flow</span></span>
+        </div>
+
+        {% block dashboard_nav %}{% endblock %}
+
+    </aside>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <div class="dashboard-main">
+
+        <div class="dashboard-topbar">
+
+            <button type="button" class="mobile-menu-btn"
+                    id="sidebarToggle"
+                    aria-label="Open navigation"
+                    aria-expanded="false">
+                &#9776;
+            </button>
+
+            <div class="mobile-brand">Orbi<span>Flow</span></div>
+
+            <h5>{% block dashboard_heading %}Dashboard{% endblock %}</h5>
+
+            <div class="dashboard-user-menu">
+                <button type="button" class="dashboard-user-button" id="profileMenuButton"
+                        aria-expanded="false" aria-controls="profileMenu">
+                    {% if request.user.profile_picture %}
+                        <img src="{{ request.user.profile_picture.url }}" alt="Profile picture" class="dashboard-user-avatar">
+                    {% else %}
+                        <span class="dashboard-user-avatar dashboard-user-initials">{{ request.user.first_name|default:request.user.username|first|upper }}</span>
+                    {% endif %}
+                    <span class="dashboard-user-details">
+                        <strong>{{ request.user.get_full_name|default:request.user.username }}</strong>
+                        <small>{{ request.user.get_role_display|default:request.user.role|title }}</small>
+                    </span>
+                    <span class="dashboard-user-chevron">⌄</span>
+                </button>
+
+                <div class="dashboard-profile-menu" id="profileMenu" hidden>
+                    <a href="{% url 'profile-page' %}">My Profile</a>
+                    <form method="POST" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit">Logout</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="dashboard-content">
+            {% block dashboard_content %}{% endblock %}
+        </div>
+
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const sidebar = document.getElementById('dashboardSidebar');
+    const toggle = document.getElementById('sidebarToggle');
+    const close = document.getElementById('sidebarClose');
+    const overlay = document.getElementById('sidebarOverlay');
+
+    function openSidebar() {
+        sidebar.classList.add('is-open');
+        overlay.classList.add('is-visible');
+        toggle.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeSidebar() {
+        sidebar.classList.remove('is-open');
+        overlay.classList.remove('is-visible');
+        toggle.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+    }
+
+    toggle.addEventListener('click', openSidebar);
+    close.addEventListener('click', closeSidebar);
+    overlay.addEventListener('click', closeSidebar);
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            closeSidebar();
+            closeProfileMenu();
+        }
+    });
+
+    const profileButton = document.getElementById('profileMenuButton');
+    const profileMenu = document.getElementById('profileMenu');
+
+    function closeProfileMenu() {
+        if (!profileButton || !profileMenu) return;
+        profileMenu.hidden = true;
+        profileButton.setAttribute('aria-expanded', 'false');
+    }
+
+    if (profileButton && profileMenu) {
+        profileButton.addEventListener('click', function (event) {
+            event.stopPropagation();
+            const isOpen = !profileMenu.hidden;
+            profileMenu.hidden = isOpen;
+            profileButton.setAttribute('aria-expanded', String(!isOpen));
+        });
+
+        document.addEventListener('click', function (event) {
+            if (!profileMenu.contains(event.target) && !profileButton.contains(event.target)) {
+                closeProfileMenu();
+            }
+        });
+    }
+
+    sidebar.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () {
+            if (window.innerWidth <= 768) closeSidebar();
+        });
+    });
+});
+</script>
+{% endblock %}

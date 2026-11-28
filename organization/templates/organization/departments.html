@@ -37,6 +37,7 @@ Department Management
 <style>
 .department-page {
     width: 100%;
+    color: #E7EDF7;
 }
 
 .department-header {
@@ -50,28 +51,31 @@ Department Management
 
 .department-header h3 {
     margin-bottom: 7px;
+    color: #E7EDF7;
 }
 
 .department-add-btn {
-    background: #dfa667;
-    color: white;
+    background: #8EACF5;
+    color: #0B1424;
     padding: 11px 20px;
     border-radius: 6px;
     text-decoration: none;
     font-weight: 600;
+    transition: all 0.2s ease;
 }
 
 .department-add-btn:hover {
-    background: #c88d4f;
-    color: white;
+    background: #668EDB;
+    color: #ffffff;
 }
 
 .department-card {
-    background: white;
-    border: 1px solid #eee;
+    background: #19273D;
+    border: 1px solid #30415C;
     border-radius: 10px;
     padding: 25px;
     margin-bottom: 25px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 }
 
 .department-table {
@@ -83,59 +87,74 @@ Department Management
 .department-table td {
     padding: 15px 12px;
     text-align: left;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #30415C;
 }
 
 .department-table th {
-    color: #888;
+    color: #AAB8CC;
     font-size: 12px;
     text-transform: uppercase;
+    background: #16263D;
 }
 
 .department-table td {
     font-size: 14px;
+    color: #E7EDF7;
+}
+
+.department-table tr:last-child td {
+    border-bottom: none;
 }
 
 .department-status {
-    background: #e7f7ed;
-    color: #23844b;
+    background: rgba(46, 204, 113, 0.12);
+    color: #65D99A;
     padding: 6px 12px;
     border-radius: 20px;
     font-size: 12px;
 }
 
 .department-inactive {
-    background: #fff1f0;
-    color: #a94442;
+    background: rgba(231, 76, 60, 0.12);
+    color: #F28B82;
 }
 
 .department-edit-btn {
-    background: #dfa667;
-    color: white;
+    background: #668EDB;
+    color: #ffffff;
     padding: 7px 13px;
     border-radius: 5px;
     text-decoration: none;
     font-size: 12px;
+    transition: all 0.2s ease;
 }
 
 .department-edit-btn:hover {
-    background: #c88d4f;
-    color: white;
+    background: #8EACF5;
+    color: #0B1424;
 }
 
 .department-toggle-btn {
-    background: transparent;
-    border: 1px solid #ddd;
+    background: #202F46;
+    color: #AAB8CC;
+    border: 1px solid #30415C;
     padding: 6px 12px;
     border-radius: 5px;
     font-size: 12px;
     cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.department-toggle-btn:hover {
+    background: #263A56;
+    border-color: #8EACF5;
+    color: #E7EDF7;
 }
 
 .department-empty {
     text-align: center;
     padding: 35px 15px;
-    color: #888;
+    color: #8292AA;
 }
 
 .manager-logout {
@@ -145,24 +164,51 @@ Department Management
     border: none;
     border-radius: 6px;
     background: transparent;
-    color: #a94442;
+    color: #F28B82;
     text-align: left;
     cursor: pointer;
     font-family: inherit;
     font-size: inherit;
+    transition: all 0.2s ease;
 }
 
 .manager-logout:hover {
-    background: #fff1f0;
+    background: rgba(231, 76, 60, 0.12);
+    color: #FF9B91;
 }
 
+/* Responsive Design */
+
 @media(max-width: 768px) {
+    .department-card {
+        padding: 18px;
+    }
+
     .department-table {
         min-width: 750px;
     }
 
     .department-table-container {
         overflow-x: auto;
+        width: 100%;
+    }
+
+    .department-header {
+        align-items: flex-start;
+    }
+
+    .department-add-btn {
+        padding: 10px 16px;
+    }
+}
+
+@media(max-width: 480px) {
+    .department-card {
+        padding: 14px;
+    }
+
+    .department-header h3 {
+        font-size: 20px;
     }
 }
 </style>

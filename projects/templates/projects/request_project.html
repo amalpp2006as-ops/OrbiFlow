@@ -1,0 +1,425 @@
+{% extends "core/dashboard/dashboard_base.html" %}
+
+{% block title %}Request a Project | OrbiFlow{% endblock %}
+
+{% block dashboard_heading %}
+Request a Project
+{% endblock %}
+
+{% block dashboard_nav %}
+
+<a href="{% url 'employee-dashboard' %}">Dashboard</a>
+<a href="{% url 'projects:my-project-requests' %}">My Requests</a>
+<a href="{% url 'projects:request-project' %}" class="active">Request a Project</a>
+<a href="#">My Projects</a>
+<a href="#">My Tasks</a>
+<a href="#">Deadlines</a>
+<a href="#">Notifications</a>
+<a href="{% url 'profile-page' %}">My Profile</a>
+
+<hr>
+
+<a href="{% url 'home' %}">Visit Website</a>
+
+{% endblock %}
+
+
+{% block dashboard_content %}
+
+<style>
+
+.request-page {
+    max-width: 1050px;
+    margin: auto;
+}
+
+.request-header {
+    margin-bottom: 28px;
+}
+
+.request-header h3 {
+    font-weight: 700;
+    color: #E7EDF7;
+    margin-bottom: 8px;
+}
+
+.request-header p {
+    color: #AAB8CC;
+    margin-bottom: 0;
+}
+
+.request-card {
+    background: #19273D;
+    border: 1px solid #30415C;
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 25px;
+}
+
+.request-section-title {
+    color: #E7EDF7;
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 22px;
+}
+
+.request-form label {
+    color: #DCE5F3;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.request-form .form-control,
+.request-form .form-select {
+    background: #202F46;
+    border: 1px solid #30415C;
+    color: #E7EDF7;
+    border-radius: 9px;
+    padding: 11px 13px;
+    font-size: 14px;
+}
+
+.request-form .form-control::placeholder {
+    color: #8292AA;
+}
+
+.request-form .form-control:focus,
+.request-form .form-select:focus {
+    background: #202F46;
+    color: #E7EDF7;
+    border-color: #8EACF5;
+    box-shadow: 0 0 0 3px rgba(142, 172, 245, 0.12);
+}
+
+.request-form .form-select option {
+    background: #19273D;
+    color: #E7EDF7;
+}
+
+.request-form textarea {
+    resize: vertical;
+}
+
+.request-hint {
+    color: #8292AA;
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+.request-divider {
+    border-color: #30415C;
+    margin: 28px 0;
+}
+
+.request-upload {
+    background: #202F46;
+    border: 1px dashed #536B91;
+    border-radius: 12px;
+    padding: 22px;
+}
+
+.request-upload input {
+    color: #AAB8CC;
+    width: 100%;
+}
+
+.request-upload p {
+    color: #8292AA;
+    font-size: 12px;
+    margin: 10px 0 0;
+}
+
+.request-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.request-submit-btn {
+    background: #8EACF5;
+    color: #0B1424;
+    border: none;
+    border-radius: 9px;
+    padding: 12px 24px;
+    font-weight: 700;
+    transition: 0.2s;
+}
+
+.request-submit-btn:hover {
+    background: #668EDB;
+    color: white;
+    transform: translateY(-1px);
+}
+
+.request-cancel-btn {
+    background: #202F46;
+    color: #AAB8CC;
+    border: 1px solid #30415C;
+    border-radius: 9px;
+    padding: 12px 22px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.request-cancel-btn:hover {
+    background: #30415C;
+    color: white;
+}
+
+.request-error {
+    color: #FF8585;
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+.request-messages {
+    margin-bottom: 20px;
+}
+
+.request-messages .alert {
+    border-radius: 10px;
+}
+
+@media (max-width: 576px) {
+    .request-card {
+        padding: 20px;
+    }
+
+    .request-actions {
+        flex-direction: column-reverse;
+    }
+
+    .request-actions a,
+    .request-actions button {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+</style>
+
+
+<div class="request-page">
+
+    <div class="request-header">
+        <h3>Submit a Project Request</h3>
+        <p>Share your project idea with your management team for review and approval.</p>
+    </div>
+
+
+    {% if messages %}
+    <div class="request-messages">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+
+    <form method="POST" enctype="multipart/form-data" class="request-form">
+
+        {% csrf_token %}
+
+
+        <div class="request-card">
+
+            <h5 class="request-section-title">Project Information</h5>
+
+            <div class="row g-4">
+
+                <div class="col-md-8">
+                    <label for="{{ form.title.id_for_label }}">Project Title *</label>
+                    {{ form.title }}
+                    {% for error in form.title.errors %}
+                    <div class="request-error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="col-md-4">
+                    <label for="{{ form.category.id_for_label }}">Project Category *</label>
+                    {{ form.category }}
+                    {% for error in form.category.errors %}
+                    <div class="request-error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="col-12">
+                    <label for="{{ form.description.id_for_label }}">Project Description *</label>
+                    {{ form.description }}
+                    {% for error in form.description.errors %}
+                    <div class="request-error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="col-12">
+                    <label for="{{ form.problem_statement.id_for_label }}">Problem Statement</label>
+                    {{ form.problem_statement }}
+                    {% for error in form.problem_statement.errors %}
+                    <div class="request-error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="col-12">
+                    <label for="{{ form.expected_outcome.id_for_label }}">Expected Outcome</label>
+                    {{ form.expected_outcome }}
+                    {% for error in form.expected_outcome.errors %}
+                    <div class="request-error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="col-12">
+                    <label for="{{ form.technologies.id_for_label }}">Technologies / Tools</label>
+                    {{ form.technologies }}
+                    <div class="request-hint">Example: Python, Django, React, PostgreSQL</div>
+                    {% for error in form.technologies.errors %}
+                    <div class="request-error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="request-card">
+
+            <h5 class="request-section-title">Planning & Priority</h5>
+
+            <div class="row g-4">
+
+                <div class="col-md-4">
+                    <label for="{{ form.priority.id_for_label }}">Priority *</label>
+                    {{ form.priority }}
+                    {% for error in form.priority.errors %}
+                    <div class="request-error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="col-md-4">
+                    <label for="{{ form.estimated_start_date.id_for_label }}">Estimated Start Date</label>
+                    {{ form.estimated_start_date }}
+                    {% for error in form.estimated_start_date.errors %}
+                    <div class="request-error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="col-md-4">
+                    <label for="{{ form.expected_completion_date.id_for_label }}">Expected Completion Date</label>
+                    {{ form.expected_completion_date }}
+                    {% for error in form.expected_completion_date.errors %}
+                    <div class="request-error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="col-md-6">
+                    <label for="{{ form.estimated_budget.id_for_label }}">Estimated Budget</label>
+                    {{ form.estimated_budget }}
+                    {% for error in form.estimated_budget.errors %}
+                    <div class="request-error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="col-md-6">
+                    <label for="{{ form.reason.id_for_label }}">Reason for Request</label>
+                    {{ form.reason }}
+                    {% for error in form.reason.errors %}
+                    <div class="request-error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+            <hr class="request-divider">
+
+            <h5 class="request-section-title">Additional Information</h5>
+
+            <div class="row g-4">
+
+                <div class="col-12">
+                    <label for="{{ form.additional_notes.id_for_label }}">Additional Notes</label>
+                    {{ form.additional_notes }}
+                    {% for error in form.additional_notes.errors %}
+                    <div class="request-error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="col-12">
+
+                    <label>Supporting Documents</label>
+
+                    <div class="request-upload">
+                        <input
+                            type="file"
+                            name="attachments"
+                            id="projectAttachments"
+                            multiple
+                            accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.xls,.xlsx,.txt"
+                        >
+
+                        <p>
+                            Allowed formats: PDF, PNG, JPG, DOC, DOCX, XLS, XLSX and TXT.
+                            Maximum 10 MB per file.
+                        </p>
+
+                        <div id="selectedFiles" class="request-hint"></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="request-actions">
+
+            <a href="{% url 'employee-dashboard' %}" class="request-cancel-btn">
+                Cancel
+            </a>
+
+            <button type="submit" class="request-submit-btn">
+                Submit Project Request
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<script>
+
+document.getElementById('projectAttachments').addEventListener('change', function () {
+
+    const selectedFiles = document.getElementById('selectedFiles');
+
+    selectedFiles.innerHTML = '';
+
+    if (this.files.length > 0) {
+
+        const heading = document.createElement('p');
+        heading.textContent = this.files.length + ' file(s) selected:';
+        selectedFiles.appendChild(heading);
+
+        Array.from(this.files).forEach(function (file) {
+
+            const fileItem = document.createElement('div');
+
+            fileItem.textContent = file.name;
+
+            selectedFiles.appendChild(fileItem);
+
+        });
+
+    }
+
+});
+
+</script>
+
+{% endblock %}

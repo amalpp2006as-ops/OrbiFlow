@@ -1,0 +1,364 @@
+{% extends "core/dashboard/dashboard_base.html" %}
+
+{% block title %}My Project Requests | OrbiFlow{% endblock %}
+
+{% block dashboard_heading %}
+My Project Requests
+{% endblock %}
+
+{% block dashboard_nav %}
+
+<a href="{% url 'employee-dashboard' %}">Dashboard</a>
+<a href="{% url 'projects:my-project-requests' %}" class="active">My Requests</a>
+<a href="{% url 'projects:request-project' %}">Request a Project</a>
+<a href="#">My Projects</a>
+<a href="#">My Tasks</a>
+<a href="#">Deadlines</a>
+<a href="#">Notifications</a>
+<a href="{% url 'profile-page' %}">My Profile</a>
+
+<hr>
+
+<a href="{% url 'home' %}">Visit Website</a>
+
+{% endblock %}
+
+
+{% block dashboard_content %}
+
+<style>
+
+.my-requests-page {
+    width: 100%;
+}
+
+.my-requests-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.my-requests-header h3 {
+    color: #E7EDF7;
+    font-weight: 700;
+    margin-bottom: 7px;
+}
+
+.my-requests-header p {
+    color: #AAB8CC;
+    margin-bottom: 0;
+    font-size: 14px;
+}
+
+.new-request-btn {
+    background: #8EACF5;
+    color: #0B1424;
+    padding: 11px 19px;
+    border-radius: 9px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    transition: 0.2s;
+}
+
+.new-request-btn:hover {
+    background: #668EDB;
+    color: white;
+}
+
+.request-list-card {
+    background: #19273D;
+    border: 1px solid #30415C;
+    border-radius: 14px;
+    padding: 23px;
+    margin-bottom: 18px;
+    transition: 0.2s;
+}
+
+.request-list-card:hover {
+    border-color: #668EDB;
+    transform: translateY(-2px);
+}
+
+.request-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.request-card-top h5 {
+    color: #E7EDF7;
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 7px;
+}
+
+.request-category {
+    color: #8292AA;
+    font-size: 12px;
+}
+
+.request-status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.status-pending {
+    background: rgba(245, 190, 90, 0.13);
+    color: #F5BE5A;
+}
+
+.status-review {
+    background: rgba(142, 172, 245, 0.15);
+    color: #8EACF5;
+}
+
+.status-info {
+    background: rgba(155, 130, 245, 0.15);
+    color: #B5A0FF;
+}
+
+.status-approved {
+    background: rgba(76, 201, 140, 0.13);
+    color: #4CC98C;
+}
+
+.status-rejected {
+    background: rgba(255, 105, 105, 0.13);
+    color: #FF8585;
+}
+
+.status-converted {
+    background: rgba(76, 201, 140, 0.13);
+    color: #4CC98C;
+}
+
+.request-description {
+    color: #AAB8CC;
+    font-size: 13px;
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.request-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    border-top: 1px solid #30415C;
+    padding-top: 17px;
+}
+
+.request-detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.request-detail-item span:first-child {
+    color: #8292AA;
+    font-size: 11px;
+}
+
+.request-detail-item span:last-child {
+    color: #E7EDF7;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.request-review-note {
+    background: #202F46;
+    border-left: 3px solid #8EACF5;
+    padding: 13px 15px;
+    border-radius: 7px;
+    margin-top: 17px;
+}
+
+.request-review-note h6 {
+    color: #8EACF5;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.request-review-note p {
+    color: #AAB8CC;
+    font-size: 13px;
+    margin-bottom: 0;
+}
+
+.request-empty {
+    background: #19273D;
+    border: 1px solid #30415C;
+    border-radius: 14px;
+    padding: 55px 20px;
+    text-align: center;
+}
+
+.request-empty h5 {
+    color: #E7EDF7;
+    margin-bottom: 10px;
+}
+
+.request-empty p {
+    color: #8292AA;
+    font-size: 14px;
+    margin-bottom: 22px;
+}
+
+@media (max-width: 576px) {
+    .request-list-card {
+        padding: 18px;
+    }
+
+    .request-details {
+        gap: 18px;
+    }
+
+    .new-request-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+</style>
+
+
+<div class="my-requests-page">
+
+    <div class="my-requests-header">
+
+        <div>
+            <h3>My Project Requests</h3>
+            <p>Track the progress and review status of your submitted project requests.</p>
+        </div>
+
+        <a href="{% url 'projects:request-project' %}" class="new-request-btn">
+            + New Project Request
+        </a>
+
+    </div>
+
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+
+    {% for project_request in project_requests %}
+
+        <div class="request-list-card">
+
+            <div class="request-card-top">
+
+                <div>
+                    <h5>{{ project_request.title }}</h5>
+
+                    <span class="request-category">
+                        {{ project_request.get_category_display }}
+                    </span>
+                </div>
+
+
+                {% if project_request.status == 'PENDING' %}
+                    <span class="request-status status-pending">Pending</span>
+
+                {% elif project_request.status == 'UNDER_REVIEW' %}
+                    <span class="request-status status-review">Under Review</span>
+
+                {% elif project_request.status == 'MORE_INFO' %}
+                    <span class="request-status status-info">More Information Required</span>
+
+                {% elif project_request.status == 'APPROVED' %}
+                    <span class="request-status status-approved">Approved</span>
+
+                {% elif project_request.status == 'REJECTED' %}
+                    <span class="request-status status-rejected">Rejected</span>
+
+                {% elif project_request.status == 'CONVERTED' %}
+                    <span class="request-status status-converted">Converted to Project</span>
+                {% endif %}
+
+            </div>
+
+
+            <p class="request-description">
+                {{ project_request.description|truncatewords:35 }}
+            </p>
+
+
+            <div class="request-details">
+
+                <div class="request-detail-item">
+                    <span>Priority</span>
+                    <span>{{ project_request.get_priority_display }}</span>
+                </div>
+
+                <div class="request-detail-item">
+                    <span>Department</span>
+                    <span>
+                        {{ project_request.department.name|default:"Not assigned" }}
+                    </span>
+                </div>
+
+                <div class="request-detail-item">
+                    <span>Submitted On</span>
+                    <span>{{ project_request.created_at|date:"d M Y" }}</span>
+                </div>
+
+                <div class="request-detail-item">
+                    <span>Expected Completion</span>
+                    <span>
+                        {{ project_request.expected_completion_date|date:"d M Y"|default:"Not specified" }}
+                    </span>
+                </div>
+
+            </div>
+
+
+            {% if project_request.review_note %}
+
+                <div class="request-review-note">
+
+                    <h6>Management Review</h6>
+
+                    <p>{{ project_request.review_note }}</p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    {% empty %}
+
+        <div class="request-empty">
+
+            <h5>No Project Requests Yet</h5>
+
+            <p>
+                You haven't submitted any project requests.
+                Start by sharing your project idea with your management team.
+            </p>
+
+            <a href="{% url 'projects:request-project' %}" class="new-request-btn">
+                Submit Your First Request
+            </a>
+
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

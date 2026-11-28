@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'core',
     'careers',
     'django_extensions',
+    'projects',
 
     'django.contrib.admin',
     'django.contrib.auth',

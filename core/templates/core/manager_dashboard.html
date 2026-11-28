@@ -1,0 +1,76 @@
+{% extends "core/dashboard/dashboard_base.html" %}
+
+{% block title %}Manager Dashboard | OrbiFlow{% endblock %}
+
+{% block dashboard_heading %}Manager Dashboard{% endblock %}
+
+{% block dashboard_nav %}
+<a href="{% url 'manager-dashboard' %}" class="active">Dashboard</a>
+<a href="{% url 'team-members' %}">My Team</a>
+<a href="{% url 'add-employee' %}">Employees</a>
+<a href="#">Projects</a>
+<a href="#">Tasks</a>
+<a href="#">Deadlines</a>
+<a href="#">Reports</a>
+<hr>
+<a href="{% url 'profile-page' %}">My Profile</a>
+<a href="{% url 'home' %}">Visit Website</a>
+<form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit" class="manager-logout">Logout</button>
+</form>
+{% endblock %}
+
+{% block dashboard_content %}
+<div class="manager-welcome">
+    <div>
+        <h3>Welcome, {{ request.user.first_name|default:request.user.username }}!</h3>
+        <p>Manage your team, projects and assigned tasks from one place.</p>
+    </div>
+</div>
+
+<div class="row g-4 mt-2 manager-statistics">
+    <div class="col-sm-6 col-xl-3"><div class="card p-4 manager-stat-card"><span>Team Members</span><strong>0</strong></div></div>
+    <div class="col-sm-6 col-xl-3"><div class="card p-4 manager-stat-card"><span>Active Projects</span><strong>0</strong></div></div>
+    <div class="col-sm-6 col-xl-3"><div class="card p-4 manager-stat-card"><span>Assigned Tasks</span><strong>0</strong></div></div>
+    <div class="col-sm-6 col-xl-3"><div class="card p-4 manager-stat-card"><span>Overdue Tasks</span><strong>0</strong></div></div>
+</div>
+
+<div class="row g-4 mt-1">
+    <div class="col-lg-7">
+        <section class="card p-4 manager-panel h-100">
+            <div class="manager-panel-heading"><div><h5>Team Overview</h5><p>Keep track of your department at a glance.</p></div><a href="{% url 'team-members' %}">View Team <span>→</span></a></div>
+            <div class="manager-chart-placeholder">
+                <div class="chart-grid-lines"><span></span><span></span><span></span><span></span></div>
+                <div class="chart-empty-state"><span class="chart-empty-icon">⌁</span><strong>Your team overview will appear here</strong><small>Team and task activity will be displayed when records are available.</small></div>
+            </div>
+        </section>
+    </div>
+    <div class="col-lg-5">
+        <section class="card p-4 manager-panel h-100">
+            <div class="manager-panel-heading"><div><h5>Recent Activity</h5><p>Latest updates from your team.</p></div></div>
+            <div class="manager-empty-list"><span class="manager-empty-icon">↗</span><strong>No recent activity yet</strong><small>New team updates will appear here.</small></div>
+        </section>
+    </div>
+</div>
+
+<div class="row g-4 mt-1">
+    <div class="col-lg-7">
+        <section class="card p-4 manager-panel">
+            <div class="manager-panel-heading"><div><h5>Upcoming Deadlines</h5><p>Stay on top of important work.</p></div><a href="#">View All <span>→</span></a></div>
+            <div class="manager-empty-inline">No upcoming deadlines to show.</div>
+        </section>
+    </div>
+    <div class="col-lg-5">
+        <section class="card p-4 manager-cta">
+            <div><span class="manager-cta-kicker">ORGANIZE YOUR WORK</span><h5>Keep your team moving forward.</h5><p>Review your team and stay updated on ongoing work.</p><a href="{% url 'team-members' %}">Explore My Team <span>→</span></a></div>
+            <div class="manager-cta-mark">∞</div>
+        </section>
+    </div>
+</div>
+
+<style>
+.manager-logout{display:block;width:100%;padding:12px 15px;border:1px solid transparent;border-radius:12px;background:transparent;color:#e18a8a;text-align:left;cursor:pointer;font:inherit}
+.manager-logout:hover{background:rgba(190,90,90,.10);border-color:rgba(190,90,90,.18)}
+</style>
+{% endblock %}
